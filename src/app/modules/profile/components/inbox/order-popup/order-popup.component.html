@@ -1,0 +1,313 @@
+<mat-card dir="rtl" class="wrap popup-my-wrap">
+  <!-- <app-loading *ngIf="!status"></app-loading> -->
+  <!-- <form action="" *ngIf="status && page == 'callForPrice'" [formGroup]="callForPriceForm" (ngSubmit)="callForPrice(callForPriceForm.value)"> -->
+  <form action="" *ngIf="name === 'CancelBeforeShipping'" [formGroup]="orderCancelBeforShippingForm" (ngSubmit)="orderCancelBeforShipping(orderCancelBeforShippingForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">انصراف از خرید</div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="دلیل انصراف" matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15" [formControl]="cancelReasonCtrl"
+                      [(ngModel)]="cancelReason" name="cancelReason"></textarea>
+            <button mat-button *ngIf="cancelReason" matSuffix mat-icon-button aria-label="Clear" (click)="cancelReason=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="cancelReasonCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form action="" *ngIf="name==='ShippingBySeller'" [formGroup]="orderShippingBySellerForm" (ngSubmit)="orderShippingBySeller(orderShippingBySellerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">ارسال کالا توسط فروشنده</div>
+        </div>
+        <!--<div class="col-md-12 margin-bottom-5 discount-datepicker">
+          <dp-date-picker dir="rtl" required="true" name="day" [formControl]="dateCtrl" [(ngModel)]="dateObject" [config]="dateConfig"
+            open="dateOpen($event)" mode="day" placeholder="تاریخ ارسال" theme="dp-material">
+          </dp-date-picker>
+          <mat-error *ngIf="dateCtrl.hasError('required') && dateError">
+            تاریخ انقضا فیلد اجباری است
+          </mat-error>
+        </div>-->
+        <div class="col-md-12 margin-bottom-5">
+          <div>
+            <p class="no-margin">
+              <span class="font-14">ارسال فایل بارنامه</span>
+              <p-fileUpload #fubauto mode="basic" req name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onBeforeSend)="onBeforeSend($event)"
+                            (onProgress)="onProgress($event)" accept="image/*" maxFileSize="10000000" (onUpload)="onBasicUploadAuto($event)"
+                            auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div>
+            <span class="font-14">آپلود عکس‌های بار (حداکثر ۴ عدد)</span>
+          </div>
+          <dropzone style="height:220px;" [config]="config" [message]="'برای آپلود تصویر کلیک کنید و یا تصویر خود را بکشید و اینجا رها کنید.'" (error)="onUploadError($event)"
+                    (success)="onUploadSuccess($event)"></dropzone>
+          <div class="alert-box info-box margin-top-15">
+            <p class="font-13">
+              <span>
+                <b>توجه! </b>
+              </span>
+              <span>ابعاد تصاویر ۴۰۰ در ۴۰۰ و حداکثر حجم بایستی ۵۰۰ کیلوبایت باشد.</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12 text-left margin-bottom-5">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form action="" *ngIf="name === 'CancelAfterShipping'" [formGroup]="orderCancelAfterShippingForm" (ngSubmit)="orderCancelAfterShipping(orderCancelAfterShippingForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">انصراف از خرید</div>
+        </div>
+        <!--<div class="col-md-12 margin-bottom-5 discount-datepicker">
+          <dp-date-picker dir="rtl" required="true" name="day" [formControl]="dateCtrl" [(ngModel)]="dateObject" [config]="dateConfig"
+            open="dateOpen($event)" mode="day" placeholder="تاریخ بازگشت کالا" theme="dp-material">
+          </dp-date-picker>
+          <mat-error *ngIf="dateCtrl.hasError('required') && dateError">
+            تاریخ بازگشت کالا فیلد اجباری است
+          </mat-error>
+        </div>-->
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="دلیل انصراف" [formControl]="cancelReasonCancelAfterShippingCtrl" [(ngModel)]="cancelReasonCancelAfterShipping"
+                      name="cancelReasonCancelAfterShipping"></textarea>
+            <button mat-button *ngIf="cancelReasonCancelAfterShipping" matSuffix mat-icon-button aria-label="Clear" (click)="cancelReasonCancelAfterShipping=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="cancelReasonCancelAfterShippingCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <div>
+            <span class="font-14">آپلود عکس‌های بار (حداکثر ۴ عدد)</span>
+          </div>
+          <dropzone [config]="config" [message]="'برای آپلود تصویر کلیک کنید و یا تصویر خود را بکشید و اینجا رها کنید.'" (error)="onUploadError($event)"
+                    (success)="onUploadSuccess($event)"></dropzone>
+          <div class="alert-box info-box margin-top-15">
+            <p class="font-13">
+              <span>
+                <b>توجه! </b>
+              </span>
+              <span>ابعاد تصاویر ۴۰۰ در ۴۰۰ و حداکثر حجم بایستی ۵۰۰ کیلوبایت باشد.</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12 text-left margin-bottom-5">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form action="" *ngIf="name === 'ReceiveGoodsByBuyer'" [formGroup]="orderReceiveGoodsByBuyerForm" (ngSubmit)="orderCReceiveGoodsByBuyer(orderReceiveGoodsByBuyerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">دریافت کالا</div>
+        </div>
+        <!--<div class="col-md-12 margin-bottom-5 discount-datepicker">
+          <dp-date-picker dir="rtl" required="true" name="day" [formControl]="dateCtrl" [(ngModel)]="dateObject" [config]="dateConfig"
+            open="dateOpen($event)" mode="day" placeholder="تاریخ دریافت" theme="dp-material">
+          </dp-date-picker>
+          <mat-error *ngIf="dateCtrl.hasError('required') && dateError">
+            تاریخ دریافت فیلد اجباری است
+          </mat-error>
+        </div>-->
+        <div class="col-md-12 margin-bottom-5">
+          <mat-checkbox color="primary" [formControl]="agreeCtrl1">من کالا را دریافت کردم</mat-checkbox>
+        </div>
+        <div class="col-md-12 margin-bottom-5">
+          <div class="alert-box info-box margin-top-15">
+            <p class="font-13">
+              <span>
+                <br>
+              </span>
+              <span>از اعتماد شما به گروه تجارت بین بنگاهی رتاپورت سپاسگزاریم</span>
+              <br>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12 text-left margin-bottom-5">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form action="" *ngIf="name === 'RecieveBySeller'" [formGroup]="orderReceiveGoodsBySellerForm" (ngSubmit)="orderReceiveGoodsBySeller(orderReceiveGoodsBySellerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">دریافت کالا</div>
+        </div>
+       
+        <div class="col-md-12 margin-bottom-5">
+          <mat-checkbox color="primary" [formControl]="agreeCtrl2">من کالا را دریافت کردم</mat-checkbox>
+        </div>
+       
+        <div class="col-md-12 text-left margin-bottom-5">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form action="" *ngIf="name === 'ProductQuestionAnswer'" [formGroup]="productQuestionAnswerForm" (ngSubmit)="productQuestionAnswer(productQuestionAnswerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">پاسخ به سوال</div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="پاسخ را اینجا بنویسید" matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"
+                      [formControl]="answerCtrl" [(ngModel)]="answer" name="answer"></textarea>
+            <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="answerCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form action="" *ngIf="name === 'PurchaseRequestAnswer'" [formGroup]="purchaseRequestAnswerForm" (ngSubmit)="purchaseRequestAnswer(purchaseRequestAnswerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">پاسخ به درخواست</div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <input matInput type="number" required placeholder="قیمت برای هر واحد (تومان)" [formControl]="priceControl" [(ngModel)]="price"
+                   name="price" />
+            <button mat-button *ngIf="price" matSuffix mat-icon-button aria-label="Clear" (click)="price=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="priceControl.hasError('required')">
+              قیمت برای هر واحد فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="پاسخ را اینجا بنویسید" matTextareaAutosize matAutosizeMinRows="4" matAutosizeMaxRows="15"
+                      [formControl]="answerCtrl" [(ngModel)]="answer" name="answer"></textarea>
+            <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="answerCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 margin-bottom-5">
+          <div>
+            <p class="no-margin">
+              <span class="font-14">ارسال فایل پیوست</span>&nbsp;&nbsp;
+              <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onBeforeSend)="onBeforeSend($event)"
+                            (onProgress)="onProgress($event)"  maxFileSize="10000000" (onUpload)="onBasicUploadAuto($event)"
+                            auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div>
+            <span class="font-14">آپلود عکس‌های محصول (حداکثر ۴ عدد)</span>
+          </div>
+          <dropzone [config]="config" [message]="'برای آپلود تصویر کلیک کنید و یا تصویر خود را بکشید و اینجا رها کنید.'" (error)="onUploadError($event)"
+                    (success)="onUploadSuccess($event)"></dropzone>
+          <!-- <div class="alert-box info-box margin-top-15">
+            <p class="font-13">
+              <span>
+                <b>توجه! </b>
+              </span>
+              <span>ابعاد تصاویر ۴۰۰ در ۴۰۰ و حداکثر حجم بایستی ۵۰۰ کیلوبایت باشد.</span>
+            </p>
+          </div> -->
+        </div>
+        <div class="col-md-12 text-left margin-bottom-5">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

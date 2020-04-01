@@ -1,0 +1,103 @@
+<mat-card class="wrap-report">
+  <form [formGroup]="registerReportForm" (ngSubmit)="registerReport(registerReportForm.value)">
+    <div class="container">
+      <div class="row" dir="rtl">
+        <div class="col-md-12">
+          <p class="title text-center margin-top-5">گزارش محتوای نادرست</p>
+          <mat-radio-group [(ngModel)]="groupName" [formControl]="groupNameCtrl" name="groupName">
+            <ul class="">
+              <li>
+                <mat-radio-button color="primary"  value="اشتباه طبقه بندی محصول">اشتباه طبقه بندی محصول</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="نقض مالکیت معنوی کالا">نقض مالکیت معنوی کالا</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="نقض قوانین سایت">نقض قوانین سایت</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="کالای بدون مجوز">کالای بدون مجوز</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="مشاهده رفتار مشکوک">مشاهده رفتار مشکوک</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="اشتباه در ثبت اطلاعات">اشتباه در ثبت اطلاعات</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="کالای ممنوع و جعلی">کالای ممنوع و جعلی</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button color="primary" value="مطالب نامربوط و توهین">مطالب نامربوط و توهین</mat-radio-button>
+              </li>
+            </ul>
+
+          </mat-radio-group>
+        </div>
+        <div class="col-md-12">
+          <!-- <form> -->
+          <mat-form-field class="full-width">
+            <input required matInput type="text" placeholder="نام و نام خانوادگی" [formControl]="nameCtrl" [(ngModel)]="namePerson" name="namePerson"
+            />
+            <mat-icon matSuffix>person</mat-icon>
+            <button mat-button *ngIf="namePerson" matSuffix mat-icon-button aria-label="Clear" (click)="namePerson=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="nameCtrl.hasError('required')">
+              نام و نام خانوادگی فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input required matInput type="number" placeholder=" موبایل" [formControl]="mobileCtrl" [(ngModel)]="mobile" (change)="mobileValidate()"
+              name="mobile" />
+            <mat-icon matSuffix>phone_iphone</mat-icon>
+            <button mat-button *ngIf="mobile" matSuffix mat-icon-button aria-label="Clear" (click)="mobile=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="mobileCtrl.hasError('required')">
+              موبایل فیلد اجباری است
+            </mat-error>
+            <mat-error *ngIf="mobileCtrl?.errors?.minLenght">
+              موبایل را درست وارد کنید
+            </mat-error>
+            <!-- <mat-error *ngIf="mobileCtrl.hasError('maxLength')">
+              موبایل را درست وارد کنید
+            </mat-error> -->
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input required matInput type="text" placeholder=" ایمیل" [formControl]="emailCtrl" [(ngModel)]="email" name="email" />
+            <mat-icon matSuffix>local_post_office</mat-icon>
+            <button mat-button *ngIf="email" matSuffix mat-icon-button aria-label="Clear" (click)="email=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="emailCtrl.hasError('email') && !emailCtrl.hasError('required')">
+              لطفا ایمیل را با فرمت درست وارد کنید
+            </mat-error>
+            <mat-error *ngIf="emailCtrl.hasError('required')">
+              ایمیل فیلد ضروری است
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field required class="full-width margin-bottom-5">
+            <textarea required matInput placeholder="توضیحات" [formControl]="messageCtrl"></textarea>
+            <mat-icon matSuffix>sms</mat-icon>
+            <mat-error *ngIf="messageCtrl.hasError('required')">
+              توضیحات فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+          <div class="btns text-left">
+            <button mat-raised-button (click)="close()">انصراف</button>
+            <button mat-raised-button color="primary" class="font-iran">
+              <span *ngIf="!sendAdd">ثبت گزارش</span>
+              <span class="loading-btn-span" *ngIf="sendAdd">
+                <i class="fa fa-spinner fa-spin fa-fw "></i>
+                <span class="sr-only ">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

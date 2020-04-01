@@ -1,0 +1,244 @@
+<section class="contents">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <span>لیست مقایسه محصولات</span>
+        </mat-card>
+        <app-loading *ngIf="!statusLoad"></app-loading>
+        <mat-card class="my-grid-wrap" *ngIf="statusLoad">
+          <div class="row">
+            <div class="col-md-3" *ngFor="let item of products">
+              <div class="grid-product-box">
+                <div class="img-product">
+                  <a routerLink="/products/detail/{{item.productID}}">
+                    <div class="axs">
+                      <img [src]="image_url+item.productImage" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="title margin-bottom-5">
+                  <a routerLink="/products/detail/{{item.productID}}">
+                    <span>{{item.productName}}</span>
+                  </a>
+                </div>
+              </div>
+              <div class="inner">
+                <div class="inner-title">
+                  <span>
+                    <b>اطلاعات خرید</b>
+                  </span>
+                </div>
+                <div class="inner-body">
+                  <ul>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">نام تجاری:</span>
+                      <span class="content">
+                        <span>{{item.sellerBrand}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">حداقل سفارش:</span>
+                      <span class="content">
+                        <span>{{item.minOrder|englishToPersian}} {{item.minOrderUnit}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">قیمت برای هر واحد:</span>
+                      <span class="content">
+                        <span>{{item.price|englishToPersian}}</span>
+                        <span>تومان</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">توانایی عرضه:</span>
+                      <span class="content">
+                        <span>{{item.supplyAbility|englishToPersian}}</span>
+                        <span>{{item.supplyAbilityUnit}}</span>
+                        <span>در </span>
+                        <span>{{item.supplyAbilityPeriod}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">مدت زمان تحویل:</span>
+                      <span class="content">
+                        <span>{{item.deliveryTime|englishToPersian}}</span>
+                        <span>{{item.deliveryTimePeriod}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="inner">
+                <div class="inner-title">
+                  <span>
+                    <b>مشخصات محصول</b>
+                  </span>
+                </div>
+                <div class="inner-body">
+                  <ul>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">رنگ محصول:</span>
+                      <span class="content" *ngFor="let i of item.color; let last = last;let i=index;">
+                        <span>{{i}} {{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">سایز محصول:</span>
+                      <span class="content" *ngFor="let i of item.size; let last = last;let i=index;">
+                        <span>{{i.size}}</span>
+                        <span>{{i.sizeUnit}} {{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">وزن محصول:</span>
+                      <span class="content" *ngFor="let i of item.weight; let last = last;let i=index;">
+                        <span>{{i.weight|englishToPersian}}</span>
+                        <span>{{i.weightUnit}} {{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">محل محصول:</span>
+                      <span class="content">
+                        <span>{{item.province}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">استان:</span>
+                      <span class="content">
+                        <span>{{item.city}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">کشور سازنده:</span>
+                      <span class="content">{{item.country}}</span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">عمر مفید محصول:</span>
+                      <span class="content">
+                        <span>{{item.usefulLife|englishToPersian}}</span>
+                        <span>{{item.usefulLifePeriod}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">ارسال نمونه:</span>
+                      <span class="content">{{item.sendSample}}</span>
+                    </li>
+                    <li *ngIf="item.certificate !== null && item.certificate !== ''">
+                      <span class="fa fa-square"></span>
+                      <span class="title">گواهینامه:</span>
+                      <span class="content" *ngFor="let i of item.certificate; let last = last;let i=index;">
+                        <a href="{{image_url+i}}" target="_blank" class="primary-color pointer">دانلود</a>
+                        {{ last ? '' : ','}}
+
+                      </span>
+                     
+                    </li>
+                    <li *ngIf="item.warranty.length>0">
+                      <span class="fa fa-square"></span>
+                      <span class="title">گارانتی:</span>
+                      <span class="content" *ngFor="let i of item.warranty; let last = last;let i=index;">
+                        <span>{{i.warranty|englishToPersian}}</span>
+                        <span>{{i.warrantyPeriod}}</span>
+                        <span>گارانتی</span>
+                        <span>{{i.warrantyKind}}{{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                    <li *ngIf="item.afterSaleService.length>0">
+                      <span class="fa fa-square"></span>
+                      <span class="title">خدمات پس از فروش:</span>
+                      <span class="content" *ngFor="let i of item.afterSaleService; let last = last;let i=index;">
+                        <span>{{i.afterSaleService|englishToPersian}}</span>
+                        <span>{{i.afterSaleServicePeriod}}</span>
+                        <span>{{i.afterSaleServiceKind}}{{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="inner">
+                <div class="inner-title">
+                  <span>
+                    <b>بسته بندی بندی و حمل و نقل</b>
+                  </span>
+                </div>
+                <div class="inner-body">
+                  <ul>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">بسته بندی داخلی:</span>
+                      <span class="content" *ngFor="let i of item.innerPackaging; let last = last;let i=index;">
+                        <span>{{i}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">بسته بندی خارجی:</span>
+                      <span class="content" *ngFor="let i of item.externalPackaging; let last = last;let i=index;">
+                        <span>{{i}}{{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">شیوه حمل و نقل:</span>
+                      <span class="content" *ngFor="let i of item.shippingMethod; let last = last;let i=index;">
+                        <span>{{i}}{{ last ? '' : ','}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="inner">
+                <div class="inner-title">
+                  <span>
+                    <b>مشخصات فروشنده</b>
+                  </span>
+                </div>
+                <div class="inner-body">
+                  <ul>
+                    <li>
+                      <span class="fa fa-square"></span>
+                      <span class="title">فروشنده:</span>
+                      <span class="content">
+                        <span class="primary-color pointer" (click)="seller(item.sellerID)">{{item.sellerBrand}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3" *ngIf="conditionShow">
+              <div class="">
+                <div class="compare-bx">
+                  <span class="search-icon"></span>
+                  <div class="compare-inner">
+                    <div class="search-title">جستجو</div>
+                    <p-autoComplete [(ngModel)]="item" [suggestions]="filteredSearchItem" (completeMethod)="filterSearchItem($event)"
+                                    [size]="30" [minLength]="1" placeholder="نام محصول را تایپ کنید">
+                    </p-autoComplete>
+                    <button class="show-btn" (click)="search()">
+                      <span>افزودن محصول</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

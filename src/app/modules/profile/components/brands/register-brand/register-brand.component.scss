@@ -1,0 +1,54 @@
+@import 'helper';
+.dar-sal {
+    font-size: 13px;
+    padding-left: 10px;
+}
+
+.mizan-das {
+    margin-top: 4px;
+    margin-bottom: 5px;
+}
+
+.my-province {
+    font-size: 14px;
+    li {
+        list-style: none;
+    }
+}
+
+.up-cat {
+    font-size: 14px;
+}
+
+.flex-display {
+    p {
+        margin: 0;
+        &:first-child {
+            margin-top: 4px;
+            margin-left: 8px;
+        }
+    }
+}
+
+.sum-percent {
+    list-style: none;
+    div {
+        display: inline-block;
+        border-top: 1px solid #ccc;
+        margin-top: 12px;
+        width: 180px;
+        padding-top: 5px;
+    }
+}
+
+.deleteOption {
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    float: right;
+    background-color: $accent-color;
+    padding: 0 6px;
+    margin-left: 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,26 @@
+<app-loading *ngIf="!loadSitemapinfoStatus"></app-loading>
+<section class="contents" *ngIf="loadSitemapinfoStatus">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="sidebar">
+          <ul class="">
+            <li *ngFor="let item of sitemapinfo">
+              <div class="title-sidebar">{{ item.name }}</div>
+              <ul>
+                <li *ngFor="let child of item.childrens">
+                  <a routerLink="{{child.link}}" routerLinkActive="active">
+                    {{ child.name}}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section>

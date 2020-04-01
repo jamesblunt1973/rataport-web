@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <i class="fa fa-caret-left" aria-hidden="true"></i>
+      <span class="font-iran"> پرسش خود را مطرح نمایید </span>
+    </div>
+    <div class="col-md-12">
+      <form class="margin-top-10" [formGroup]="registerQuestionForm" (ngSubmit)="registerProductQuestion(registerQuestionForm.value)">
+        <mat-form-field class="full-width">
+          <textarea matInput placeholder="متن پرسش خود را اینجا بنویسید ..." [formControl]="questionCtrl"></textarea>
+          <mat-error *ngIf="questionCtrl.hasError('required')">
+            <span>لطفا متن سوال را وارد کنید</span>
+          </mat-error>
+        </mat-form-field>
+        <div class="text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendreg">ثبت پرسش</span>
+            <span class="loading-btn-span" *ngIf="sendreg">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-12 margin-bottom-10">
+      <i class="fa fa-caret-left" aria-hidden="true"></i>
+      <span class="font-iran"> پرسش ها و پاسخ ها </span>
+      <span class="font-iran">
+        <small> ({{questions.length|englishToPersian}} پرسش) </small>
+      </span>
+    </div>
+    <div class="col-md-12">
+      <div class="wrap-qa" *ngFor="let item of questions">
+        <div class="wrap-qa__header">
+          <i class="fa fa-question-circle"></i>
+          <span>پرسش</span>
+          <div class="qa-author">
+            <span>توسط</span>
+            <span *ngIf="item.userBrand!=null && item.userBrand!=''">{{item.userBrand}}</span>
+            <span *ngIf="item.userBrand==null || item.userBrand==''">{{item.username}}</span>
+           
+            <span> - </span>
+            <span>{{item.createdDate}}</span>
+          </div>
+        </div>
+        <div class="wrap-qa__body">
+          <div class="wrap-qa__body--question">
+            <p>{{item.question}}</p>
+          </div>
+          <div class="wrap-qa__body--answer" *ngIf="item.answer !== null && item.answer !== ''">
+            <div class="user-info">
+              <span>
+                <i class="fa fa-user-circle"></i>
+                <b>{{item.sellerName}}</b>
+              </span>
+              <span> - </span>
+              <span>
+                <small>{{item.answerDate}}</small>
+              </span>
+            </div>
+            <p>{{item.answer}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<mat-card class="mat-with-title" *ngIf="loading">
+  <h3>{{ title }}</h3>
+  <div class="notification-wrap" *ngIf="notifyNum.count !== 0 && messageStatus">
+    <span (click)="notify()">
+      <i class="fa fa-envelope" aria-hidden="true"></i>
+      <span class="num">{{notifyNum.count|englishToPersian}}</span>
+    </span>
+  </div>
+  <div class="title">
+    <span>
+      <i class="fa fa-clock-o" aria-hidden="true"></i>
+      <!-- <mat-icon>alert</mat-icon> -->
+    </span>
+    <span>در ۲۴ ساعت گذشته چه گذشت؟</span>
+  </div>
+  <div class="text-slider">
+    <div class="products-wrap  owl-carousel owl-theme" *ngIf="info !== null">
+      <!--<p *ngIf="info.sellerRegNo !== 0 && info.sellerRegNo !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.sellerRegNo|englishToPersian}} نفر به عنوان فروشنده عضو سایت شدند.</span>
+      </p>-->
+      <p *ngIf="info.buyerRegNo !== 0 && info.buyerRegNo !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.buyerRegNo|englishToPersian}} نفر عضو سایت شدند.</span>
+      </p>
+      <p *ngIf="info.specialBadge !== 0 && info.specialBadge !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.specialBadge|englishToPersian}} نفر عضو ویژه سایت شدند.</span>
+      </p>
+      <p *ngIf="info.productRegNo !== 0 && info.productRegNo !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.productRegNo|englishToPersian}} محصول جدید در سایت ثبت شد.</span>
+      </p>
+      <p *ngIf="info.requestRegNo !== 0 && info.requestRegNo !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.requestRegNo|englishToPersian}} در خواست خرید ثبت شد.</span>
+      </p>
+      <p *ngIf="info.dicountRegNo !== 0 && info.dicountRegNo !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.dicountRegNo|englishToPersian}} تخفیف برای محصولات به ثبت رسید.</span>
+      </p>
+      <p *ngIf="info.offerRegNo !== 0 && info.offerRegNo !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.offerRegNo|englishToPersian}} پیشنهاد فروش برای محصولات به ثبت رسید.</span>
+      </p>
+      <p *ngIf="info.successOrder !== 0 && info.successOrder !== null">
+        <i class="fa fa-caret-square-o-left" aria-hidden="true"></i>
+        <span>{{info.successOrder + info.successSecureOrder|englishToPersian}} معامله موفق ثبت شد.</span>
+      </p>
+      {{ callOwlCarousel()}}
+    </div>
+  </div>
+
+</mat-card>

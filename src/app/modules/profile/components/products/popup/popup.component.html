@@ -1,0 +1,176 @@
+<mat-card dir="rtl" class="wrap">
+  <app-loading *ngIf="!status"></app-loading>
+  <form action="" *ngIf="status== 'productSuggest'" [formGroup]="offerForm" (ngSubmit)="setOffer(offerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-supporter">پیشنهاد فروش</div>
+        </div>
+        <div class="col-md-6 margin-bottom-5">
+          <mat-form-field class="full-width">
+            <input matInput type="number" required placeholder="مقدار موجودی" [formControl]="inventoryAmountCtrl" [(ngModel)]="inventoryAmount"
+                   name="inventoryAmount" />
+
+            <button mat-button *ngIf="inventoryAmount" matSuffix mat-icon-button aria-label="Clear" (click)="inventoryAmount=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="inventoryAmountCtrl.hasError('required')">
+              مقدار موجودی فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-6 margin-bottom-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" value="{{offer.unit}}" readonly />
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 margin-bottom-5">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="توضیحات" [formControl]="descriptionCtrl"></textarea>
+            <mat-error *ngIf="descriptionCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="alert-box warning-box">
+          <p class="font-13">
+            <span>
+              <b>نکته! </b>
+            </span>
+            <span>حداکثر مدت زمان نمایش پیشنهاد فروش شما یک ماه است!</span>
+          </p>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendData">ثبت پیشنهاد</span>
+            <span class="loading-btn-span" *ngIf="sendData">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form action="" *ngIf="status== 'productDiscount'" [formGroup]="discountForm" (ngSubmit)="setDiscount(discountForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-supporter">ثبت تخفیف</div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <input matInput type="number" min="0" max="100" required placeholder="درصد تخفیف" [formControl]="percentCtrl" [(ngModel)]="percent"
+                   name="percent" />
+            <span matPrefix>%&nbsp;</span>
+            <button mat-button *ngIf="percent" matSuffix mat-icon-button aria-label="Clear" (click)="percent=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="percentCtrl.hasError('required')">
+              درصد تخفیف فیلد اجباری است
+            </mat-error>
+            <mat-error *ngIf="percentCtrl.hasError('max') || percentCtrl.hasError('min')">
+              درصد تخفیف را درست وارد کنید
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 margin-bottom-5 discount-datepicker">
+          <dp-date-picker dir="rtl" required="true" name="day" [formControl]="dateCtrl" [(ngModel)]="dateObject" [config]="dateConfig"
+                          mode="day" placeholder="تاریخ انقضا" theme="dp-material">
+          </dp-date-picker>
+          <mat-error *ngIf="dateCtrl.hasError('required') && dateError">
+            تاریخ انقضا فیلد اجباری است
+          </mat-error>
+        </div>
+        <div class="col-md-12 margin-bottom-5">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="توضیحات" [formControl]="descriptionDiscountCtrl" [(ngModel)]="description" matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"></textarea>
+            <mat-error *ngIf="descriptionDiscountCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="alert-box warning-box">
+          <p class="font-13">
+            <span>
+              <b>نکته! </b>
+            </span>
+            <span>برای فروش بیشتر همیشه نیاز به تخفیف نیست. با کاهش سود حاصل از فروش، مشتریان بیشتری جذب خواهید کرد.</span>
+          </p>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-button class="font-iran" type="button" (click)="close()">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendData">ثبت تخفیف</span>
+            <span class="loading-btn-span" *ngIf="sendData">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="container" *ngIf="status== 'productDiscountBind' && discountStatus">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="title-supporter">جزئیات تخفیف</div>
+      </div>
+      <div class="col-md-12">
+        <p>
+          <b class="font-13">تخفیف:</b>
+          <span class="discount-num">{{discount.percent|englishToPersian}} درصد</span>
+        </p>
+        <p>
+          <b class="font-13">تاریخ انقضا:</b>
+          <span class="font-13">{{discount.expire}}</span>
+        </p>
+        <p>
+          <b class="font-13">توضیحات:</b>
+          <span>{{discount.description}}</span>
+        </p>
+        <p class="text-center">
+          <button mat-raised-button color="primary" class="font-iran" (click)="resetDiscount()">
+            <span *ngIf="!sendData">حذف تخفیف</span>
+            <span class="loading-btn-span" *ngIf="sendData">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="status== 'productOfferBind' && offerStatus">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="title-supporter">جزئیات پیشنهاد فروش</div>
+      </div>
+      <div class="col-md-12">
+        <p>
+          <b class="font-13">مقدار موجودی:</b>
+          <span class="font-13">{{offer.count|englishToPersian}} {{offer.unit}}</span>
+        </p>
+        <p>
+          <b class="font-13">توضیحات:</b>
+          <span>{{offer.description}}</span>
+        </p>
+        <p class="text-center">
+          <button mat-raised-button color="primary" class="font-iran" (click)="resetOffer()">
+            <span *ngIf="!sendData">حذف پیشنهاد فروش</span>
+            <span class="loading-btn-span" *ngIf="sendData">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-card>

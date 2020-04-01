@@ -1,0 +1,46 @@
+<app-header [title]="'نشان تضمین'"></app-header>
+<mat-card class="signs-page-matcard">
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="!data1?.special">
+        <p class="text">
+          <span>
+            <b>کاربر گرامی</b>
+          </span>
+          <br>
+          <span>برای دریافت نشان تضمین می بایست عضو ویژه سایت شوید و حداقل ۱ معامله موفق از طریق سایت انجام داده باشید.</span>
+          <br>
+        </p>
+        <div>
+          <button mat-raised-button color="primary" class="font-iran" (click)="gotoSpecialPage()">عضویت ویژه</button>
+        </div>
+      </div>
+      <div *ngIf="data1?.special && !data1?.guarantee && !data1?.successDeal">
+        <p class="text">
+          <span>
+            <b>کاربر گرامی</b>
+          </span>
+          <br>
+          <span> شما عضو ویژه رتاپورت می باشید ، برای دریافت نشان تضمین می بایست حداقل یک معامله موفق از طریق رتاپورت انجام دهید . </span>
+          <br>
+        </p>
+
+      </div>
+
+      <div *ngIf="data1?.special && data1?.guarantee && data1?.successDeal">
+        <p class="text">
+          <span>
+            <b>کاربر گرامی</b>
+          </span>
+          <br>
+          <span>
+            ضمن قدردانی از اعتماد شما به سایت رتاپورت  ، در حال حاضر شما عضو ویژه رتاپورت می باشید و حداقل 1 معامله آنلاین از طریق سایت رتاپورت انجام داده اید .
+            شما تا تاریخ {{data1?.expireDate}} عضو دارای نشان تضمین می باشد .
+          </span>
+          <br>
+        </p>
+
+      </div>
+    </div>
+  </div>
+</mat-card>

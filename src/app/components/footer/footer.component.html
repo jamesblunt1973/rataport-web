@@ -1,0 +1,109 @@
+<footer>
+  <button type="button" class="goto-top" (click)="goto()">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3" *ngFor="let title of sitemapInfo; let last = last;">
+        <h3 class="item-name-header">{{ title.name }}</h3>
+        <ul class="footer-items">
+          <li class="footer-items__item" *ngFor="let item of title.childrens">
+            <a routerLink="{{item.link}}">
+              <span>
+                <mat-icon>keyboard_arrow_left</mat-icon>
+              </span>
+              <span>{{ item.name }}</span>
+            </a>
+          </li>
+        </ul>
+        <div *ngIf="last">
+          <img src="https://trustseal.enamad.ir/logo.aspx?id=95418&amp;p=TRQH96o5yMylM3Q1" alt="لوگو اینماد"
+            onclick="window.open('https://trustseal.enamad.ir/Verify.aspx?id=95418&amp;p=TRQH96o5yMylM3Q1', 'Popup','toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30')"
+            style="cursor:pointer; background-color:white" id="TRQH96o5yMylM3Q1">
+        </div>
+
+      </div>
+      <!-- END COL -->
+    </div>
+    <!-- END ROW -->
+  </div>
+  <!-- END CONTAINER -->
+  <!--<div class="app-download">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <button class="app-download__btn">
+            <span>
+              <img src="/public/images/icons/apple-logo.svg" alt="">
+            </span>
+            <span>اپلیکیشن ios</span>
+
+          </button>
+          <button class="app-download__btn">
+            <span>
+              <img src="/public/images/icons/android-character-symbol.svg" alt="">
+            </span>
+            <span>اپلیکیشن اندروید</span>
+
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="copyright">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <ul class="footer-menu">
+            <li class="footer-menu__item" *ngFor="let item of footerinfo">
+              <a routerLink="{{ item.link }}">{{ item.name }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <ul class="social-footer">
+
+            <li>
+              <a href="https://www.t.me/rataport" target="_blank">
+                <div class="telegram"> </div>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/rataport/" target="_blank">
+                <div class="instagram"> </div>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/rata-port-bb0b06167/" target="_blank">
+                <div class="linkedin"> </div>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.aparat.com/rataport" target="_blank">
+                <div class="aparat"> </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-5">
+          <p class="copyright__text">
+            <span>تمامی حقوق مربوط به رتاپورت می‌باشد.</span>
+            <span>طراحی و برنامه نویسی</span>
+            <span>
+              <b>
+                <a target="_blank" href="{{b}}" style="color:#10b7bf">{{a}}</a>
+              </b>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END COPYRIGHT -->
+</footer>

@@ -1,0 +1,263 @@
+<section class="root-products m-top-30-tablet">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="site-map hidden-xs">
+          <ul>
+            <li class="first">
+              <span>
+                <i class="fa fa-clone" aria-hidden="true"></i>
+              </span>
+              <span>شما اینجا هستید</span>
+              <span>|</span>
+            </li>
+            <li>
+              <a routerLink='/'>
+                <span>خانه </span>
+              </a>
+              <span class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+
+            <li *ngFor="let item of routLevel; last as l">
+              <a>
+                <span>{{ item.name }}</span>
+              </a>
+              <span *ngIf="!l" class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+          </ul>
+        </mat-card>
+        <!-- END SITE MAP -->
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-md-12">
+
+      </div>
+    </div> -->
+    <p-sidebar class="attractins-filter" [(visible)]="display" position="left">
+      <app-sidebar [filters]="filters" [levels]="levels" (filter)="getFilters($event)" (levelsName)="getLevelsName($event)"
+        *ngIf="productIndex && loadFiltersStatus"></app-sidebar>
+      <app-sidebar-seller [filters]="filters" [levels]="levels" (filterOptions)="getFilterOptions($event)" *ngIf="sellerIndex && loadFiltersStatus"></app-sidebar-seller>
+      <app-sidebar-brands [filters]="filters" [levels]="levels" (filterOptionsBrands)="filterOptionsBrands($event)"
+        *ngIf="brandIndex && loadFiltersStatus"></app-sidebar-brands>
+    </p-sidebar>
+    <div class="row">
+      <div class="col-md-3 hidden-xs hidden-sm">
+        <div class="sidebar">
+          <div *ngIf="sidebarStatus">
+            <app-loading></app-loading>
+          </div>
+          <app-sidebar [filters]="filters" [levels]="levels" (levelsName)="getLevelsName($event)" (filter)="getFilters($event)"
+            *ngIf="productIndex && loadFiltersStatus"></app-sidebar>
+          <app-sidebar-seller [filters]="filters" [levels]="levels" (filterOptions)="getFilterOptions($event)" *ngIf="sellerIndex && loadFiltersStatus"></app-sidebar-seller>
+          <app-sidebar-brands [filters]="filters" [levels]="levels" (filterOptionsBrands)="filterOptionsBrands($event)"
+            *ngIf="brandIndex && loadFiltersStatus"></app-sidebar-brands>
+        </div>
+      </div>
+      <div class="col-md-12 hidden-md hidden-lg">
+        <button class="change-statusL list-view mybutton" (click)="display = true">
+          <i class="fa fa-filter"></i>
+        </button>
+      </div>
+
+      <div class="col-md-9 width-full-tablet">
+        <mat-card class="padding-0">
+          <mat-tab-group class="my-tab-group" (selectedTabChange)="tabChanged($event)" [selectedIndex]="indexSelected">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>widgets</mat-icon>
+                <span class="title">محصولات</span>
+              </ng-template>
+              <!-- <div class="txt-tabs"> -->
+              <div class="wrap-products">
+                <div class="options">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-12 font-iran">
+                        <b>
+                          <span>نمایش همه مجموعه‌ها</span>
+                        </b>
+                        <span> - </span>
+                        <span>
+                          <small>{{ productLenght|englishToPersian }}</small>
+                          <small>محصول</small>
+                        </span>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-select placeholder="کالا، تخفیف" multiple (selectionChange)="options($event)">
+                            <mat-option *ngFor="let item of brands" [value]="item.viewValue">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-select placeholder="مرتب سازی براساس" (selectionChange)="orderBy($event)">
+                            <mat-option (click)="nothing()">هیچ کدام</mat-option>
+                            <mat-option *ngFor="let item of sort" [value]="item.value">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4 text-left hidden-xs hidden-sm">
+                        <button class="change-status" [ngClass]="{'active': gridBtn}" (click)="grid()">
+                          <span class="fa fa-th"></span>
+                        </button>
+                        <button class="change-status" [ngClass]="{'active': listBtn}" (click)="list()">
+                          <span class="fa fa-bars"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="loading">
+                  <app-loading></app-loading>
+                </div>
+                <app-grid-products [products]="products" [hidden]="!gridBtn" *ngIf="showProductsStatus"></app-grid-products>
+                <app-list-products [products]="products" [hidden]="!listBtn"></app-list-products>
+                <div class="col-md-12">
+                  <div *ngIf="products.length === 0 && showProductsStatus">
+                    <div class="alert-box warning-box">
+                      <p class="font-iran">
+                        <span>
+                          <b><i class="fa fa-frown-o" aria-hidden="true"></i>
+                          </b>
+                        </span>
+                        <span>متاسفانه در این دسته بندی محصولی پیدا نشد.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>assignment_ind</mat-icon>
+                <span class="title">فروشندگان</span>
+              </ng-template>
+              <div class="wrap-products">
+                <div class="options">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-12 font-iran">
+                        <b>
+                          <span>نمایش همه مجموعه ها</span>
+                        </b>
+                        <span> - </span>
+                        <span>
+                          <small>{{sellers?.length|englishToPersian}}</small>
+                          <small>فروشنده</small>
+                        </span>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-select placeholder="مرتب سازی براساس" (selectionChange)="orderBySeller($event)">
+                            <mat-option (click)="nothingSeller()">هیچ کدام</mat-option>
+                            <mat-option *ngFor="let item of sort2" [value]="item.value">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-8 text-left hidden-xs hidden-sm">
+                        <button class="change-status" [ngClass]="{'active': gridSellBtn}" (click)="gridSell()">
+                          <span class="fa fa-th"></span>
+                        </button>
+                        <button class="change-status" [ngClass]="{'active': listSellBtn}" (click)="listSell()">
+                          <span class="fa fa-bars"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="loading">
+                  <app-loading></app-loading>
+                </div>
+                <app-grid-seller [sellers]="sellers" [hidden]="!gridSellBtn" *ngIf="!loading"></app-grid-seller>
+                <app-list-seller [sellers]="sellers" [hidden]="!listSellBtn" *ngIf="!loading"></app-list-seller>
+
+              </div>
+              <!-- <div class="txt-tabs">
+                
+              </div> -->
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>stars</mat-icon>
+                <span class="title">برندها</span>
+              </ng-template>
+              <!-- <div class="txt-tabs"> -->
+              <div class="wrap-products">
+                <div class="options">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-12 font-iran margin-bottom-5">
+                        <b>
+                          <span>نمایش همه مجموعه‌ها</span>
+                        </b>
+                        <span> - </span>
+                        <span>
+                          <small>{{ brandsList?.length|englishToPersian }}</small>
+                          <small>برند</small>
+                        </span>
+                      </div>
+
+                      <!-- <div class="col-md-4"> -->
+                      <!-- <mat-form-field>
+                          <mat-select placeholder="کالا، تخفیف" multiple>
+                            <mat-option *ngFor="let item of brands" [value]="item.value">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field> -->
+                      <!-- </div> -->
+                      <!-- <div class="col-md-4"> -->
+                      <!-- <mat-form-field>
+                          <mat-select placeholder="مرتب سازی براساس">
+                            <mat-option>هیچ کدام</mat-option>
+                            <mat-option *ngFor="let item of sort" [value]="item.value">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field> -->
+                      <!-- </div> -->
+                      <!-- <div class="col-md-4 text-left margin-bottom-10">
+                        <button class="change-status" [ngClass]="{'active': gridBtn}" (click)="grid()">
+                          <span class="fa fa-th"></span>
+                        </button>
+                        <button class="change-status" [ngClass]="{'active': listBtn}" (click)="list()">
+                          <span class="fa fa-bars"></span>
+                        </button>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="loading">
+                  <app-loading></app-loading>
+                </div>
+                <!-- <app-grid-products [brands]="brandsList" [hidden]="!gridBtn"></app-grid-products> -->
+                <app-grid-brands [brands]="brandsList"></app-grid-brands>
+                <!-- <app-list-products [products]="products" [hidden]="!listBtn"></app-list-products> -->
+                <div class="col-md-12">
+                  <div *ngIf="!loading && brandsList.length === 0">
+                    <div class="alert-box warning-box">
+                      <p class="font-iran">
+                        <span>
+                          <b>
+                            <i class="fa fa-frown-o" aria-hidden="true"></i>
+                          </b>
+                        </span>
+                        <span>متاسفانه در این دسته بندی برندی پیدا نشد.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+      </div>
+    </div>
+
+
+  </div>
+</section>

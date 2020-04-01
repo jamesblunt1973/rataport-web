@@ -1,0 +1,12 @@
+<div class="products-wrap sellerImgSlider  owl-carousel owl-theme ads-slider ads-slider-seller">
+  <div *ngFor="let item of slides; let last = last;let i=index;">
+    <img src="{{image_url+item.name}}" alt=""> {{ last ? slide() : ''}}
+  </div>
+  <div *ngIf="slides.length===0">
+    <img src="../../../../../public/images/sellerSlide1.jpg" alt=""> {{slide() }}
+  </div>
+  <div *ngIf="slides.length===0">
+
+    <img src="../../../../../public/images/sellerSlide2.jpg" alt=""> {{  slide()}}
+  </div>
+</div>

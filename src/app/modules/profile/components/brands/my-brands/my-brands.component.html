@@ -1,0 +1,83 @@
+<app-header [title]="'لیست برندها'"></app-header>
+<div class="padding-0">
+  <div>
+    <p-table #dt [columns]="cols" [value]="brands" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+      [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">
+          <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+          <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 2.25em"></th>
+          <th> عنوان</th>
+          <th>فایل</th>
+          <th>وضعیت</th>
+          <th>عملیات</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+        <tr class="my-tr-table">
+          <td>
+            <a href="#" [pRowToggler]="rowData">
+              <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+            </a>
+          </td>
+          <td class="text-center">{{ rowData.title }}</td>
+          <td class="text-center">
+            <a *ngIf="rowData.attachFile !== null && rowData.attachFile !== ''" class="pointer no-text-decoration primary-color"
+              href="{{image_url+rowData.attachFile}}" target="_blank">دانلود فایل</a></td>
+          <td class="text-center">
+            <span class="confrim" *ngIf="rowData.confirm">تایید شد</span>
+            <span class="noconfrim" *ngIf="rowData.confirm === false">عدم پذبرش</span>
+            <span class="watting" *ngIf="rowData.confirm === null">در حال بررسی</span>
+          </td>
+          <td>
+            <div class="text-center operation">
+
+              <i class="fa fa-trash" aria-hidden="true" (click)="deleteBrand(rowData?.id)"></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+        <tr>
+          <td [attr.colspan]="4">
+            <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+              <div class="ui-g-12 ui-md-3" style="text-align:center">
+                <img [attr.alt]="rowData.title" class="my-image-table" [src]="image_url+rowData.logo">
+              </div>
+              <div class="ui-g-12 ui-md-9">
+                <div class="ui-g brand-details">
+                  <div class="ui-g-12" *ngIf="rowData.logo !== null && rowData.logo !== ''">
+                    <b> لوگو: </b>
+                    <a class="pointer no-text-decoration primary-color" href="{{image_url+rowData.logo}}" target="_blank">مشاهده</a>
+                  </div>
+                  <div class="ui-g-12">
+                    <b>دسته بندی: </b> {{rowData.category}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>عنوان: </b> {{rowData.title}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>وب سایت: </b> {{rowData.website}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>توضیحات: </b> {{rowData.description}}
+                  </div>
+                  <div class="ui-g-12" *ngIf="rowData.attachFile !== null && rowData.attachFile !== ''">
+                    <b>فایل: </b>
+                    <a class="pointer no-text-decoration primary-color" href="{{image_url+rowData.attachFile}}" target="_blank">دانلود
+                      فایل</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

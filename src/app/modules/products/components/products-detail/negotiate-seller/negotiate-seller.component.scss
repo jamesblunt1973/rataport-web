@@ -1,0 +1,48 @@
+@import "responsive";
+.mazakere {
+  .for-mobile {
+    @include respond-to(mobileL) {
+      font-size: 14px;
+    }
+  }
+  .title {
+    margin-top: 0;
+  }
+  .my-inputs {
+    width: 100% !important;
+  }
+  .textarea {
+    height: 100px !important;
+    outline: none !important;
+  }
+  .btn {
+    border-top: 1px solid #e5e5e5;
+    margin-top: 10px;
+    padding: 11px;
+    padding-right: 0;
+    .fa {
+      margin-left: 5px;
+    }
+  }
+  @include respond-to(tablet) {
+    .text-left {
+      text-align: right;
+    }
+  }
+  .flx-4 {
+    @include respond-to(tablet) {
+      width: 40%;
+    }
+    @include respond-to(mobileS) {
+      width: 100%;
+    }
+  }
+  .flx-6 {
+    @include respond-to(tablet) {
+      width: 60%;
+    }
+    @include respond-to(mobileS) {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,205 @@
+/*--------------------------------------------------
+    [Gutter]
+----------------------------------------------------*/
+
+.content-sm {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.content-md {
+    padding-top: 0;
+    padding-bottom: 40px;
+}
+
+.margin-b-40 {
+    margin-bottom: 40px !important;
+}
+
+@media (max-width: 992px) {
+    .md-margin-b-30 {
+        margin-bottom: 30px !important;
+    }
+}
+
+/*--------------------------------------------------
+      [Radius]
+  ----------------------------------------------------*/
+
+.radius-3 {
+    border-radius: 3px !important;
+}
+
+.radius-10 {
+    border-radius: 10px !important;
+}
+
+/*--------------------------------------------------
+      [Colors]
+  ----------------------------------------------------*/
+
+.bg-color-sky-light {
+    background: #f5f5f5 !important;
+}
+
+/*--------------------------------------------------
+      [Pricing List v4]
+  ----------------------------------------------------*/
+
+.pricing-list-v4 {
+    text-align: center;
+    background: #fff; // box-shadow: 15px 15px 15px 0 #eff1f8;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.pricing-list-v4 .pricing-list-v4-header {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 15px;
+    padding-bottom: 9px;
+    display: flex;
+    justify-content: center; // flex-direction: column;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: rgba(40, 54, 115, 1);
+    background: -moz-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(40, 54, 115, 1)), color-stop(47%, rgba(68, 47, 80, 1)), color-stop(56%, rgba(68, 47, 80, 1)), color-stop(80%, rgba(49, 55, 91, 1)), color-stop(100%, rgba(22, 28, 26, 1)));
+    background: -webkit-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+    background: linear-gradient(135deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#283673', endColorstr='#161c1a', GradientType=1);
+    .title {
+        color: #fff; // font-weight: bold;
+        padding-top: 7px;
+        padding-left: 4px;
+    }
+    img {
+        width: 35px;
+        height: 35px;
+    }
+    &::before {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        display: block;
+        content: '';
+        width: 50%;
+        height: 100%;
+        background: -webkit-linear-gradient(left, transparent 0%, rgba(255, 255, 255, .12) 100%);
+        background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.12) 100%);
+        transform: skewX(-25deg);
+        -webkit-transform: skewX(-25deg);
+        -ms-transform: skewX(-25deg);
+        -o-transform: skewX(-25deg);
+        &::hover {
+            // -webkit-animation: shine 2.5s;
+            // animation: shine 2.5s;
+            // left: -75%;
+            background: red;
+        }
+    }
+}
+
+.pricing-list-v4-footer {
+    -webkit-transition: .3s all;
+    transition: .3s all;
+    cursor: pointer;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #fff;
+    padding: 10px;
+    background: rgba(28, 27, 28, 1);
+    background: -moz-linear-gradient(-45deg, rgba(28, 27, 28, 1) 0%, rgba(78, 78, 78, 1) 47%, rgba(41, 41, 41, 1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(28, 27, 28, 1)), color-stop(47%, rgba(78, 78, 78, 1)), color-stop(100%, rgba(41, 41, 41, 1)));
+    background: -webkit-linear-gradient(-45deg, rgba(28, 27, 28, 1) 0%, rgba(78, 78, 78, 1) 47%, rgba(41, 41, 41, 1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(28, 27, 28, 1) 0%, rgba(78, 78, 78, 1) 47%, rgba(41, 41, 41, 1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(28, 27, 28, 1) 0%, rgba(78, 78, 78, 1) 47%, rgba(41, 41, 41, 1) 100%);
+    background: linear-gradient(135deg, rgba(28, 27, 28, 1) 0%, rgba(78, 78, 78, 1) 47%, rgba(41, 41, 41, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1c1b1c', endColorstr='#292929', GradientType=1);
+    &:hover {
+        -webkit-transition: .3s all;
+        transition: .3s all;
+        background: rgba(40, 54, 115, 1);
+        background: -moz-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+        background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(40, 54, 115, 1)), color-stop(47%, rgba(68, 47, 80, 1)), color-stop(56%, rgba(68, 47, 80, 1)), color-stop(80%, rgba(49, 55, 91, 1)), color-stop(100%, rgba(22, 28, 26, 1)));
+        background: -webkit-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+        background: -o-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+        background: -ms-linear-gradient(-45deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+        background: linear-gradient(135deg, rgba(40, 54, 115, 1) 0%, rgba(68, 47, 80, 1) 47%, rgba(68, 47, 80, 1) 56%, rgba(49, 55, 91, 1) 80%, rgba(22, 28, 26, 1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#283673', endColorstr='#161c1a', GradientType=1);
+    }
+}
+
+.pricing-list-v4 .pricing-list-v4-header .pricing-list-v4-title {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.pricing-list-v4 .pricing-list-v4-header .pricing-list-v4-subtitle {
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.pricing-list-v4 .pricing-list-v4-content {
+    // padding: 40px 20px;
+    padding: 20px 20px;
+}
+
+.pricing-list-v4 .pricing-list-v4-content .pricing-list-v4-price-sign {
+    position: relative;
+    top: -30px;
+    font-size: 20px;
+}
+
+.pricing-list-v4 .pricing-list-v4-content .pricing-list-v4-price {
+    font-size: 70px;
+    font-weight: 400;
+    line-height: .5;
+    letter-spacing: -3px;
+}
+
+.pricing-list-v4 .pricing-list-v4-content .pricing-list-v4-subprice {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.pricing-list-v4 .pricing-list-v4-content .pricing-list-v4-price-info {
+    position: relative;
+    display: block;
+    letter-spacing: 1px;
+}
+
+.pricing-list-v4 .pricing-list-v4-content .pricing-list-v4-price-info:before {
+    font-size: 22px;
+    font-weight: 300;
+    content: "/";
+    margin-right: 3px;
+}
+
+.items-sign {
+    margin: 0;
+    padding-right: 30px;
+    text-align: right;
+    font-size: 14px;
+    &__item {
+        list-style: none;
+        margin-bottom: 5px;
+        i {
+            font-size: 8px;
+            margin-left: 4px;
+            color: #b88fcf;
+        }
+    }
+}
+
+.box-for-sign-name {
+    display: inline-block;
+    border: 1px solid #2196f3;
+    padding: 3px 10px;
+    border-radius: 3px;
+    color: #2196f3;
+}

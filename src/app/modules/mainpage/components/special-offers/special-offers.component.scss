@@ -1,0 +1,129 @@
+@import "helper";
+.wrapper-offer {
+  margin-bottom: 30px;
+  @include respond-to(tablet) {
+    margin-top: 30px;
+  }
+}
+mat-button-toggle-group {
+  @include respond-to(mobileL) {
+    flex-direction: column;
+  }
+}
+mat-button-toggle {
+  border-left: 1px solid #eeeeee;
+  background-color: white;
+  span {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 15px;
+  }
+  &:last-child {
+    border-left: 0;
+  }
+}
+
+.mat-button-toggle-checked {
+  background-color: $primary-color;
+  border-left: 1px solid $primary-color;
+  span {
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+.card-offers {
+  position: relative;
+  mat-card {
+    padding: 0;
+    background: whitesmoke;
+    text-align: center;
+  }
+  .img-item-offer {
+    text-align: center;
+    height: 130px;
+    margin: auto;
+    background: #fff;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    img {
+      margin-top: 10px;
+      max-width: 200px;
+      max-height: 120px;
+    }
+  }
+  .title {
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #202020;
+    margin-bottom: 6px;
+    a {
+      text-decoration: none;
+      color: #202020;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+  .options {
+    padding-bottom: 10px;
+    border-top: 1px solid #d9d9d9;
+    padding-top: 7px;
+    text-align: right;
+    p {
+      margin: 0;
+      font-size: 13px;
+      .fa {
+        font-size: 10px;
+        padding-left: 8px;
+        color: #757575;
+      }
+    }
+  }
+  .see-more {
+    text-decoration: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 4px;
+    color: #fff;
+    bottom: -7px;
+    cursor: pointer;
+    outline: none;
+    font-size: 14px;
+    width: 110px;
+    margin: auto;
+    border: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background: $primary-color;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    &::before {
+      border-top: 7px solid $dark-primary-color;
+      content: "";
+      height: 0;
+      position: absolute;
+      width: 0;
+      bottom: 0;
+      border-left: 7px solid transparent;
+      left: -7px;
+    }
+    &::after {
+      border-top: 7px solid $dark-primary-color;
+      content: "";
+      height: 0;
+      position: absolute;
+      width: 0;
+      bottom: 0;
+      border-right: 7px solid transparent;
+      right: -7px;
+    }
+  }
+}
+
+.wrap-of-options {
+  padding: 10px;
+  padding-bottom: 5px;
+}

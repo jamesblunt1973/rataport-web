@@ -1,0 +1,62 @@
+<div class="container my-grid-wrap">
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="sellers.length === 0">
+        <div class="alert-box warning-box">
+          <p class="font-iran">
+            <span>
+              <b>توجه! </b>
+            </span>
+            <span>متاسفانه در این دسته بندی فروشنده‌ای پیدا نشد.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4" *ngFor="let item of sellers">
+      <div class="grid-product-box">
+        <div class="img-product">
+          <a routerLink="/seller/{{ item.id }}">
+            <div class="axs axs-seller">
+              <img src="{{image_url+item.logo}}" alt="">
+            </div>
+          </a>
+
+          <!-- end sign -->
+        </div>
+        <!-- end img-product -->
+        <div class="sign">
+          <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+          <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+          <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+        </div>
+        <div class="title">
+          <a routerLink="/seller/{{ item.id }}">
+            <span *ngIf="item.brand !== null && item.brand !== ''">{{ item.brand }}</span>
+            <span *ngIf="item.brand === null || item.brand === ''">{{item.ceo}}</span>
+          </a>
+        </div>
+        <!-- end title -->
+        <div class="options">
+          <p>
+            <i class="fa fa-square"></i>
+            <span>استان:</span>
+            <span>
+              <b>{{ item.province }}</b>
+            </span>
+          </p>
+          <p>
+            <i class="fa fa-square"></i>
+            <span>نوع فعالیت:</span>
+            <span>
+              <b>{{ item.activityType }}</b>
+            </span>
+          </p>
+        </div>
+        <!-- end options -->
+        <div class="btn-grid-prod" (click)="sellerDetail(item.id)">
+          <button class="btn">اطلاعات فروشنده</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

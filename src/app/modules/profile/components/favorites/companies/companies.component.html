@@ -1,0 +1,41 @@
+<app-header [title]="'شرکت‌های مورد علاقه'"></app-header>
+<mat-card>
+  <div class="container my-grid-wrap">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of sellers">
+        <div class="grid-product-box">
+          <div class="img-product">
+            <a routerLink="/seller/{{item.sellerID}}">
+              <div class="axs axs-seller">
+                <img src="{{image_url+item.logo}}" alt="">
+              </div>
+            </a>
+            <div class="">
+              <div class="delete" (click)="wishListRemoveSeller(item.sellerID)">x</div>
+            </div>
+          </div>
+          <!-- end img-product -->
+          <div class="title">
+            <a routerLink="/seller/{{item.sellerID}}">
+              <span>{{ item.brand }}</span>
+            </a>
+          </div>
+          <!-- end title -->
+          <div class="options">
+            <p>
+              <i class="fa fa-square"></i>
+              <span>استان:</span>
+              <span>
+                <b>{{ item.province }}</b>
+              </span>
+            </p>
+          </div>
+          <!-- end options -->
+          <div class="btn-grid-prod">
+            <button class="btn" (click)="sellerDetail(item.sellerID)">اطلاعات فروشنده</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

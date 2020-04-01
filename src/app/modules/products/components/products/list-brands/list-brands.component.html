@@ -1,0 +1,128 @@
+<div class="container my-list-wrap">
+  <div class="row">
+    <div class="col-md-12" *ngFor="let item of sellers">
+      <div class="list-product-box">
+        <div class="img-product">
+          <a routerLink="/seller/{{ item.id }}">
+            <div class="axs">
+              <img src="{{image_url+item.logo}}" alt="">
+            </div>
+          </a>
+        </div>
+        <div class="description">
+          <a routerLink="/seller/{{item.id}}">
+            <h3>{{item.brand}}</h3>
+          </a>
+          <div class="options">
+            <p>
+              <i class="fa fa-square"></i>
+              <span>نوع فعالیت:</span>
+              <span>
+                <b>{{ item.activityType }}</b>
+              </span>
+            </p>
+            <p>
+              <i class="fa fa-square"></i>
+              <span>تاریخ عضویت:</span>
+              <span>
+                <b>{{ item.regDate }}</b>
+              </span>
+            </p>
+            <p>
+              <i class="fa fa-square"></i>
+              <span>تعداد محصولات ثبت شده:</span>
+              <span>
+                <b>{{ item.productsNO|englishToPersian }}</b>
+              </span>
+            </p>
+            <!-- <p>
+                <i class="fa fa-square"></i>
+                <span>مدت زمان تحویل:</span>
+                <span>
+                  <b>{{ item.deliveryTime|englishToPersian }}</b>
+                </span>
+              </p> -->
+            <p>
+              <i class="fa fa-square"></i>
+              <span>استان:</span>
+              <span>
+                <b>{{item.city}}</b>
+              </span>
+            </p>
+          </div>
+          <!-- end options -->
+
+          <!-- <div class="payamresan">
+              <ul>
+                <li *ngIf="item.gap !== null">
+                  <a href="" target="_blank">
+                    <img src="/public/images/social/Gap.svg" alt="">
+                  </a>
+                </li>
+                <li *ngIf="item.iGap !== null">
+                  <a href="" target="_blank">
+                    <img src="/public/images/social/iGap.svg" alt="">
+                  </a>
+                </li>
+                <li *ngIf="item.soroosh !== null">
+                  <a href="" target="_blank">
+                    <img src="/public/images/social/Soroush.svg" alt="">
+                  </a>
+                </li>
+                <li *ngIf="item.bisphone !== null">
+                  <a href="" target="_blank">
+                    <img src="/public/images/social/bisfoon.svg" alt="">
+                  </a>
+                </li>
+                <li *ngIf="item.telegram !== null">
+                  <a href="" target="_blank">
+                    <img src="/public/images/social/telegram.svg" alt="">
+                  </a>
+                </li>
+              </ul>
+            </div> -->
+          <!-- end social -->
+
+
+        </div>
+        <div class="buttons-wrap">
+          <!-- end discount -->
+          <div class="sign">
+            <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+            <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+            <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+          </div>
+          <!-- end sign -->
+          <div>
+            <button mat-raised-button color="primary" class="detail-product" (click)="sellerDetail(item.id)">اطلاعات فروشنده</button>
+          </div>
+          <div>
+            <p class="option-list font-iran">
+              <span>معاملات موفق:</span>
+              <span>
+                <b>{{ item.successTransactions|englishToPersian }}</b>
+              </span>
+            </p>
+            <p class="option-list font-iran">
+              <span>درصد پاسخگویی:</span>
+              <span>
+                <b>{{ item.successTransactions|englishToPersian }} درصد</b>
+              </span>
+            </p>
+          </div>
+
+        </div>
+        <!-- <div class="buttons-wrap">
+            <div class="sign margin-bottom-10">
+              <mat-icon matTooltip="تایید شده" [matTooltipPosition]="'above'" class="verified_user">verified_user</mat-icon>
+              <mat-icon matTooltip="تایید شده" [matTooltipPosition]="'above'" class="star_user">stars</mat-icon>
+            </div>
+            <div>
+              <button mat-raised-button color="primary" class="detail-product" (click)="sellerDetail(item.id)">اطلاعات فروشنده</button>
+            </div>
+  
+          </div> -->
+      </div>
+    </div>
+  </div>
+</div>

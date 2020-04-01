@@ -1,0 +1,36 @@
+<section class="activate">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <app-loading *ngIf="!loading"></app-loading>
+        <mat-card *ngIf="loading">
+          <div class="text-center">
+            <img width="90" src="/public/images/logo-loader.png" alt="">
+            <h2 class="text-center primary-color no-margin">به رتاپورت خوش آمدید!</h2>
+          </div>
+          <h2 class="text-center">برای فعال سازی حساب کاربری لطفا کد فعال سازی را وارد نمایید!</h2>
+         
+          <form [formGroup]="ConfirmCodeForm"  (ngSubmit)="openModal(ConfirmCodeForm.value)">
+            <p>
+              <mat-form-field class="code-width">
+                <input matInput required placeholder="کد تایید" [type]='text' [formControl]="CodeControl">
+                <!--<mat-icon matSuffix (click)="hidepass = !hidepass">{{hidepass ? 'visibility' : 'visibility_off'}}</mat-icon>
+    <mat-error *ngIf="CodeControl.hasError('required')">
+      کد ارسالی به تلفن همراه فیلد اجباری است
+    </mat-error>-->
+                <mat-error *ngIf="CodeControl.hasError('minlength')">
+                  کد ارسالی بایستی بیش از ۶ کاراکتر باشد
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <!-- END EMAIL -->
+          <div class="text-center margin-bottom-20">
+            <!--<button mat-raised-button color="primary"  class="font-iran" (click)="mainpage()">صفحه اصلی</button>-->
+            <button mat-raised-button color="primary"   class="font-iran" *ngIf="!loginStatus">فعال سازی اکانت کاربری </button>
+          </div>
+        </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

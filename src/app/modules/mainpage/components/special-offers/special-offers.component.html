@@ -1,0 +1,197 @@
+<section class="wrapper-offer">
+  <div class="container">
+    <div class="row" *ngIf="productStatus">
+      <div class="col-md-12 text-center margin-bottom-10">
+        <mat-button-toggle-group #group="matButtonToggleGroup" value="buyRequests">
+          <mat-button-toggle value="buyRequests" class="font-iran">
+            <span>درخواست‌های خرید</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="sellingOffers" class="font-iran">
+            <span>&nbsp;&nbsp;پیشنهادات فروش&nbsp;&nbsp;</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="discount" class="font-iran">
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;تخفیفات&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <div class="col-md-12">
+        <mat-card class="card-offers">
+          <div class="container">
+            <div class="row" *ngIf="group.value ==='buyRequests'">
+              <div class="col-md-10 margin-bottom-10" *ngIf="requests.length===0">
+                <div class="alert-box warning-box">
+                  <p>
+                    <span>در حال حاضر محصولی در این قسمت به ثبت نرسیده است!</span>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-3 margin-bottom-10" *ngFor="let item of requests">
+                <mat-card>
+                  <div class="img-item-offer">
+                    <a routerLink="/offers/products">
+                      <img [src]="image_url+item.image" alt="">
+                    </a>
+                  </div>
+                  <div class="wrap-of-options">
+                    <div class="title">
+                      <a routerLink="/offers/products">
+                        <span>{{ item.productName }}</span>
+                      </a>
+                    </div>
+                    <!-- end title -->
+                    <div class="options">
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>تاریخ:</span>
+                        <span>
+                          <b>{{item.createdOn}}</b>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>میزان سفارش:</span>
+                        <span>
+                          <b>{{item.countNeed|englishToPersian}} {{item.unit}}</b>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>مقصد:</span>
+                        <span>
+                          <span>{{item.destination}}</span>
+                        </span>
+                      </p>
+                    </div>
+                    <!-- end options -->
+                  </div>
+                </mat-card>
+              </div>
+              
+            </div>
+            <div class="row" *ngIf="group.value ==='sellingOffers'">
+              <div class="col-md-10 margin-bottom-10" *ngIf="offers.length===0">
+                <div class="alert-box warning-box">
+                  <p>                  
+                    <span>در حال حاضر محصولی در این قسمت به ثبت نرسیده است!</span>
+                  </p>
+                </div>
+                
+              </div>
+              <div class="col-md-3 margin-bottom-10" *ngFor="let item of offers">
+                <mat-card>
+                  <div class="img-item-offer">
+                    <a routerLink="/products/detail/{{item.id}}">
+                      <img [src]="image_url+item.image" alt="">
+                    </a>
+                  </div>
+                  <div class="wrap-of-options">
+                    <div class="title">
+                      <a routerLink="/products/detail/{{item.id}}">
+                        <span>{{ item.name }}</span>
+                      </a>
+                    </div>
+                    <!-- end title -->
+                    <div class="options">
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>تاریخ:</span>
+                        <span>
+                          <b>{{item.offerRegDate}}</b>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>میزان موجودی:</span>
+                        <span>
+                          <b>{{item.count|englishToPersian}}</b>
+                          <b>{{item.minOrderUnit}}</b>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>قیمت برای هر واحد:</span>
+                        <span>
+                          <b>
+                            <span>{{item.price|englishToPersian}}</span> تومان
+                          </b>
+                        </span>
+                      </p>
+                    </div>
+                    <!-- end options -->
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div class="row" *ngIf="group.value ==='discount'">
+              <div class="col-md-10 margin-bottom-10" *ngIf="discounts.length===0">
+                <div class="alert-box warning-box">
+                  <p>
+                    <span>در حال حاضر محصولی در این قسمت به ثبت نرسیده است!</span>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-3 margin-bottom-10" *ngFor="let item of discounts">
+                <mat-card>
+                  <div class="img-item-offer">
+                    <a routerLink="/products/detail/{{item.id}}">
+                      <img [src]="image_url+item.image" alt="">
+                    </a>
+                  </div>
+                  <div class="wrap-of-options">
+                    <div class="title">
+                      <a routerLink="/products/detail/{{item.id}}">
+                        <span>{{ item.name }}</span>
+                      </a>
+                    </div>
+                    <!-- end title -->
+                    <div class="options">
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>تاریخ:</span>
+                        <span>
+                          <b>{{item.discountRegDate}}</b>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>میزان تخفیف:</span>
+                        <span class="discount-num">
+                          <b>{{item.discount|englishToPersian}}</b>
+                          <b>درصد</b>
+                        </span>
+                      </p>
+                      <p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>حداقل سفارش :</span>
+                        <span>
+                          <b>{{item.count|englishToPersian}}</b>
+                          <b>{{item.minOrderUnit}}</b>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="fa fa-square"></i>
+                        <span>قیمت برای هر واحد:</span>
+                        <span>
+                          <b>
+                            <span>{{item.price|englishToPersian}}</span> تومان
+                          </b>
+                        </span>
+                      </p>
+                    </div>
+                    <!-- end options -->
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a class="see-more font-iran text-center" routerLink="/offers/products">مشاهده بیشتر</a>
+          </div>
+        </mat-card>
+
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</section>

@@ -1,0 +1,70 @@
+<mat-card dir="rtl" class="wrap">
+  <app-loading *ngIf="!status"></app-loading>
+  <form action="" *ngIf="status && page == 'callForPrice'" [formGroup]="callForPriceForm" (ngSubmit)="callForPrice(callForPriceForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-supporter">{{productName}}</div>
+        </div>
+        <div class="col-md-6 margin-bottom-5">
+          <mat-form-field class="full-width">
+            <input matInput type="number" required placeholder="تعداد" [formControl]="numberCtrl" [(ngModel)]="number" name="number"
+            />
+            <button mat-button *ngIf="number" matSuffix mat-icon-button aria-label="Clear" (click)="number=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="numberCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 margin-bottom-5">
+          <mat-form-field class="full-width">
+            <mat-select required placeholder="واحد" [formControl]="unitDropCtrl">
+              <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>             
+                <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                  {{ level.name }}
+                </mat-option>
+</mat-select>
+            <mat-error *ngIf="unitDropCtrl.hasError('required')">
+              فیلد اجباری
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت استعلام قیمت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="status && page == 'share'" class="share-buttons">
+    <button class="facebook" shareButton="facebook">
+      <i class="fa fa-facebook fa-2x"></i>
+    </button>
+    <button class="twitter" shareButton="twitter">
+      <i class="fa fa-twitter fa-2x"></i>
+    </button>
+    <button class="pinterest" shareButton="pinterest">
+      <i class="fa fa-pinterest fa-2x"></i>
+    </button>
+    <button class="telegram" shareButton="telegram">
+      <i class="fa fa-telegram fa-2x"></i>
+    </button>
+    <button class="whatsapp" shareButton="whatsapp">
+      <i class="fa fa-whatsapp fa-2x"></i>
+    </button>
+    <button class="linkedin" shareButton="linkedin">
+      <i class="fa fa-linkedin fa-2x"></i>
+    </button>
+    <button class="google-plus" shareButton="google">
+      <i class="fa fa-google-plus fa-2x"></i>
+    </button>
+  </div>
+</mat-card>

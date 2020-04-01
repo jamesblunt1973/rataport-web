@@ -1,0 +1,1077 @@
+<app-header [title]="'افزودن محصول'"></app-header>
+<mat-card>
+  <div class="container" *ngIf="!loading">
+    <app-loading></app-loading>
+  </div>
+  <div *ngIf="loading && !isComplete">
+    <div class="alert-box warning-box">
+      <p>
+        <span>
+          <b>کاربر گرامی! </b>
+        </span>
+        <span>
+          برای دسترسی به این قسمت لطفا اطلاعات الزامی پروفایل کاربری (اطلاعات کاربری، اطلاعات تماس، اطلاعات بانکی) را تکمیل
+          نمایید.
+        </span>
+      </p>
+    </div>
+  </div>
+  <!-- <div *ngIf="loading && membership.id == 1 && isComplete">
+    <div class="alert-box warning-box">
+      <p>
+        <span>
+          <b>توجه! </b>
+        </span>
+        <span>&nbsp;شما عضو عادی هستید و حداکثر می‌توانید {{maxCount|englishToPersian}} محصول ثبت کنید!</span>
+      </p>
+    </div>
+  </div> -->
+  <div *ngIf="loading && membership.id == 2  && isComplete">
+    <div class="alert-box warning-box">
+      <p>
+        <span>
+          <b>توجه! </b>
+        </span>
+        <span>&nbsp; شما عضو ویژه هستید و می توانید {{maxCount|englishToPersian}} محصول ثبت کنید!</span>
+      </p>
+    </div>
+  </div>
+
+  <div *ngIf="loading && currentPostCount < maxCount &&  isComplete">
+    <form action="" enctype="multipart/form-data" method="POST" [formGroup]="registerProductForm" (ngSubmit)="addProduct(registerProductForm.value)">
+      <div class="container">
+        <mat-accordion *ngIf="loading">
+          <mat-expansion-panel (opened)="true" [expanded]="step === 0">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>اطلاعات اجباری</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="row border-1px">
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select required [formControl]="oneLevelCtrl" placeholder="دسته بندی سطح اول" #levelOneTag (selectionChange)="oneLevelSelected($event)">
+                    <ngx-mat-select-search [formControl]="oneLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredOneLevel | async" [value]="level.id">
+                      {{level.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="oneLevelCtrl.hasError('required')">
+                    دسته بندی سطح اول فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width" *ngIf="levelTwoStatus">
+                  <mat-select required [formControl]="twoLevelCtrl" placeholder="دسته بندی سطح دوم" #levelTwoTag (selectionChange)="twoLevelSelected($event)">
+                    <ngx-mat-select-search [formControl]="twoLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredTwoLevel | async" [value]="level.id">
+                      {{level.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="twoLevelCtrl.hasError('required')">
+                    دسته بندی سطح دوم فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width" *ngIf="levelThreeStatus">
+                  <mat-select required [formControl]="threeLevelCtrl" placeholder="دسته بندی سطح سوم" #levelTwoTag (selectionChange)="threeLevelSelected($event)">
+                    <ngx-mat-select-search [formControl]="threeLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredThreeLevel | async" [value]="level.id">
+                      {{level.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="threeLevelCtrl.hasError('required')">
+                    دسته بندی سطح سوم فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width" *ngIf="levelFourStatus">
+                  <mat-select required [formControl]="fourLevelCtrl" placeholder="دسته بندی سطح چهارم" #levelTwoTag (selectionChange)="fourLevelSelected($event)">
+                    <ngx-mat-select-search [formControl]="fourLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredFourLevel | async" [value]="level.id">
+                      {{level.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="fourLevelCtrl.hasError('required')">
+                    دسته بندی سطح چهارم فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width" *ngIf="propertyStatus && property.length !==0">
+                  <mat-select placeholder="ویژگی‌ها" [formControl]="propertyCtrl" multiple [(ngModel)]="propertyList" (selectionChange)="propertSelected($event)">
+                    <mat-optgroup *ngFor="let item of property" [label]="item.name" [disabled]="item.disabled" class="font-iran">
+                      <mat-option *ngFor="let i of item.items" [value]="i.id">
+                        {{i.name}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row border-1px">
+              <div class="col-md-5 col-sm-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" required placeholder="نام محصول" [formControl]="productNameControl" [(ngModel)]="productName"
+                         name="productName" />
+                  <button mat-button *ngIf="productName" matSuffix mat-icon-button aria-label="Clear" (click)="productName=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="productNameControl.hasError('required')">
+                    نام محصول فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="محل محصول" [formControl]="productPlaceControl" multiple>
+                    <mat-option *ngFor="let level of region" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="productPlaceControl.hasError('required')">
+                    محل محصول اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="شرایط تحویل بار" [formControl]="deliveryControl" multiple>
+                    <mat-option *ngFor="let level of delivery" [value]="level.viewValue">
+                      {{ level.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="deliveryControl.hasError('required')">
+                    شرایط تحویل بار فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="بسته بندی " [formControl]="internalPackControl" multiple>
+                    <mat-option *ngFor="let level of innerPackage" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="internalPackControl.hasError('required')">
+                    بسته بندی  فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!-- <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="بسته بندی خارجی" [formControl]="foreignPackControl" multiple>
+                    <mat-option *ngFor="let level of externalPackage" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="foreignPackControl.hasError('required')">
+                    بسته بندی خارجی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div> -->
+              <!-- <div class="col-md-4 col-sm-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" placeholder="کد مجوز بهداشت" [formControl]="healthCertificateCodeCtrl" [(ngModel)]="healthCertificateCode"
+                    name="healthCertificateCode" />
+                  <button mat-button *ngIf="healthCertificateCode" matSuffix mat-icon-button aria-label="Clear" (click)="healthCertificateCode=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div> -->
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" required placeholder="توانایی تامین" [formControl]="supplyAbilityControl" [(ngModel)]="supplyAbility"
+                         name="supplyAbility" />
+                  <button mat-button *ngIf="supplyAbility" matSuffix mat-icon-button aria-label="Clear" (click)="supplyAbility=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="supplyAbilityControl.hasError('required')">
+                    توانایی تامین فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="واحد" [formControl]="vahedSupplyAbilityControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedSupplyAbilityControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 margin-top-10">
+                <span class="dar-sal">در </span>
+                <mat-radio-group [formControl]="supplyAbilityPeriodControl" [(ngModel)]="supplyAbilityPeriod">
+                  <mat-radio-button color="primary" checked value="روز">روز</mat-radio-button>
+                  <mat-radio-button color="primary" value="هفته">هفته</mat-radio-button>
+                  <mat-radio-button color="primary" value="ماه">ماه</mat-radio-button>
+                  <!-- <mat-radio-button color="primary" value="سال">سال</mat-radio-button> -->
+                </mat-radio-group>
+              </div>
+            </div>
+            <div class="row border-1px">
+
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input required matInput type="number" placeholder="حداکثر مدت زمان تحویل" [formControl]="deliveryTimeControl" [(ngModel)]="deliveryTime"
+                         name="deliveryTime" />
+                  <button mat-button *ngIf="deliveryTime" matSuffix mat-icon-button aria-label="Clear" (click)="deliveryTime=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="deliveryTimeControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+
+
+              </div>
+              <div class="col-md-7 margin-top-10">
+                <mat-radio-group [formControl]="DeliveryTimePeriodControl" [(ngModel)]="DeliveryTimePeriod">
+                  <mat-radio-button color="primary" checked value="روز">روز</mat-radio-button>
+                  <mat-radio-button color="primary" value="هفته">هفته</mat-radio-button>
+                  <mat-radio-button color="primary" value="ماه">ماه</mat-radio-button>
+
+                </mat-radio-group>
+              </div>
+              <div class="alert-box info-box margin-top-15 font-iran">
+                <ul>
+                  <li>مدت زمانی که طول میکشد تا اولین بار سفارش داده شده را ارسال کنید مشخص نمایید</li>
+                </ul>
+              </div>
+
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="موجودی دپو | انبار" [formControl]="depoControl">
+                    <mat-option *ngFor="let level of depo" [value]="level.value">
+                      {{ level.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="depoControl.hasError('required')">
+                    موجودی دپو | انبار فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="depoControl.value===true">
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="full-width">
+                      <input matInput type="number" placeholder="میزان" [formControl]="minOrderDepoControl" [(ngModel)]="minOrderDepo" name="minOrderDepo" />
+                      <button mat-button *ngIf="minOrderDepo" matSuffix mat-icon-button aria-label="Clear" (click)="minOrderDepo=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="full-width">
+                      <mat-select placeholder="واحد" [formControl]="vahedMinOrderDepoControl">
+                        <ngx-mat-select-search [formControl]="vahedMinOrderDepoFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                        <mat-option *ngFor="let level of filteredUnitsDepo| async" [value]="level.name">
+                          {{ level.name }}
+                        </mat-option>
+                      </mat-select>
+
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" required placeholder="قیمت برای هر واحد (تومان)" [formControl]="priceControl" [(ngModel)]="price"
+                         name="hossein" />
+                  <button mat-button *ngIf="price" matSuffix mat-icon-button aria-label="Clear" (click)="price=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="priceControl.hasError('required')">
+                    قیمت برای هر واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" required placeholder="حداقل سفارش" [formControl]="minOrderControl" [(ngModel)]="minOrder" name="minOrder" />
+                  <button mat-button *ngIf="minOrder" matSuffix mat-icon-button aria-label="Clear" (click)="minOrder=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="minOrderControl.hasError('required')">
+                    حداقل سفارش فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="واحد" [formControl]="vahedMinOrderControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedMinOrderControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row border-1px seller-items" *ngIf="lowestProducts!=null && lowestProducts.length !== 0">
+              <h4 class="margin-15 font-iran">محصولات مشابه با پایین ترین قیمت</h4>
+              <div class="similar-products-items  owl-carousel owl-theme my-grid-wrap">
+                <div class="grid-product-box" *ngFor="let item of lowestProducts; let last = last;let i=index;">
+                  <div class="img-product">
+                    <a routerLink="/products/detail/{{item.id}}">
+                      <div class="axs">
+                        <img src="{{ image_url+item.image }}" alt="">
+                      </div>
+                    </a>
+                  </div>
+                  <div class="title">
+                    <a routerLink="/products/detail/{{item.id}}">
+                      <span>{{ item.name }}</span>
+                    </a>
+                  </div>
+                  <div class="options">
+                    <p>
+                      <i class="fa fa-square"></i>
+                      <span>حداقل سفارش:</span>
+                      <span>
+                        <b>{{ item.minOrder|englishToPersian }} {{ item.minOrderUnit }}</b>
+                      </span>
+                    </p>
+                    <p>
+                      <i class="fa fa-square"></i>
+                      <span>قیمت برای هر واحد:</span>
+                      <span>
+                        <b>
+                          <span>{{ item.price|englishToPersian }}</span> تومان
+                        </b>
+                      </span>
+                    </p>
+                  </div>
+                  {{ last ? carouselSimilarProducts() : ''}}
+                </div>
+              </div>
+
+
+            </div>
+            <span class="font-iran">عکس محصول را در این قسمت قرار دهید</span>
+            <div class="row border-1px">
+
+              <div class="col-md-10">
+                <!--<dropzone class="font-iran" [config]="config" [message]="'برای آپلود تصویر کلیک کنید و یا تصویر خود را بکشید و اینجا رها کنید. (حداکثر 200 کیلوبایت)'" (error)="onUploadError($event)"
+    #dropzone (success)="onUploadSuccess($event)" (addedFile)="addFile($event)"></dropzone>-->
+                <div class="thumbs">
+                  <div *ngFor="let file of selectedImages" class="thumb" [style.backgroundImage]="'url('+ file.base64 +')'">
+                    <button mat-icon-button (click)="removeFile(file)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="upload-btn">
+                  <input #file type="file" (change)="addFiles($event)" hidden accept="image/jpeg, image/png" />
+                  <button type="button" mat-raised-button color="primary" (click)="file.click()">ارسال تصویر</button>
+                </div>
+              </div>
+
+              <div class="alert-box success-box col-md-10 font-iran">
+                <p>
+                  <span>
+                    <b>توجه! </b>
+                  </span>
+                  <br>
+                  <span>1. عکس انتخابی حتما با کیفیت باشد</span>
+                  <br>
+                  <span> 2. عکس محصول دیگران نباشد</span>
+                  <br>
+                  <span> 3. روی عکس لوگو یا شماره تلفن ثبت نشده باشد</span>
+                  <br>
+                  <span> 4. حجم عکس کمتر از 200 کیلوبایت باشد </span>
+                  <br>
+                  <span>5. برای کاهش حجم عکس وارد لینک زیر شوید</span>
+                  <a href="http://squish.app" target="_blank">سایت کاهش حجم</a>
+                </p>
+              </div>
+
+            </div>
+            <div class="row border-1px">
+              <div class="alert-box success-box col-md-10 font-iran">
+                <p>
+                  <span>
+                    <b>توجه! </b>
+                  </span>
+                  <span> در این بخش موارد مهم مثل رطوبت ، عیار ، تورم ، چگالی و ... را ذکر کنید </span>
+                </p>
+              </div>
+              <div class="col-md-10">
+                <mat-form-field class="full-width">
+                  <!-- <textarea matInput matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15" placeholder="لطفا در این قسمت اطلاعات تکمیلی را ارائه دهید ، به طور مثال : جنس ، مدل ، استانداردهای لازم ، سایز ، بسته بندی  ، سایر موارد"></textarea> -->
+                  <textarea matInput matTextareaAutosize matAutosizeMinRows="3" placeholder=" توضیحات" [formControl]="descriptionControl"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel (opened)="panelOpenState =false " (closed)="panelOpenState = true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>اطلاعات اختیاری</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row border-1px">
+              <div class="col-md-5 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="انتخاب برند" multiple [formControl]="brandNameControl">
+                    <mat-option *ngFor="let item of myBrands" [value]="item.id">{{ item.title }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="brandNameControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="رنگ محصول" [formControl]="productColorControl" multiple>
+                    <mat-option *ngFor="let level of colors" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="productColorControl.hasError('required')">
+                    رنگ محصول اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="شیوه حمل و نقل" [formControl]="hamlControl" multiple>
+                    <mat-option *ngFor="let level of haml" [value]="level.viewValue">
+                      {{ level.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="hamlControl.hasError('required')">
+                    شیوه حمل و نقل فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="ارسال نمونه" [formControl]="sendSampleControl">
+                    <mat-option *ngFor="let level of sendSample" [value]="level.viewValue">
+                      {{ level.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="sendSampleControl.hasError('required')">
+                    ارسال نمونه فیلد اجباری است
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div class="col-md-5 col-sm-6">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="کشور سازنده" [formControl]="countryControl">
+                    <mat-option *ngFor="let level of country" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="countryControl.hasError('required')">
+                    کشور سازنده فیلد اجباری است
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="شکل محصول" [formControl]="shapeControl" multiple>
+                    <mat-option *ngFor="let level of shapes" [value]="level.viewValue">
+                      {{ level.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="shapeControl.hasError('required')">
+                    شکل محصول فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select [(ngModel)]="daneshBonyanselect" placeholder="کالای دانش بنیان" [formControl]="daneshBonyanControl">
+                    <mat-option *ngFor="let level of daneshBonyan" [value]="level.value">
+                      {{ level.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="daneshBonyanControl.hasError('required')">
+                    کالای دانش بنیان فیلد اجباری است
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div class="col-md-5" *ngIf="daneshBonyanControl.value===true">
+                <div class="flex-display padding-top-10">
+                  <p>
+                    <span class="up-cat font-iran">آپلود مدارک دانش بنیان: </span>
+                  </p>
+                  <p class="no-margin">
+                    <!--<p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect2($event)" [disabled]="uploadActive2"
+                    (onProgress)="onProgress2($event)" accept=".pdf,.doc,.docx,.zip,.jpg, .png, .jpeg" maxFileSize="10000000"
+                    (onUpload)="onBasicUploadAuto2($event)" auto="true" chooseLabel="{{ uploadTextBtn2 }}"></p-fileUpload>-->
+                    <input #daneshBonyanFile
+                           type="file"
+                           accept=".pdf,.doc,.docx,.zip,.jpg, .png, .jpeg"
+                           (change)="uploadDaneshFile(daneshBonyanFile.files)"
+                           hidden />
+                    <button type="button" mat-raised-button color="primary" class="font-iran" (click)="daneshBonyanFile.click()" [disabled]="uploadActive2">
+                      <span>{{uploadTextBtn2}}</span>
+                      <span class="loading-btn-span" *ngIf="uploadActive2">
+                        <i class="fa fa-spinner fa-spin fa-fw "></i>
+                      </span>
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="وزن محصول" [formControl]="WeightControl" [(ngModel)]="Weight" name="Weight" />
+                  <button mat-button *ngIf="Weight" matSuffix mat-icon-button aria-label="Clear" (click)="Weight=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="WeightControl.hasError('required')">
+                    وزن محصول فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد" [formControl]="vahedWeightControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedWeightControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <button mat-raised-button type="button" class="font-iran" color="primary" (click)="addWeight()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of productWeight font-iran">
+                    <span class="deleteOption" (click)="deleteWeight(item.Weight,item.WeightUnit)">x</span>
+                    <span>{{ item.Weight|englishToPersian }}</span>
+                    <span>{{ item.WeightUnit }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" placeholder="سایز محصول" [formControl]="productSizeControl" [(ngModel)]="productSize" name="productSize" />
+                  <button mat-button *ngIf="productSize" matSuffix mat-icon-button aria-label="Clear" (click)="productSize=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="productSizeControl.hasError('required')">
+                    سایز محصول فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد" [formControl]="vahedProductSizeControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedProductSizeControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <button mat-raised-button type="button" class="font-iran" color="primary" (click)="addSize()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of size">
+                    <span class="deleteOption" (click)="deleteSize(item.size,item.SizeUnit)">x</span>
+                    <span>{{ item.size }}</span>
+                    <span>{{ item.SizeUnit }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="میزان ذخیره قطعی" [formControl]="DefiniteSaveControl" [(ngModel)]="DefiniteSaveWeight" name="DefiniteSaveWeight" />
+                  <button mat-button *ngIf="DefiniteSaveWeight" matSuffix mat-icon-button aria-label="Clear" (click)="DefiniteSaveWeight=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="DefiniteSaveControl.hasError('required')">
+                    میزان ذخیره قطعی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد" [formControl]="vahedDefiniteSaveControl">
+                    <ngx-mat-select-search [formControl]="vahedDefiniteSaveMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnitsDefiniteSave| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedDefiniteSaveControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <button mat-raised-button type="button" class="font-iran" color="primary" (click)="addWeightDefiniteSave()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of DefiniteSave font-iran">
+                    <span class="deleteOption" (click)="deleteDefiniteSaveWeight(item.DefiniteSave,item.DefiniteSaveUnit)">x</span>
+                    <span class="font-iran"> {{ item.DefiniteSave|englishToPersian }} </span>
+                    <span class="font-iran"> {{ item.DefiniteSaveUnit }} </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="میزان ذخیره احتمالی" [formControl]="PossibleStorageWeightControl" [(ngModel)]="PossibleStorageWeight" name="PossibleStorageWeight" />
+                  <button mat-button *ngIf="PossibleStorageWeight" matSuffix mat-icon-button aria-label="Clear" (click)="PossibleStorageWeight=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="PossibleStorageWeightControl.hasError('required')">
+                    میزان ذخیره احتمالی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد" [formControl]="PossibleStoragevahedWeightControl">
+                    <ngx-mat-select-search [formControl]="PossibleStoragevahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnitsPossibleStorage| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="PossibleStoragevahedWeightControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <button mat-raised-button type="button" class="font-iran" color="primary" (click)="addPossibleStorageWeight()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of PossibleStorage font-iran">
+                    <span class="deleteOption" (click)="deletePossibleStorageWeight(item.PossibleStorage,item.PossibleStorageUnit)">x</span>
+                    <span class="font-iran"> {{ item.PossibleStorage|englishToPersian }} </span>
+                    <span class="font-iran"> {{ item.PossibleStorageUnit }} </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px flx-view">
+              <div class="col-md-2">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="نوع گارانتی" [formControl]="vahedGuarantyControl" name="vahedGuaranty" />
+                  <mat-error *ngIf="vahedGuarantyControl.hasError('required')">
+                    نوع گارانتی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2" *ngIf="warrantyPeriod!='مادام العمر'">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="مدت گارانتی" [formControl]="guarantyControl" [(ngModel)]="guaranty" name="guaranty" />
+                  <button mat-button *ngIf="guaranty" matSuffix mat-icon-button aria-label="Clear" (click)="guaranty=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="guarantyControl.hasError('required')">
+                    مدت گارانتی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 margin-top-10">
+                <mat-radio-group [formControl]="warrantyPeriodControl" [(ngModel)]="warrantyPeriod">
+                  <mat-radio-button color="primary" checked value="روز">روز</mat-radio-button>
+                  <mat-radio-button color="primary" value="هفته">هفته</mat-radio-button>
+                  <mat-radio-button color="primary" value="ماه">ماه</mat-radio-button>
+                  <mat-radio-button color="primary" value="سال">سال</mat-radio-button>
+                  <mat-radio-button color="primary" value="مادام العمر">مادام العمر</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="col-md-2">
+                <button mat-raised-button type="button" class="font-iran" color="primary" (click)="addGuaranty()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of guarantyProduct font-iran">
+                    <span class="deleteOption" (click)="deleteGuaranty(item.WarrantyKind,item.Warranty)">x</span>
+                    <span>{{ item.WarrantyKind }}</span>
+                    <span>{{ item.Warranty|englishToPersian }}</span>
+                    <span>{{ item.warrantyPeriod }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px flx-view">
+              <div class="col-md-2">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" placeholder="نوع خدمات پس از فروش" [formControl]="productTypeAfterSellControl" [(ngModel)]="productTypeAfterSell"
+                         name="productTypeAfterSell" />
+                  <button mat-button *ngIf="productTypeAfterSell" matSuffix mat-icon-button aria-label="Clear" (click)="productTypeAfterSell=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="productTypeAfterSellControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="مدت خدمات پس از فروش" [formControl]="productAfterSellControl" [(ngModel)]="productAfterSell"
+                         name="productAfterSell" />
+                  <button mat-button *ngIf="productAfterSell" matSuffix mat-icon-button aria-label="Clear" (click)="productAfterSell=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="productAfterSellControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 margin-top-10">
+                <!-- <span class="dar-sal">تا </span> -->
+                <mat-radio-group [formControl]="AfterSaleServicePeriodControl" [(ngModel)]="AfterSaleServicePeriod">
+                  <mat-radio-button color="primary" checked value="روز">روز</mat-radio-button>
+                  <mat-radio-button color="primary" value="هفته">هفته</mat-radio-button>
+                  <mat-radio-button color="primary" value="ماه">ماه</mat-radio-button>
+                  <mat-radio-button color="primary" value="سال">سال</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="col-md-2">
+                <button mat-raised-button type="button" class="font-iran" color="primary" (click)="addAfterSaleService()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of AfterSaleServiceProduct font-iran">
+                    <span class="deleteOption" (click)="deleteAfterSaleService(item.AfterSaleService,item.time)">x</span>
+                    <span>{{ item.AfterSaleServiceKind }}</span>
+                    <span>{{ item.AfterSaleService|englishToPersian }}</span>
+                    <span>{{ item.AfterSaleServicePeriod }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="عمر مفید" [attr.disabled]="UsefulLifeStatus?'':null" [formControl]="benefitOldControl"
+                         [(ngModel)]="benefitOld" name="benefitOld" />
+                  <button mat-button *ngIf="benefitOld" matSuffix mat-icon-button aria-label="Clear" (click)="benefitOld=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="benefitOldControl.hasError('required')">
+                    عمر مفید فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-7 margin-top-10">
+                <mat-radio-group [formControl]="UsefulLifePeriodControl" [(ngModel)]="UsefulLifePeriod" (change)="UsefulLifeChange($event)">
+                  <mat-radio-button color="primary" checked value="روز">روز</mat-radio-button>
+                  <mat-radio-button color="primary" value="هفته">هفته</mat-radio-button>
+                  <mat-radio-button color="primary" value="ماه">ماه</mat-radio-button>
+                  <mat-radio-button color="primary" value="سال">سال</mat-radio-button>
+                  <mat-radio-button color="primary" value="بدون محدودیت">بدون محدودیت</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="توانایی تامین در سال " [formControl]="belqoveControl" [(ngModel)]="belqove"
+                         name="belqove" />
+                  <button mat-button *ngIf="belqove" matSuffix mat-icon-button aria-label="Clear" (click)="belqove=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <!-- <mat-error *ngIf="belqoveControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد" [formControl]="vahedBelqoveControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="vahedBelqoveControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" required placeholder="توانایی تامین بالفعل" [formControl]="belfelControl" [(ngModel)]="belfel"
+                    name="belfel" (change)="belfelChange()" />
+                  <button mat-button *ngIf="belfel" matSuffix mat-icon-button aria-label="Clear" (click)="belfel=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="belfelControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="واحد" [formControl]="vahedBelfelControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedBelfelControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div> -->
+            <div class="row border-1px">
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="فروش سالانه" [formControl]="sellOldControl" [(ngModel)]="sellOld" name="sellOld" />
+                  <button mat-button *ngIf="sellOld" matSuffix mat-icon-button aria-label="Clear" (click)="sellOld=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="sellOldControl.hasError('required')">
+                    فروش سالانه فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد" [formControl]="vahedSellOldControl">
+                    <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                    <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="vahedSellOldControl.hasError('required')">
+                    واحد فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-10">
+                <h4 class="mizan-das font-iran">میزان دسترسی به بازار</h4>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="انتخاب استان" [disabled]="!bigPercent" [formControl]="selectProvinceControl" [(ngModel)]="selectProvince">
+                    <mat-option *ngFor="let level of region" [value]="level.name">
+                      {{ level.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="selectProvinceControl.hasError('required')">
+                    انتخاب استان فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="درصد" [attr.disabled]="!bigPercent?'':null" [formControl]="selectProvincePercentControl" [(ngModel)]="selectProvincePercent"
+                         type="number" class="example-right-align">
+                  <span matPrefix>%&nbsp;</span>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <button mat-raised-button type="button" [disabled]="!bigPercent" class="font-iran" color="primary" (click)="addCityToMarketAccess()">افزودن</button>
+              </div>
+              <div class="col-md-10">
+                <ul class="my-province">
+                  <li *ngFor="let item of MarketAccessValue">
+                    <span class="deleteOption" (click)="deleteCity(item.name, item.percent)">x</span>
+                    <span class="font-iran"> {{ item.name }} </span>
+                    <span class="font-iran"> {{ item.percent|englishToPersian }} </span>
+                    <span class="font-iran">درصد</span>
+                  </li>
+                  <li class="sum-percent" *ngIf="percentValue !== 0">
+                    <div>
+                      <span class="font-iran">جمع کل:</span>
+                      <span class="font-iran"> {{percentValue|englishToPersian}} </span>
+                      <span class="font-iran"> ٪ </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="انتخاب گواهینامه" multiple [formControl]="certificateControl">
+                    <mat-option *ngFor="let item of myCertificates" [value]="item.id">{{ item.kind }} - {{ item.title }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="certificateControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!--<div class="col-md-4">
+                <a mat-raised-button type="button" routerLink="../certificates" class="font-iran" color="primary">افزودن گواهینامه جدید</a>
+              </div>-->
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="انتخاب مجوزها" multiple [formControl]="licensesControl">
+                    <mat-option *ngFor="let item of Licenses" [value]="item.id">{{ item.kind }} - {{ item.title }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="licensesControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!--<div class="col-md-4">
+                <a mat-raised-button type="button" routerLink="../certificates" class="font-iran" color="primary">افزودن گواهینامه جدید</a>
+              </div>-->
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="انتخاب تاییدیه ها" multiple [formControl]="confirmationControl">
+                    <mat-option *ngFor="let item of Confirmation" [value]="item.id">{{ item.kind }} - {{ item.title }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="confirmationControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!--<div class="col-md-4">
+                <a mat-raised-button type="button" routerLink="../certificates" class="font-iran" color="primary">افزودن گواهینامه جدید</a>
+              </div>-->
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-10">
+                <div class="flex-display">
+                  <p>
+                    <span class="up-cat font-iran">آپلود کاتالوگ: </span>
+                  </p>
+                  <p class="no-margin" *ngIf="uploadCatalog">
+                    <!--<p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" [disabled]="uploadActive"
+                    (onProgress)="onProgress($event)" accept=".pdf,.doc,.docx,.zip,.jpg, .png, .jpeg" maxFileSize="10000000"
+                    (onUpload)="onBasicUploadAuto($event)" auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>-->
+                    <input #catalogFile
+                           type="file"
+                           accept=".pdf,.doc,.docx,.zip,.jpg, .png, .jpeg"
+                           (change)="uploadCatalogFile(catalogFile.files)"
+                           hidden />
+                    <button type="button" mat-raised-button color="primary" class="font-iran" (click)="catalogFile.click()" [disabled]="uploadActive">
+                      <span>{{uploadTextBtn}}</span>
+                      <span class="loading-btn-span" *ngIf="uploadActive">
+                        <i class="fa fa-spinner fa-spin fa-fw "></i>
+                      </span>
+                    </button>
+                  </p>
+                  <div *ngIf="!uploadCatalog">
+                    <div class="alert-box warning-box">
+                      <p>
+                        <span>&nbsp;شما عضو عادی هستید و نمی توانید کاتالوگ برای محصول ثبت کنید!</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row border-1px">
+              <div class="col-md-10">
+                <div class="flex-display">
+                  <p>
+                    <span class="up-cat font-iran">آپلود آنالیز: </span>
+                  </p>
+
+                  <p class="no-margin" *ngIf="uploadAnalyze">
+                    <!--<p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelectAnalyze($event)" [disabled]="uploadAnalyzeActive"
+                    (onProgress)="onProgressAnalyze($event)" accept=".pdf,.doc,.docx,.zip,.jpg, .png, .jpeg" maxFileSize="10000000"
+                    (onUpload)="onBasicUploadAnalyzeAuto($event)" auto="true" chooseLabel="{{ uploadAnalyzeTextBtn }}"></p-fileUpload>-->
+                    <input #analyzFile
+                           type="file"
+                           accept=".pdf,.doc,.docx,.zip,.jpg, .png, .jpeg"
+                           (change)="uploadAnalyzFile(analyzFile.files)"
+                           hidden />
+                    <button type="button" mat-raised-button color="primary" class="font-iran" (click)="analyzFile.click()" [disabled]="uploadAnalyzeActive">
+                      <span>{{uploadAnalyzeTextBtn}}</span>
+                      <span class="loading-btn-span" *ngIf="uploadAnalyzeActive">
+                        <i class="fa fa-spinner fa-spin fa-fw "></i>
+                      </span>
+                    </button>
+
+                  </p>
+                  <div *ngIf="!uploadAnalyze">
+                    <div class="alert-box warning-box">
+                      <p>
+                        <span>&nbsp;شما عضو عادی هستید و نمی توانید آنالیز برای محصول ثبت کنید!</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </mat-expansion-panel>
+          <div class="col-md-10 margin-top-15">
+            <div class="alert-box warning-box">
+              <p>
+                <span>
+                  <b>توجه! </b>
+                </span>
+                <span>&nbsp; برای معاملات آنلاین از طریق رتاپورت 7 روز ضمانت بازگشت کالا وجود دارد!</span>
+              </p>
+            </div>
+            <button mat-raised-button color="primary" class="font-iran">
+              <span *ngIf="!sendAdd">ثبت اطلاعات محصول</span>
+              <span class="loading-btn-span" *ngIf="sendAdd">
+                <i class="fa fa-spinner fa-spin fa-fw "></i>
+                <span class="sr-only ">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+        </mat-accordion>
+      </div>
+    </form>
+  </div>
+</mat-card>

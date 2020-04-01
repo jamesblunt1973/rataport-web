@@ -1,0 +1,1168 @@
+<app-header [title]="'ویرایش اطلاعات'"></app-header>
+<mat-card>
+  <app-loading *ngIf="!loading"></app-loading>
+  <mat-accordion *ngIf="loading">
+    <mat-expansion-panel (opened)="true" [expanded]="step === 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span> اطلاعات شخصی - تا زمانیکه این بخش تکمیل نگردد بخش های دیگر قابل دسترس نمی باشد </span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="editUserHoquqiForm" *ngIf="typeUser === 1" (ngSubmit)="updateLegalInfo(editUserHoquqiForm.value)">
+        <div class="container">
+          <div class="row">
+           
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" required placeholder="نام شرکت" [formControl]="tejariNameControl"
+                  [(ngModel)]="tejariName" name="tejariName" />
+                <button mat-button *ngIf="tejariName" matSuffix mat-icon-button aria-label="Clear" (click)="tejariName=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="tejariNameControl.hasError('required')">
+                  نام شرکت فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" required placeholder="نام شرکت (انگلیسی)" [formControl]="tejariNameEnControl"
+                  [(ngModel)]="tejariNameEn" name="tejariName" />
+                <button mat-button *ngIf="tejariNameEn" matSuffix mat-icon-button aria-label="Clear" (click)="tejariNameEn=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="tejariNameEnControl.hasError('required')">
+                  نام شرکت (انگلیسی) فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" required placeholder="نام مدیرعامل " [formControl]="nameControl"
+                  [(ngModel)]="name" name="name" />
+                <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="nameControl.hasError('required')">
+                  نام مدیرعامل فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!--<div class="col-md-5">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="نوع کسب و کار" [formControl]="kasbokarControl">
+                  <mat-option *ngFor="let kasb of kasbokar" [value]="kasb.value">
+                    {{ kasb.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="kasbokarControl.hasError('required')">
+                  نوع کسب و کار فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>-->
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="نوع فعالیت" [formControl]="activityControl" >
+                  <mat-option *ngFor="let activity of activities" [value]="activity.value">
+                    {{ activity.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="activityControl.hasError('required')">
+                  نوع فعالیت فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder="سال تاسیس" [formControl]="saleTasisControl" [(ngModel)]="saleTasis"
+                  name="saleTasis" />
+                <button mat-button *ngIf="saleTasis" matSuffix mat-icon-button aria-label="Clear" (click)="saleTasis=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="استان" [formControl]="provinceControl">
+                  <mat-option *ngFor="let province of regions" [value]="province.id">
+                    {{ province.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder="تعداد کارمندان" [formControl]="assistNumControl" [(ngModel)]="assistNum"
+                  name="saleTasis" />
+                <button mat-button *ngIf="assistNum" matSuffix mat-icon-button aria-label="Clear" (click)="assistNum=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+            <!-- <div class="col-md-5" *ngIf="typeUser === 1">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="نوع مالکیت" [formControl]="malekiatControl">
+                  <mat-option *ngFor="let malekiat of malekiats" [value]="malekiat.value">
+                    {{ malekiat.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="malekiatControl.hasError('required')">
+                  نوع مالکیت فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" required placeholder="شماره ثبت" [formControl]="registerNumControl"
+                  [(ngModel)]="registerNum" name="registerNum" />
+                <button mat-button *ngIf="registerNum" matSuffix mat-icon-button aria-label="Clear" (click)="registerNum=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="registerNumControl.hasError('required')">
+                  شماره ثبت فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text"  placeholder="شناسه ملی" [formControl]="shenaseMelliControl"
+                  [(ngModel)]="shenaseMelli" name="shenaseMelli" />
+                <button mat-button *ngIf="shenaseMelli" matSuffix mat-icon-button aria-label="Clear" (click)="shenaseMelli=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="shenaseMelliControl.hasError('required')">
+                  شناسه ملی فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" placeholder="کد اقتصادی" [formControl]="codeEqtesadiControl" [(ngModel)]="codeEqtesadi"
+                  name="codeEqtesadi" />
+                <button mat-button *ngIf="codeEqtesadi" matSuffix mat-icon-button aria-label="Clear" (click)="codeEqtesadi=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5" *ngIf="userData?.businessType === 'فروشنده'">
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder="ظرفیت تولید" [formControl]="zarfiatControl" [(ngModel)]="zarfiat"
+                  name="codeEqtesadi" />
+                <button mat-button *ngIf="zarfiat" matSuffix mat-icon-button aria-label="Clear" (click)="zarfiat=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5" *ngIf="userData?.businessType === 'فروشنده'">
+              <mat-form-field class="full-width">
+                <mat-select placeholder="واحد ظرفیت تولید" [formControl]="vahedSellOldControl" [(ngModel)]="zarfiatUnit">
+                  <ngx-mat-select-search [formControl]="vahedMinOrderFilterControl" [placeholderLabel]="placeholderLabel"
+                    [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                  <mat-option *ngFor="let level of filteredUnits| async" [value]="level.name">
+                    {{ level.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="vahedSellOldControl.hasError('required')">
+                  واحد ظرفیت تولید فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+              <!-- <mat-form-field class="full-width">
+                <mat-select required placeholder="واحد ظرفیت تولید" [formControl]="zarfiatUnitControl" [(ngModel)]="zarfiatUnit">
+                  <mat-option *ngFor="let item of units" [value]="item.name">
+                    {{ item.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="zarfiatUnitControl.hasError('required')">
+                  واحد حجم معامله فیلد اجباری است
+                </mat-error>
+              </mat-form-field> -->
+            </div>
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width" *ngIf="!userData?.partnersPermission">
+
+                <textarea matInput placeholder="شریک تجاری" [formControl]="coWorkerCtrl" [(ngModel)]="coWorker" name="coWorker"
+                  matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="5" readonly></textarea>
+                <button mat-button *ngIf="coWorker" matSuffix mat-icon-button aria-label="Clear" (click)="coWorker=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-icon class="info-alert-color" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+              </mat-form-field>
+              <mat-form-field class="full-width" *ngIf="userData?.partnersPermission">
+                <textarea matInput placeholder="شریک تجاری" [formControl]="coWorkerCtrl" [(ngModel)]="coWorker" name="coWorker"
+                  matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="5"></textarea>
+                <button mat-button *ngIf="coWorker" matSuffix mat-icon-button aria-label="Clear" (click)="coWorker=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+            <!-- <div class="col-md-10">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="شعار (این متن در صفحه شخصی شما نمایش داده می‌شود)" dir="rtl"
+                  [formControl]="shoarControl" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="15"></textarea>
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-12 margin-top-5">
+              <button mat-raised-button color="primary" class="font-iran">
+                <span *ngIf="!sendData">ثبت اطلاعات</span>
+                <span class="loading-btn-span" *ngIf="sendData">
+                  <i class="fa fa-spinner fa-spin fa-fw "></i>
+                  <span class="sr-only ">Loading...</span>
+                  <span>لطفا صبر کنید ...</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form [formGroup]="editUserHaqiqiForm" *ngIf="typeUser !== 1" (ngSubmit)="updateNonLegalInfo(editUserHaqiqiForm.value)">
+        <div class="container">
+          <div class="row">
+              <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                    <input matInput type="text" required placeholder="نام معدن / فروشگاه" [formControl]="tejariNameControl"
+                      [(ngModel)]="tejariName" name="tejariName" />
+                    <button mat-button *ngIf="tejariName" matSuffix mat-icon-button aria-label="Clear" (click)="tejariName=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="tejariNameControl.hasError('required')">
+                      نام معدن / فروشگاه فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                    <input matInput type="text" required placeholder="نام معدن / فروشگاه (انگلیسی)" [formControl]="tejariNameEnControl"
+                      [(ngModel)]="tejariNameEn" name="tejariName" />
+                    <button mat-button *ngIf="tejariNameEn" matSuffix mat-icon-button aria-label="Clear" (click)="tejariNameEn=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="tejariNameEnControl.hasError('required')">
+                      نام معدن / فروشگاه (انگلیسی) فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" required placeholder="نام مدیریت" [formControl]="nameControl"
+                  [(ngModel)]="name" name="name" />
+                <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="nameControl.hasError('required')">
+                   نام مدیریت فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+           
+            <!--<div class="col-md-5">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="نوع کسب و کار" [formControl]="kasbokarControl">
+                  <mat-option *ngFor="let kasb of kasbokar" [value]="kasb.value">
+                    {{ kasb.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="kasbokarControl.hasError('required')">
+                  نوع کسب و کار فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>-->
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="نوع فعالیت" [formControl]="activityControl">
+                  <mat-option *ngFor="let activity of activities" [value]="activity.value">
+                    {{ activity.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="activityControl.hasError('required')">
+                  نوع فعالیت فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder="سال تاسیس" [formControl]="saleTasisControl" [(ngModel)]="saleTasis"
+                  name="saleTasis" />
+                <button mat-button *ngIf="saleTasis" matSuffix mat-icon-button aria-label="Clear" (click)="saleTasis=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+             <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <mat-select required placeholder="استان" [formControl]="provinceControl">
+                  <mat-option *ngFor="let province of regions" [value]="province.id">
+                    {{ province.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> 
+            <!-- <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder="تعداد کارمندان" [formControl]="assistNumControl" [(ngModel)]="assistNum"
+                  name="saleTasis" />
+                <button mat-button *ngIf="assistNum" matSuffix mat-icon-button aria-label="Clear" (click)="assistNum=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+             <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput required type="number" placeholder="کد ملی" [formControl]="nationalcodeControl" [(ngModel)]="nationalcode"
+                  name="nationalcode" />
+                <button mat-button *ngIf="nationalcode" matSuffix mat-icon-button aria-label="Clear" (click)="nationalcode=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5">
+              <mat-form-field class="full-width">
+                <input matInput type="text" required placeholder="شماره مجوز/پروانه " [formControl]="econimiccodeControl"
+                  [(ngModel)]="econimiccode" name="econimiccode" />
+                <button mat-button *ngIf="econimiccode" matSuffix mat-icon-button aria-label="Clear" (click)="econimiccode=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="econimiccodeControl.hasError('required')">
+                  شناسه ملی فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+          
+            <!-- <div class="col-md-10">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="شعار (این متن در صفحه شخصی شما نمایش داده می‌شود)" dir="rtl"
+                  [formControl]="shoarControl" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="15"></textarea>
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-12 margin-top-5">
+              <button mat-raised-button color="primary" class="font-iran">
+                <span *ngIf="!sendData">ثبت اطلاعات</span>
+                <span class="loading-btn-span" *ngIf="sendData">
+                  <i class="fa fa-spinner fa-spin fa-fw "></i>
+                  <span class="sr-only ">Loading...</span>
+                  <span>لطفا صبر کنید ...</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-expansion-panel>
+    <br>
+    <span>اطلاعات اختیاری کاربر</span>
+    <hr>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableAboutTab">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>درباره خودتان بنویسید</span>
+          <mat-icon class="info-alert-color" *ngIf="!disableAboutTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="aboutForm" (ngSubmit)="registerAbout(aboutForm.value)">
+        <div dir="ltr">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="درباره ما" dir="rtl" [formControl]="descriptionControl" matTextareaAutosize
+              matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+            <mat-error *ngIf="descriptionControl.hasError('required')">
+              این فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+         
+        </div>
+        <div dir="ltr">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="شعار (این متن در صفحه شخصی شما نمایش داده می‌شود)" dir="rtl"
+                  [formControl]="shoarControl" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="15"></textarea>
+              </mat-form-field>
+            </div>
+            <div dir="ltr">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="چشم انداز" dir="rtl" [formControl]="descriptionOutlookControl"
+                  matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+                <mat-error *ngIf="descriptionOutlookControl.hasError('required')">
+                  این فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div dir="ltr">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="اهداف و ماموریت ها" dir="rtl" [formControl]="descriptionGoalsControl"
+                  matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+                <mat-error *ngIf="descriptionGoalsControl.hasError('required')">
+                  این فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div dir="ltr">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="استراتژی و خط مشی" dir="rtl" [formControl]="descriptionStrategyControl"
+                  matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+                <mat-error *ngIf="descriptionStrategyControl.hasError('required')">
+                  این فیلد اجباری است
+                </mat-error>
+              </mat-form-field>
+            </div>
+        <div class="margin-top-5">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendregAbout">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendregAbout">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+    <!--<br />
+    <span>اطلاعات تکمیلی</span>
+    <hr />
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+    </mat-expansion-panel>-->
+    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableOutlookTab">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>چشم انداز</span>
+          <mat-icon class="info-alert-color" *ngIf="!disableOutlookTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="outlookForm" (ngSubmit)="registerOutlook(outlookForm.value)">
+        <div dir="ltr">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="چشم انداز" dir="rtl" [formControl]="descriptionOutlookControl"
+              matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+            <mat-error *ngIf="descriptionOutlookControl.hasError('required')">
+              این فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="margin-top-5">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendregOutlook">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendregOutlook">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel> -->
+    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableGoalsTab">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>اهداف و ماموریت ها</span>
+          <mat-icon class="info-alert-color" *ngIf="!disableGoalsTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+        </mat-panel-title>
+
+      </mat-expansion-panel-header>
+      <form [formGroup]="goalsForm" (ngSubmit)="registerGoals(goalsForm.value)">
+        <div dir="ltr">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="اهداف و ماموریت ها" dir="rtl" [formControl]="descriptionGoalsControl"
+              matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+            <mat-error *ngIf="descriptionGoalsControl.hasError('required')">
+              این فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="margin-top-5">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendregGoals">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendregGoals">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel> -->
+    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableStrategyTab">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>استراتژی و خط مشی</span>
+          <mat-icon class="info-alert-color" *ngIf="!disableStrategyTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+        </mat-panel-title>
+
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="strategyForm" (ngSubmit)="registerStrategy(strategyForm.value)">
+        <div dir="ltr">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="استراتژی و خط مشی" dir="rtl" [formControl]="descriptionStrategyControl"
+              matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="15"></textarea>
+            <mat-error *ngIf="descriptionStrategyControl.hasError('required')">
+              این فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="margin-top-5">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendregStrategy">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendregStrategy">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </mat-expansion-panel> -->
+  
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>معرفی اعضاء</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row">
+        <button mat-raised-button color="primary" class="font-iran" [disabled]="!allowAdd || disableButton" (click)="MembersopenModal()">
+          <span *ngIf="!sendAdd">افزودن</span>
+        </button>
+      </div>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let item of user.persons">
+          <mat-card class="member-co">
+            <div class="delete-btn" (click)="MembersdeleteSupporter(item.id)">
+              <span>x</span>
+            </div>
+            <img [src]="image_url+item.avatar" alt="">
+            <div>
+              <h3>{{item.name}}</h3>
+              <p> {{item.jobPosition}}</p>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>آپلود عکس ها - حداکثر ۳ تا برای هر بخش</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row">
+        <div class="col-md-12 margin-bottom-10" *ngIf="activityData.length !== 0">
+          <button mat-raised-button color="warn" class="font-iran" (click)="sellerWorkPlaceDeleteAll()">حذف همه</button>
+        </div>
+        <div class="col-md-3" *ngFor="let item of activityData">
+          <mat-card class="member-co">
+            <div class="delete-btn" (click)="sellerWorkPlaceDeleteOne(item.id)">
+              <span>x</span>
+            </div>
+            <div>
+              <img [src]="image_url+item.name" alt="">
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <div>
+        <dropzone class="font-iran" [config]="config" [message]="'برای آپلود عکس های محل فعالیت  کلیک کنید و یا عکس های محل فعالیت خود را بکشید و اینجا رها کنید.'"
+          (error)="onUploadError($event)" (success)="onUploadSuccess1($event)"></dropzone>
+      </div>
+      <div class="alert-box warning-box margin-top-15 font-iran" *ngIf="disableTab">
+        <p class="font-13">
+          <span>
+            <b>توجه! </b>
+          </span>
+          <span>&nbsp;شما عضو عادی هستید و حداکثر می‌توانید {{workSlidesMax|englishToPersian}} اسلاید ثبت کنید!</span>
+        </p>workSlidesMax
+      </div>
+      <div class="alert-box info-box margin-top-15 font-iran">
+        <ul>
+          <li>ابعاد تصاویر ۴۰۰ در ۴۰۰ و حداکثر حجم بایستی ۵۰۰ کیلوبایت باشد.</li>
+          <li *ngIf="!disableTab">حداکثر می‌توانید {{workSlidesMax|englishToPersian}} اسلاید ثبت کنید.</li>
+        </ul>
+      </div>
+      <div class="margin-top-5 text-center">
+        <button mat-raised-button color="primary" class="font-iran" (click)="activitySliderImages()">
+          <span *ngIf="!sendreg">ثبت اطلاعات عکس های محل فعالیت</span>
+          <span class="loading-btn-span" *ngIf="sendreg">
+            <i class="fa fa-spinner fa-spin fa-fw "></i>
+            <span class="sr-only ">Loading...</span>
+            <span>لطفا صبر کنید ...</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 margin-bottom-10" *ngIf="sellerData.length !== 0">
+          <button mat-raised-button color="warn" class="font-iran" (click)="sellerPersonalPageDeleteAll()">حذف همه
+          </button>
+        </div>
+        <div class="col-md-3" *ngFor="let item of sellerData">
+          <mat-card class="member-co">
+            <div class="delete-btn" (click)="sellerPersonalPageDeleteOne(item.id)">
+              <span>x</span>
+            </div>
+            <div>
+              <img [src]="image_url+item.name" alt="">
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <div>
+        <dropzone class="font-iran" [config]="config2" [message]="'برای عکس های صفحه سایت فروشنده  کلیک کنید و یا عکس های صفحه سایت فروشنده  خود را بکشید و اینجا رها کنید.'"
+          (error)="onUploadError($event)" (success)="onUploadSuccess2($event)"></dropzone>
+      </div>
+      <div class="alert-box warning-box margin-top-15 font-iran" *ngIf="disableTab">
+        <p class="font-13">
+          <span>
+            <b>توجه! </b>
+          </span>
+          <span>&nbsp;شما عضو عادی هستید و حداکثر می‌توانید {{adsSlidesMax|englishToPersian}} اسلاید ثبت کنید!</span>
+        </p>
+      </div>
+      <div class="alert-box info-box margin-top-15 font-iran">
+        <ul>
+          <li>ابعاد تصاویر ۴۰۰ در ۴۰۰ و حداکثر حجم بایستی ۵۰۰ کیلوبایت باشد.</li>
+          <li *ngIf="!disableTab">حداکثر می‌توانید {{adsSlidesMax|englishToPersian}} اسلاید ثبت کنید.</li>
+        </ul>
+      </div>
+      <div class="margin-top-5 text-center">
+        <button mat-raised-button color="primary" class="font-iran" (click)="sellerPageImages()">
+          <span *ngIf="!sendreg"> ثبت اطلاعات عکس های صفحه سایت فروشنده </span>
+          <span class="loading-btn-span" *ngIf="sendreg">
+            <i class="fa fa-spinner fa-spin fa-fw "></i>
+            <span class="sr-only ">Loading...</span>
+            <span>لطفا صبر کنید ...</span>
+          </span>
+        </button>
+      </div>
+    </mat-expansion-panel>
+    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>تصاویر اسلایدر صفحه شخصی</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row">
+        <div class="col-md-12 margin-bottom-10" *ngIf="sellerData.length !== 0">
+          <button mat-raised-button color="warn" class="font-iran" (click)="sellerPersonalPageDeleteAll()">حذف همه
+          </button>
+        </div>
+        <div class="col-md-3" *ngFor="let item of sellerData">
+          <mat-card class="member-co">
+            <div class="delete-btn" (click)="sellerPersonalPageDeleteOne(item.id)">
+              <span>x</span>
+            </div>
+            <div>
+              <img [src]="image_url+item.name" alt="">
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <div>
+        <dropzone class="font-iran" [config]="config2" [message]="'برای آپلود تصویر کلیک کنید و یا تصویر خود را بکشید و اینجا رها کنید.'"
+          (error)="onUploadError($event)" (success)="onUploadSuccess2($event)"></dropzone>
+      </div>
+      <div class="alert-box warning-box margin-top-15 font-iran" *ngIf="disableTab">
+        <p class="font-13">
+          <span>
+            <b>توجه! </b>
+          </span>
+          <span>&nbsp;شما عضو عادی هستید و حداکثر می‌توانید {{adsSlidesMax|englishToPersian}} اسلاید ثبت کنید!</span>
+        </p>
+      </div>
+      <div class="alert-box info-box margin-top-15 font-iran">
+        <ul>
+          <li>ابعاد تصاویر ۴۰۰ در ۴۰۰ و حداکثر حجم بایستی ۵۰۰ کیلوبایت باشد.</li>
+          <li *ngIf="!disableTab">حداکثر می‌توانید {{adsSlidesMax|englishToPersian}} اسلاید ثبت کنید.</li>
+        </ul>
+      </div>
+      <div class="margin-top-5">
+        <button mat-raised-button color="primary" class="font-iran" (click)="sellerPageImages()">
+          <span *ngIf="!sendreg">ثبت اطلاعات</span>
+          <span class="loading-btn-span" *ngIf="sendreg">
+            <i class="fa fa-spinner fa-spin fa-fw "></i>
+            <span class="sr-only ">Loading...</span>
+            <span>لطفا صبر کنید ...</span>
+          </span>
+        </button>
+      </div>
+    </mat-expansion-panel> -->
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>لوگو</span>
+        </mat-panel-title>
+
+      </mat-expansion-panel-header>
+      <div class="text-center margin-bottom-5">
+        <div class="img-logo-file">
+          <span class="remove-logo" (click)="removeLogo()" *ngIf="userData?.logo !=='user.png'">x</span>
+          <img class="img-logo-edit-user" src="{{image_url+userData?.logo}}" alt="">
+        </div>
+      </div>
+      <div class="text-center">
+        <form action="">
+          <div class="flex-display margin-bottom-5 margin-top-5">
+            <p>
+              <span class="up-cat font-iran">آپلود لوگو: </span>
+            </p>
+            <p class="no-margin">
+              <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)"
+                (onBeforeSend)="onBeforeSend($event)" (onProgress)="onProgress($event)" accept="image/*" maxFileSize="10000000"
+                (onUpload)="onBasicUploadAuto($event)" auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+            </p>
+          </div>
+        </form>
+      </div>
+    </mat-expansion-panel>
+    <br>
+    <span>اطلاعات اختیاری تماس</span>
+  <hr>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableAboutTab">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span> اطلاعات تماس مستقیم  </span>
+        <mat-icon class="info-alert-color" *ngIf="!disableAboutTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="updateContactInfoForm" (ngSubmit)="updateContactInfo(updateContactInfoForm.value)" *ngIf="loadingContactInfo">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field class="full-width">
+              <input  matInput maxlength="8" minlength="8" type="tel" placeholder=" تلفن ثابت ۱" [formControl]="tell1Ctrl" [(ngModel)]="tell1"
+                     name="tell1" />
+              <mat-icon matSuffix>phone_in_talk</mat-icon>
+              <button mat-button *ngIf="tell1" matSuffix mat-icon-button aria-label="Clear" (click)="tell1=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="tell1Ctrl.hasError('required')">
+                تلفن ثابت فیلد اجباری است
+              </mat-error>
+              <mat-error *ngIf="tell1Ctrl.errors?.minlength">
+                تلفن ثابت نباید کمتر از ۸ کاراکتر باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="full-width">
+              <input  matInput maxlength="3" minlength="3" type="tel" placeholder="پیش شماره" [formControl]="areaCodeCtrl" [(ngModel)]="areacode"
+                     name="areacode" />
+              <mat-icon matSuffix>phone_in_talk</mat-icon>
+              <button mat-button *ngIf="areacode" matSuffix mat-icon-button aria-label="Clear" (click)="areacode=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="areaCodeCtrl.hasError('required')">
+                پیش شماره فیلد اجباری است
+              </mat-error>
+              <mat-error *ngIf="areaCodeCtrl.errors?.minlength">
+                پیش شماره نباید کمتر از ۳ کاراکتر باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="tel" maxlength="11" placeholder=" تلفن ثابت ۲" [formControl]="tell2Ctrl" [(ngModel)]="tell2" name="tell2" />
+              <mat-icon matSuffix>phone_in_talk</mat-icon>
+              <button mat-button *ngIf="tell2" matSuffix mat-icon-button aria-label="Clear" (click)="tell2=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="tell2Ctrl.errors?.minlength">
+                تلفن ثابت نباید کمتر از ۱۱ کاراکتر باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input  matInput type="tel" maxlength="11" minlength="11" (change)="run($event)" placeholder=" موبایل ۱" [formControl]="mobile1Ctrl"
+                     [(ngModel)]="mobile1" name="mobile1" />
+              <mat-icon matSuffix>phone_iphone</mat-icon>
+              <button mat-button *ngIf="mobile1" matSuffix mat-icon-button aria-label="Clear" (click)="mobile1=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="mobile1Ctrl.hasError('required')">
+                موبایل فیلد اجباری است
+              </mat-error>
+              <mat-error *ngIf="mobile1Ctrl.errors?.minlength">
+                موبایل نباید کمتر از ۱۱ کاراکتر باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="tel" maxlength="11" placeholder="موبایل ۲" [formControl]="mobile2Ctrl" [(ngModel)]="mobile2" name="mobile2" />
+              <mat-icon matSuffix>phone_iphone</mat-icon>
+              <button mat-button *ngIf="mobile2" matSuffix mat-icon-button aria-label="Clear" (click)="mobile2=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="mobile2Ctrl.errors?.minlength">
+                موبایل نباید کمتر از ۱۱ کاراکتر باشد
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="tel" placeholder="فکس ۱" [formControl]="fax1Ctrl" [(ngModel)]="fax1" name="fax1" />
+              <mat-icon matSuffix>local_printshop</mat-icon>
+              <button mat-button *ngIf="fax1" matSuffix mat-icon-button aria-label="Clear" (click)="fax1=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <!-- <mat-error *ngIf="fax1Ctrl.hasError('required')">
+                        فکس فیلد اجباری است
+                    </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="tel" placeholder="فکس ۲" [formControl]="fax2Ctrl" [(ngModel)]="fax2" name="fax2" />
+              <mat-icon matSuffix>local_printshop</mat-icon>
+              <button mat-button *ngIf="fax2" matSuffix mat-icon-button aria-label="Clear" (click)="fax2=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder=" ایمیل" [formControl]="emailCtrl" [(ngModel)]="email" name="email" />
+              <mat-icon matSuffix>local_post_office</mat-icon>
+              <!-- <button mat-button *ngIf="email" matSuffix mat-icon-button aria-label="Clear" (click)="email=''">
+                        <mat-icon>close</mat-icon>
+                    </button> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="وب سایت" [formControl]="websiteCtrl" [(ngModel)]="website" name="website" />
+              <mat-icon matSuffix>public</mat-icon>
+              <button mat-button *ngIf="website" matSuffix mat-icon-button aria-label="Clear" (click)="website=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="number" placeholder="کد پستی" 
+                     [formControl]="postalCodeCtrl" [(ngModel)]="postalCode" name="postalCode" />
+              <mat-icon matSuffix>recent_actors</mat-icon>
+              <button mat-button *ngIf="postalCode" matSuffix mat-icon-button aria-label="Clear" (click)="postalCode=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="postalCodeCtrl.hasError('required')">
+                کد پستی فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6"></div>
+          <div class="col-md-10">
+            <mat-form-field class="full-width">
+              <textarea matInput placeholder=" آدرس"  [formControl]="addressCtrl" [(ngModel)]="address" name="address"></textarea>
+              <mat-icon matSuffix>place</mat-icon>
+              <mat-error *ngIf="addressCtrl.hasError('required')">
+                آدرس فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-10 text-left">
+            <button mat-raised-button color="primary" class="font-iran">
+              <span *ngIf="!sendAdd">ثبت اطلاعات</span>
+              <span class="loading-btn-span" *ngIf="sendAdd">
+                <i class="fa fa-spinner fa-spin fa-fw "></i>
+                <span class="sr-only ">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableAboutTab">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span> لینک پیام رسان ها  </span>
+        <mat-icon class="info-alert-color" *ngIf="!disableAboutTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="updateMessengersForm" (ngSubmit)="updateMessengers(updateMessengersForm.value)" *ngIf="loadingContactInfo">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="پیام رسان گپ" [formControl]="gapCtrl" [(ngModel)]="gap" name="gap" />
+              <mat-icon matSuffix>near_me</mat-icon>
+              <button mat-button *ngIf="gap" matSuffix mat-icon-button aria-label="Clear" (click)="gap=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="پیام رسان آی گپ" [formControl]="igapCtrl" [(ngModel)]="igap" name="igap" />
+              <mat-icon matSuffix>near_me</mat-icon>
+              <button mat-button *ngIf="igap" matSuffix mat-icon-button aria-label="Clear" (click)="igap=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="پیام رسان سروش" [formControl]="soroushCtrl" [(ngModel)]="soroush" name="soroush"
+              />
+              <mat-icon matSuffix>near_me</mat-icon>
+              <button mat-button *ngIf="soroush" matSuffix mat-icon-button aria-label="Clear" (click)="soroush=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="پیام رسان بیسفون" [formControl]="bisphounCtrl" [(ngModel)]="bisphoun" name="bisphoun"
+              />
+              <mat-icon matSuffix>near_me</mat-icon>
+              <button mat-button *ngIf="bisphoun" matSuffix mat-icon-button aria-label="Clear" (click)="bisphoun=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="پیام رسان تلگرام" [formControl]="telegramCtrl" [(ngModel)]="telegram" name="telegram"
+              />
+              <mat-icon matSuffix>near_me</mat-icon>
+              <button mat-button *ngIf="telegram" matSuffix mat-icon-button aria-label="Clear" (click)="telegram=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6"></div>
+          <div class="col-md-10 text-left">
+            <button mat-raised-button color="primary" class="font-iran">
+              <span *ngIf="!sendAdd2">ثبت اطلاعات</span>
+              <span class="loading-btn-span" *ngIf="sendAdd2">
+                <i class="fa fa-spinner fa-spin fa-fw "></i>
+                <span class="sr-only ">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableAboutTab">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span> لینک شبکه های اجتماعی  </span>
+        <mat-icon class="info-alert-color" *ngIf="!disableAboutTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="updateSocialForm" (ngSubmit)="updateSocial(updateSocialForm.value)" *ngIf="loadingContactInfo">
+      <div class="container">
+        <div class="row" dir="ltr">
+          <div class="col-md-5">
+            <mat-form-field class="full-width text-left">
+              <span matPrefix>www.facebook.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Facebook" [formControl]="facebookCtrl" [(ngModel)]="facebook" name="facebook" />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="facebook" matSuffix mat-icon-button aria-label="Clear" (click)="facebook=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <span matPrefix>www.Twitter.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Twitter" [formControl]="twitterCtrl" [(ngModel)]="twitter" name="twitter" />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="twitter" matSuffix mat-icon-button aria-label="Clear" (click)="twitter=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <span matPrefix>www.plus.google.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Google plus" [formControl]="googlePlusCtrl" [(ngModel)]="googlePlus" name="googlePlus"
+              />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="googlePlus" matSuffix mat-icon-button aria-label="Clear" (click)="googlePlus=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <span matPrefix>www.linkedin.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Linkedin" [formControl]="linkedinCtrl" [(ngModel)]="linkedin" name="linkedin" />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="linkedin" matSuffix mat-icon-button aria-label="Clear" (click)="linkedin=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <span matPrefix>www.instagram.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Instagram" [formControl]="instagramCtrl" [(ngModel)]="instagram" name="instagram"
+              />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="instagram" matSuffix mat-icon-button aria-label="Clear" (click)="instagram=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <span matPrefix>www.youtube.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Youtube" [formControl]="youtubeCtrl" [(ngModel)]="youtube" name="youtube" />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="youtube" matSuffix mat-icon-button aria-label="Clear" (click)="youtube=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="full-width">
+              <span matPrefix>www.aparat.com/ &nbsp;</span>
+              <input matInput type="text" placeholder="Aparat" [formControl]="aparatCtrl" [(ngModel)]="aparat" name="aparat" />
+              <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+              <button mat-button *ngIf="aparat" matSuffix mat-icon-button aria-label="Clear" (click)="aparat=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6"></div>
+          <div class="col-md-10 text-left">
+            <button mat-raised-button color="primary" class="font-iran">
+              <span *ngIf="!sendAdd3">ثبت اطلاعات</span>
+              <span class="loading-btn-span" *ngIf="sendAdd3">
+                <i class="fa fa-spinner fa-spin fa-fw "></i>
+                <span class="sr-only ">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableAboutTab">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span> ثبت اطلاعات پشتیبان ها  </span>
+        <mat-icon class="info-alert-color" *ngIf="!disableAboutTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-raised-button color="primary" class="font-iran" [disabled]="!allowAdd || disableButton" (click)="openModal()">
+      <span *ngIf="!sendAdd">افزودن</span>
+    </button>
+    <mat-icon class="info-alert-color" *ngIf="disableButton" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of supporters">
+        <mat-card class="member-co">
+          <div class="delete-btn" (click)="deleteSupporter(item.id)">
+            <span>x</span>
+          </div>
+          <img [src]="image_url+item.avatar" alt="">
+          <div>
+            <h3>{{item.name}}</h3>
+            <p> {{item.tel1|englishToPersian}}</p>
+          </div>
+        </mat-card>
+      </div>
+  
+    </div>
+  </mat-expansion-panel>
+  <br>
+  <span>اطلاعات اختیاری بانکی</span>
+  <hr>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [disabled]="!disableAboutTab">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span>حساب بانکی</span>
+        <mat-icon class="info-alert-color" *ngIf="!disableAboutTab" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="bankInfoForm" (ngSubmit)="updateBankInfo(bankInfoForm.value)">
+      <div class="container">
+          <app-loading *ngIf="!status"></app-loading>
+          <div class="row" *ngIf="status">
+              <!-- <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                      <input matInput type="text" required placeholder="نام بانک" [formControl]="bankNameCtrl" [(ngModel)]="bankName" name="bankName"
+                      />
+                      <mat-icon matSuffix>location_city</mat-icon>
+                      <button mat-button *ngIf="bankName" matSuffix mat-icon-button aria-label="Clear" (click)="bankName=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-error *ngIf="bankNameCtrl.hasError('required')">
+                          نام بانک فیلد اجباری است
+                      </mat-error>
+                  </mat-form-field>
+              </div> -->
+              <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                      <input matInput type="text"  placeholder="نام صاحب حساب" [formControl]="NameOfAccountHolderCtrl" [(ngModel)]="NameOfAccountHolder"
+                          name="NameOfAccountHolder" />
+                      <mat-icon matSuffix>person</mat-icon>
+                      <button mat-button *ngIf="NameOfAccountHolder" matSuffix mat-icon-button aria-label="Clear" (click)="NameOfAccountHolder=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-error *ngIf="NameOfAccountHolderCtrl.hasError('required')">
+                          نام صاحب حساب فیلد اجباری است
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                      <input matInput type="number"  placeholder="شماره حساب" [formControl]="accountNumberCtrl" [(ngModel)]="accountNumber"
+                          name="accountNumber" />
+                      <mat-icon matSuffix>credit_card</mat-icon>
+                      <button mat-button *ngIf="accountNumber" matSuffix mat-icon-button aria-label="Clear" (click)="accountNumber=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-error *ngIf="accountNumberCtrl.hasError('required')">
+                          شماره حساب حساب فیلد اجباری است
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                      <input matInput type="number"  placeholder="شماره کارت" [formControl]="cardNumberCtrl" [(ngModel)]="cardNumber" name="cardNumber"
+                      />
+                      <mat-icon matSuffix>credit_card</mat-icon>
+                      <button mat-button *ngIf="cardNumber" matSuffix mat-icon-button aria-label="Clear" (click)="cardNumber=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      <!--<mat-error *ngIf="cardNumberCtrl.hasError('required')">
+                          شماره کارت فیلد اجباری است
+                      </mat-error>-->
+                  </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                      <input matInput type="text"  placeholder="شماره شبا" [formControl]="shebaNumberCtrl" [(ngModel)]="shebaNumber"
+                          name="shebaNumber" />
+                      <mat-icon matSuffix>credit_card</mat-icon>
+                      <button mat-button *ngIf="shebaNumber" matSuffix mat-icon-button aria-label="Clear" (click)="shebaNumber=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-error *ngIf="shebaNumberCtrl.hasError('required')">
+                          شماره شبا فیلد اجباری است
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-12 margin-top-5">
+                  <button mat-raised-button color="primary" class="font-iran">
+                      <span *ngIf="!sendData">ثبت اطلاعات</span>
+                      <span class="loading-btn-span" *ngIf="sendData">
+                          <i class="fa fa-spinner fa-spin fa-fw "></i>
+                          <span class="sr-only ">Loading...</span>
+                          <span>لطفا صبر کنید ...</span>
+                      </span>
+                  </button>
+              </div>
+          </div>
+      </div>
+  </form>
+  </mat-expansion-panel>
+  </mat-accordion>
+  
+</mat-card>

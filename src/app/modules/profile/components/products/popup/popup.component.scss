@@ -1,0 +1,18 @@
+.wrap {
+    max-width: 328px;
+    .title-supporter {
+        border-bottom: 1px solid #949494;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.discount-datepicker {
+    mat-error {
+        font-size: 12px;
+        position: relative;
+        top: -8px;
+    }
+}

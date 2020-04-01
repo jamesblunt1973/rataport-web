@@ -1,0 +1,85 @@
+<form [formGroup]="registerNegotiateForm" (ngSubmit)="registerNegotiate(registerNegotiateForm.value)">
+  <div class="mazakere">
+    <div class="row">
+      <div class="col-sm-3 flx-4 text-left">
+        <b>
+          <span class="for-mobile">ارسال پیام به:</span>
+        </b>
+      </div>
+      <div class="col-sm-6 flx-6">
+        <p class="title">
+          <span class="for-mobile" *ngIf="productDetail.sellerInfo.brand !== null && productDetail.sellerInfo.brand !== ''">{{productDetail.sellerInfo.brand}}</span>
+          <span class="for-mobile" *ngIf="productDetail.sellerInfo.brand == null || productDetail.sellerInfo.brand == ''">{{productDetail.sellerInfo.ceo}}</span>
+        </p>
+      
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row margin-bottom-10">
+      <div class="col-sm-3 flx-4 text-left">
+        <b>
+          <span class="for-mobile">نام محصول:</span>
+        </b>
+      </div>
+      <div class="col-sm-6 flx-6">
+        <span class="for-mobile">{{ productDetail.productDetails.name }}</span>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row margin-bottom-5">
+      <div class="col-md-3 text-left">
+        <b>
+          <span class="for-mobile">متن پیام:</span>
+        </b>
+      </div>
+      <div class="col-md-6">
+        <span>
+          <mat-form-field class="full-width">
+            <textarea matInput required [formControl]="messageCtrl" [(ngModel)]="message" name="message" placeholder="پیام خود را اینجا بنویسید"></textarea>
+            <mat-error *ngIf="messageCtrl.hasError('required')">
+              این فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </span>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-left">
+        <b>
+          <span>فایل پیوست:</span>
+        </b>
+      </div>
+      <div class="col-md-6">
+        <span>
+          <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" [disabled]="fileUpload" (onSelect)="onSelect($event)"
+            (onBeforeSend)="onBeforeSend($event)" (onProgress)="onProgress($event)" accept="image/*" maxFileSize="10000000"
+            (onUpload)="onBasicUploadAuto($event)" auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+        </span>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-left">
+        <b>
+          <span></span>
+        </b>
+      </div>
+      <div class="col-md-6 text-left">
+        <div class="btn">
+          <span>
+            <button mat-raised-button color="primary" [disabled]="fileUpload" class="font-iran">
+              <span *ngIf="!loading">ارسال پیام</span>
+              <span class="loading-btn-span" *ngIf="loading">
+                <i class="fa fa-spinner fa-spin fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  </div>
+</form>

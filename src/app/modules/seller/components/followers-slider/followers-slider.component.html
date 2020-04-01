@@ -1,0 +1,22 @@
+<!-- <div class="followers  owl-carousel owl-theme ads-slider">
+  <div *ngFor="let item of followers; let last = last;let i=index;">    
+    <mat-card class="member-co">
+      <img src="{{image_url+item.avatar}}" alt="">
+      <div>
+        <h3>{{item.name}}</h3>
+        <p> فروشنده</p>
+        <p></p>
+      </div>
+    </mat-card>
+    {{ last ? slide() : ''}}
+  </div>
+</div> -->
+
+<div class="followes-list">
+  <div *ngFor="let item of followers; let last = last;let i=index;" class="profile-user">
+    <div>
+      <img src="{{image_url+item.logo}}" alt="">
+    </div>
+    <span class="font-iran">{{item.brand}}</span>
+  </div>
+</div>

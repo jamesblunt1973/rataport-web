@@ -1,0 +1,21 @@
+@import "helper";
+.tbl-tab-table {
+  width: 100%;
+  tr {
+    td {
+      &:first-child {
+        // text-align: left;
+        @include respond-to(mobileM) {
+          font-size: 13px;
+        }
+        .fa {
+          font-size: 12px;
+          margin-left: 6px;
+          color: #8a8a8a;
+          display: none;
+        }
+        font-weight: bold;
+      }
+    }
+  }
+}

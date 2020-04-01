@@ -1,0 +1,387 @@
+<app-header [title]="'اطلاعات تماس'"></app-header>
+<mat-card class="contact-info">
+  <app-loading *ngIf="!loadingContactInfo"></app-loading>
+  <form [formGroup]="updateContactInfoForm" (ngSubmit)="updateContactInfo(updateContactInfoForm.value)" *ngIf="loadingContactInfo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+          <mat-form-field class="full-width">
+            <input required matInput maxlength="8" minlength="8" type="tel" placeholder=" تلفن ثابت ۱" [formControl]="tell1Ctrl" [(ngModel)]="tell1"
+                   name="tell1" />
+            <mat-icon matSuffix>phone_in_talk</mat-icon>
+            <button mat-button *ngIf="tell1" matSuffix mat-icon-button aria-label="Clear" (click)="tell1=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="tell1Ctrl.hasError('required')">
+              تلفن ثابت فیلد اجباری است
+            </mat-error>
+            <mat-error *ngIf="tell1Ctrl.errors?.minlength">
+              تلفن ثابت نباید کمتر از ۸ کاراکتر باشد
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="full-width">
+            <input required matInput maxlength="3" minlength="3" type="tel" placeholder="پیش شماره" [formControl]="areaCodeCtrl" [(ngModel)]="areacode"
+                   name="areacode" />
+            <mat-icon matSuffix>phone_in_talk</mat-icon>
+            <button mat-button *ngIf="areacode" matSuffix mat-icon-button aria-label="Clear" (click)="areacode=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="areaCodeCtrl.hasError('required')">
+              پیش شماره فیلد اجباری است
+            </mat-error>
+            <mat-error *ngIf="areaCodeCtrl.errors?.minlength">
+              پیش شماره نباید کمتر از ۳ کاراکتر باشد
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="tel" maxlength="11" placeholder=" تلفن ثابت ۲" [formControl]="tell2Ctrl" [(ngModel)]="tell2" name="tell2" />
+            <mat-icon matSuffix>phone_in_talk</mat-icon>
+            <button mat-button *ngIf="tell2" matSuffix mat-icon-button aria-label="Clear" (click)="tell2=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="tell2Ctrl.errors?.minlength">
+              تلفن ثابت نباید کمتر از ۱۱ کاراکتر باشد
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input required matInput type="tel" maxlength="11" minlength="11" (change)="run($event)" placeholder=" موبایل ۱" [formControl]="mobile1Ctrl"
+                   [(ngModel)]="mobile1" name="mobile1" />
+            <mat-icon matSuffix>phone_iphone</mat-icon>
+            <button mat-button *ngIf="mobile1" matSuffix mat-icon-button aria-label="Clear" (click)="mobile1=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="mobile1Ctrl.hasError('required')">
+              موبایل فیلد اجباری است
+            </mat-error>
+            <mat-error *ngIf="mobile1Ctrl.errors?.minlength">
+              موبایل نباید کمتر از ۱۱ کاراکتر باشد
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="tel" maxlength="11" placeholder="موبایل ۲" [formControl]="mobile2Ctrl" [(ngModel)]="mobile2" name="mobile2" />
+            <mat-icon matSuffix>phone_iphone</mat-icon>
+            <button mat-button *ngIf="mobile2" matSuffix mat-icon-button aria-label="Clear" (click)="mobile2=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="mobile2Ctrl.errors?.minlength">
+              موبایل نباید کمتر از ۱۱ کاراکتر باشد
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="tel" placeholder="فکس ۱" [formControl]="fax1Ctrl" [(ngModel)]="fax1" name="fax1" />
+            <mat-icon matSuffix>local_printshop</mat-icon>
+            <button mat-button *ngIf="fax1" matSuffix mat-icon-button aria-label="Clear" (click)="fax1=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <!-- <mat-error *ngIf="fax1Ctrl.hasError('required')">
+                      فکس فیلد اجباری است
+                  </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="tel" placeholder="فکس ۲" [formControl]="fax2Ctrl" [(ngModel)]="fax2" name="fax2" />
+            <mat-icon matSuffix>local_printshop</mat-icon>
+            <button mat-button *ngIf="fax2" matSuffix mat-icon-button aria-label="Clear" (click)="fax2=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder=" ایمیل" [formControl]="emailCtrl" [(ngModel)]="email" name="email" />
+            <mat-icon matSuffix>local_post_office</mat-icon>
+            <!-- <button mat-button *ngIf="email" matSuffix mat-icon-button aria-label="Clear" (click)="email=''">
+                      <mat-icon>close</mat-icon>
+                  </button> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="وب سایت" [formControl]="websiteCtrl" [(ngModel)]="website" name="website" />
+            <mat-icon matSuffix>public</mat-icon>
+            <button mat-button *ngIf="website" matSuffix mat-icon-button aria-label="Clear" (click)="website=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="number" placeholder="کد پستی" required
+                   [formControl]="postalCodeCtrl" [(ngModel)]="postalCode" name="postalCode" />
+            <mat-icon matSuffix>recent_actors</mat-icon>
+            <button mat-button *ngIf="postalCode" matSuffix mat-icon-button aria-label="Clear" (click)="postalCode=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="postalCodeCtrl.hasError('required')">
+              کد پستی فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder=" آدرس" required [formControl]="addressCtrl" [(ngModel)]="address" name="address"></textarea>
+            <mat-icon matSuffix>place</mat-icon>
+            <mat-error *ngIf="addressCtrl.hasError('required')">
+              آدرس فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10 text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>
+<mat-card class="padding-10" *ngIf="loadingContactInfo">
+  <p class="bold">
+    <span>
+      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+    </span>
+    <span>پیام رسان ها</span>
+    <mat-icon class="info-alert-color" *ngIf="!messengerPermission" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+  </p>
+</mat-card>
+<mat-card *ngIf="loadingContactInfo && messengerPermission">
+  <form [formGroup]="updateMessengersForm" (ngSubmit)="updateMessengers(updateMessengersForm.value)" *ngIf="loadingContactInfo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="پیام رسان گپ" [formControl]="gapCtrl" [(ngModel)]="gap" name="gap" />
+            <mat-icon matSuffix>near_me</mat-icon>
+            <button mat-button *ngIf="gap" matSuffix mat-icon-button aria-label="Clear" (click)="gap=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="پیام رسان آی گپ" [formControl]="igapCtrl" [(ngModel)]="igap" name="igap" />
+            <mat-icon matSuffix>near_me</mat-icon>
+            <button mat-button *ngIf="igap" matSuffix mat-icon-button aria-label="Clear" (click)="igap=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="پیام رسان سروش" [formControl]="soroushCtrl" [(ngModel)]="soroush" name="soroush"
+            />
+            <mat-icon matSuffix>near_me</mat-icon>
+            <button mat-button *ngIf="soroush" matSuffix mat-icon-button aria-label="Clear" (click)="soroush=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="پیام رسان بیسفون" [formControl]="bisphounCtrl" [(ngModel)]="bisphoun" name="bisphoun"
+            />
+            <mat-icon matSuffix>near_me</mat-icon>
+            <button mat-button *ngIf="bisphoun" matSuffix mat-icon-button aria-label="Clear" (click)="bisphoun=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="پیام رسان تلگرام" [formControl]="telegramCtrl" [(ngModel)]="telegram" name="telegram"
+            />
+            <mat-icon matSuffix>near_me</mat-icon>
+            <button mat-button *ngIf="telegram" matSuffix mat-icon-button aria-label="Clear" (click)="telegram=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10 text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd2">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendAdd2">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </form>
+</mat-card>
+<mat-card class="padding-10" *ngIf="loadingContactInfo">
+  <p class="bold">
+    <span>
+      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+    </span>
+    <span>شبکه‌های اجتماعی</span>
+    <mat-icon class="info-alert-color" *ngIf="!socialPermission" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+  </p>
+</mat-card>
+<mat-card *ngIf="loadingContactInfo && socialPermission" class="my-social-wrapp">
+  <form [formGroup]="updateSocialForm" (ngSubmit)="updateSocial(updateSocialForm.value)" *ngIf="loadingContactInfo">
+    <div class="container">
+      <div class="row" dir="ltr">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width text-left">
+            <span matPrefix>www.facebook.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Facebook" [formControl]="facebookCtrl" [(ngModel)]="facebook" name="facebook" />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="facebook" matSuffix mat-icon-button aria-label="Clear" (click)="facebook=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <span matPrefix>www.Twitter.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Twitter" [formControl]="twitterCtrl" [(ngModel)]="twitter" name="twitter" />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="twitter" matSuffix mat-icon-button aria-label="Clear" (click)="twitter=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <span matPrefix>www.plus.google.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Google plus" [formControl]="googlePlusCtrl" [(ngModel)]="googlePlus" name="googlePlus"
+            />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="googlePlus" matSuffix mat-icon-button aria-label="Clear" (click)="googlePlus=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <span matPrefix>www.linkedin.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Linkedin" [formControl]="linkedinCtrl" [(ngModel)]="linkedin" name="linkedin" />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="linkedin" matSuffix mat-icon-button aria-label="Clear" (click)="linkedin=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <span matPrefix>www.instagram.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Instagram" [formControl]="instagramCtrl" [(ngModel)]="instagram" name="instagram"
+            />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="instagram" matSuffix mat-icon-button aria-label="Clear" (click)="instagram=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <span matPrefix>www.youtube.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Youtube" [formControl]="youtubeCtrl" [(ngModel)]="youtube" name="youtube" />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="youtube" matSuffix mat-icon-button aria-label="Clear" (click)="youtube=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <mat-form-field class="full-width">
+            <span matPrefix>www.aparat.com/ &nbsp;</span>
+            <input matInput type="text" placeholder="Aparat" [formControl]="aparatCtrl" [(ngModel)]="aparat" name="aparat" />
+            <!-- <mat-icon matSuffix>near_me</mat-icon> -->
+            <button mat-button *ngIf="aparat" matSuffix mat-icon-button aria-label="Clear" (click)="aparat=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10 text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd3">ثبت اطلاعات</span>
+            <span class="loading-btn-span" *ngIf="sendAdd3">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </form>
+</mat-card>
+<mat-card class="padding-10" *ngIf="loadingContactInfo">
+  <p class="bold">
+    <span>
+      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+    </span>
+    <span class="margin-left-10">پشتیبانان</span>
+    <button mat-raised-button color="primary" class="font-iran" [disabled]="!allowAdd || disableButton" (click)="openModal()">
+      <span *ngIf="!sendAdd">افزودن</span>
+    </button>
+    <mat-icon class="info-alert-color" *ngIf="disableButton" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+  </p>
+</mat-card>
+<mat-card *ngIf="loadingContactInfo">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let item of supporters">
+      <mat-card class="member-co">
+        <div class="delete-btn" (click)="deleteSupporter(item.id)">
+          <span>x</span>
+        </div>
+        <img [src]="image_url+item.avatar" alt="">
+        <div>
+          <h3>{{item.name}}</h3>
+          <p> {{item.tel1|englishToPersian}}</p>
+        </div>
+      </mat-card>
+    </div>
+
+  </div>
+</mat-card>

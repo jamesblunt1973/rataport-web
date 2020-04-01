@@ -1,0 +1,8 @@
+@import 'helper';
+.activate {
+    background-color: #f5f5f5;
+    padding: 60px;
+    @include respond-to(mobileL) {
+        padding: 50px 0;
+    }
+}

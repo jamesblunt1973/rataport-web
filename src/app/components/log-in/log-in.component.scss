@@ -1,0 +1,20 @@
+@import "helper";
+.gotologin {
+  color: $primary-color;
+  cursor: pointer;
+}
+
+.forgetPass {
+  color: $secondry-text;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.login {
+  max-width: 306px;
+  @include respond-to(mobileM) {
+    min-width: 99%;
+  }
+  margin: auto;
+}

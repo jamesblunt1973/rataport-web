@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="grid-data">
+                <table class="tbl-tab-table full-width">
+                    <colgroup>
+                        <col width="30%">
+                        <col width="60%">
+                        <!-- <col width="10%"> -->
+                    </colgroup>
+                    <tbody>
+                        <tr *ngIf="collectionInformation.brand !== null && collectionInformation.brand !== ''">
+                            <td>
+                                <span class="bold">نام تجاری:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.brand}}</span>
+                            </td>
+                            <!-- <td class="padding-0">
+                                <mat-icon>verified_user</mat-icon>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="collectionInformation.ceo !== null && collectionInformation.ceo !== ''">
+                            <td>
+                                <span class="bold">مدیرعامل:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.ceo}}</span>
+                            </td>
+                            <!-- <td class="padding-0">
+                                <mat-icon>verified_user</mat-icon>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="collectionInformation.activityType !== null && collectionInformation.activityType !== ''">
+                            <td>
+                                <span class="bold">نوع فعالیت:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.activityType}}</span>
+                            </td>
+                            <!-- <td class="padding-0">
+                                <mat-icon>verified_user</mat-icon>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="collectionInformation.ownershipType !== null && collectionInformation.ownershipType !== ''">
+                            <td>
+                                <span class="bold">نوع مالکیت:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.ownershipType}}</span>
+                            </td>
+                            <!-- <td class="padding-0">
+                                <mat-icon>verified_user</mat-icon>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="collectionInformation.establishedYear !== null && collectionInformation.establishedYear !== ''">
+                            <td>
+                                <span class="bold">سال تاسیس:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.establishedYear|englishToPersian}}</span>
+                            </td>
+                            <!-- <td class="padding-0"> -->
+                            <!-- <mat-icon>verified_user</mat-icon> -->
+                            <!-- </td> -->
+                        </tr>
+                        <tr *ngIf="collectionInformation.employeesNO !== null && collectionInformation.employeesNO !== ''">
+                            <td>
+                                <span class="bold">تعداد کارمندان:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.employeesNO|englishToPersian}}</span>
+                                <span>نفر</span>
+                            </td>
+                            <!-- <td class="padding-0">
+                                <mat-icon>verified_user</mat-icon>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="collectionInformation.province !== null && collectionInformation.province !== ''">
+                            <td>
+                                <span class="bold">محل اصلی:</span>
+                            </td>
+                            <td>
+                                <span>{{collectionInformation.province}}</span>
+                            </td>
+                            <!-- <td class="padding-0"> -->
+                            <!-- <mat-icon>verified_user</mat-icon> -->
+                            <!-- </td> -->
+                        </tr>
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-7 hidden-xs hidden-sm">
+            <app-slider [slides]="slider"></app-slider>
+        </div>
+    </div>
+</div>

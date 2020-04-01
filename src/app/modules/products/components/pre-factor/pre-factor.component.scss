@@ -1,0 +1,64 @@
+@import 'helper';
+.payment {
+    padding-top: 33px;
+    padding-bottom: 30px;
+}
+
+.invoice-wrap {
+    padding: 20px;
+    background: #f8f9fb;
+    color: #656565;
+}
+
+.product-items {
+    font-size: 13px;
+}
+.table-prefactr {
+		@include respond-to(labtop) {
+		display: flex;
+		overflow: scroll;
+		
+		
+	}
+	table {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    width: 100%;
+    direction: rtl;
+    border-collapse: collapse;
+    border-top: 1px solid #e4e4e4;
+    border-right: 1px solid #e4e4e4;
+
+    thead {
+        background: #ebecee;
+        td {
+            color: #6b6b6b;
+            padding: 15px 15px 15px;
+            text-align: center;
+            border-bottom: 1px solid #e4e4e4;
+            border-left: 1px solid #e4e4e4;
+            background-clip: padding-box;
+            font-size: 13px;
+        }
+    }
+    tbody {
+        td {
+            color: #6b6b6b;
+            padding: 15px 15px 15px;
+            text-align: center;
+            border-bottom: 1px solid #e4e4e4;
+            border-left: 1px solid #e4e4e4;
+            background-clip: padding-box;
+            font-size: 13px;
+        }
+    }
+}
+}
+
+
+.link-to-product {
+    text-decoration: none;
+    color: #656565;
+    font-size: 14px;
+    font-weight: bold;
+}

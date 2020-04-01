@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!rateIn.status">
+      <i class="fa fa-caret-left" aria-hidden="true"></i>
+      <span class="font-iran"> امتیاز دهی به این محصول </span>
+      <span>
+        <p-rating [(ngModel)]="rate" [cancel]="false"></p-rating>
+      </span>
+      <span class="font-iran reg-point" (click)="rateProduct()"> ثبت امتیاز </span>
+    </div>
+    <div class="col-md-12" *ngIf="rateIn.status">
+      <i class="fa fa-caret-left" aria-hidden="true"></i>
+      <span class="font-iran"> شما قبلا به این محصول امتیاز داده‌اید: </span>
+      <span>
+        <p-rating [(ngModel)]="rate" readonly="true" [cancel]="false"></p-rating>
+      </span>
+    </div>
+    <div class="col-md-12">
+      <form class="margin-top-10" [formGroup]="registerCommentForm" (ngSubmit)="registerProductComment(registerCommentForm.value)">
+        <mat-form-field class="full-width">
+          <textarea matInput placeholder="نظر خود را بنویسید ..." [formControl]="commentCtrl"></textarea>
+          <mat-error *ngIf="commentCtrl.hasError('required')">
+            <span>لطفا متن نظر را وارد کنید</span>
+          </mat-error>
+        </mat-form-field>
+        <div class="text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendreg">ثبت نظر</span>
+            <span class="loading-btn-span" *ngIf="sendreg">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-12 margin-bottom-10">
+      <i class="fa fa-caret-left" aria-hidden="true"></i>
+      <span class="font-iran"> نظرات </span>
+      <span class="font-iran">
+        <small> ({{comments.length|englishToPersian}} نظر) </small>
+      </span>
+    </div>
+    <div class="col-md-12">
+      <div class="wrap-qa" *ngFor="let item of comments">
+        <div class="wrap-qa__header">
+          <i class="fa fa-comment"></i>
+          <span>نظر</span>
+          <div class="qa-author">
+            <span>توسط</span>
+            <span *ngIf="item.brand!=null && item.brand!=''">{{item.brand}}</span>
+            <span *ngIf="item.brand==null || item.brand==''">{{item.name}}</span>
+            <span> - </span>
+            <span>{{item.createdOn}}</span>
+          </div>
+        </div>
+        <div class="wrap-qa__body">
+          <div class="wrap-qa__body--question">
+            <p>{{item.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

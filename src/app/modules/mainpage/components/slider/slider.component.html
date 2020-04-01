@@ -1,0 +1,9 @@
+<div *ngIf="sliderStatus" class="products-wrap  owl-carousel owl-theme">
+    <!-- <mat-card *ngFor="let item of products[0].items"> -->
+    <div *ngFor="let item of sliders; let last = last;let i=index;">
+        <a>
+            <img src="{{image_url+item.image}}" alt="">
+        </a>
+        {{ last ? callOwlCarousel() : ''}}
+    </div>
+</div>

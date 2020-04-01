@@ -1,0 +1,78 @@
+@import 'helper';
+agm-map {
+    width: 100%;
+    height: 300px;
+}
+
+.matn-tamas {
+    font-weight: 200;
+    font-size: 15px;
+}
+
+.onvan {
+    margin-bottom: 20px;
+    &::after {
+        content: "";
+        display: block;
+        width: 120px;
+        height: 10px;
+        border-bottom: 2px solid $primary-color;
+        margin: 0 auto;
+    }
+}
+
+.no-padding {
+    margin-bottom: 30px;
+    .bg {
+        padding: 0;
+    }
+    .info {
+        text-align: center;
+        color: #fff;
+    }
+    .right {
+        background: $primary-color;
+        height: 300px;
+        padding-top: 15px;
+
+        .title {
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            display: block;
+            margin: 0;
+            font-size: 30px;
+        }
+        p {
+            padding: 20px;
+            color: #fff;
+            font-weight: 100;
+            padding: 0px 70px;
+            text-align: center;
+			@include respond-to(laptop) {
+                padding: 0px 20px;
+            }
+        }
+    }
+    .social {
+        text-align: center;
+        margin-top: 13px;
+        a {
+            font-size: 25px;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+        }
+    }
+}
+
+a {
+    color: $primary-color !important;
+}
+
+.message-sent {
+    text-align: center;
+    padding: 10px;
+    font-size: 17px;
+    color: #555;
+}

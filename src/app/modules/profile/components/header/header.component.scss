@@ -1,0 +1,94 @@
+@import 'helper';
+.mat-with-title {
+    // margin-bottom: 20px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    h3 {
+        display: inline-block;
+        background: #1976d2;
+        padding: 2px 16px;
+        margin-bottom: 0;
+        height: 35px;
+        color: #fff;
+        position: relative;
+        right: -23px;
+        box-shadow: 0 1px 3px 0 rgba(50, 50, 50, 0.51);
+        border-top-left-radius: 15px;
+        &::after {
+            border-right: 8px solid transparent;
+            border-top: 6px solid #2b71b7;
+            content: "";
+            height: 0;
+            position: absolute;
+            right: 0px;
+            top: 35px;
+            width: 0;
+            bottom: 0;
+        }
+    }
+}
+
+.title {
+    margin-top: 3px;
+    text-align: left;
+    background: #ebedf0;
+    height: 30px;
+    padding: 4px 11px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.text-slider {
+    margin-top: 3px;
+    width: 300px;
+    p {
+        margin: 0;
+    }
+}
+
+.owl-carousel {
+    p {
+        font-size: 15px;
+        margin-top: 3px;
+    }
+}
+
+.notification-wrap {
+    position: absolute;
+    right: 20%;
+    top: 18px;
+    z-index: 1;
+    background: #fff; // padding: 0 0px;
+    cursor: pointer;
+    span {
+        font-size: 22px;
+        .num {
+            font-size: 10px;
+            padding: 0 5px;
+            background: #fd3100;
+            color: #fff;
+            border-radius: 3px;
+            font-weight: bold;
+            position: relative;
+            top: -14px;
+            left: 11px;
+        }
+    }
+}
+
+
+@media (max-width: 480px) {
+  .notification-wrap {
+    right: 80%;
+  }
+}
+
+
+@media (min-width: 481px) and (max-width: 991px) {
+  .notification-wrap {
+    right: 50%;
+  }
+}
+
+

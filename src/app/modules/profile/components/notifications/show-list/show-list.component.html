@@ -1,0 +1,75 @@
+<app-header [title]="'لیست اطلاعیه‌ها'"></app-header>
+<mat-card class="padding-0">
+  <div>
+    <p-table #dt [columns]="cols" [value]="notifications" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+      [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">
+          <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+          <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <!-- <th style="width: 2.25em"></th> -->
+          <th> نوع</th>
+          <th>دسته‌بندی سطح چهارم</th>
+          <th> تاریخ ثبت</th>
+          <th>عملیات</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+        <tr class="my-tr-table">
+          <!-- <td>
+            <a href="#" [pRowToggler]="rowData">
+              <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+            </a>
+          </td> -->
+          <td class="text-center">
+            <span *ngIf="rowData.kind === 0">پیشنهاد فروش</span>
+            <span *ngIf="rowData.kind === 1">تخفیف</span>
+            <span *ngIf="rowData.kind === 2">درخواست خرید</span>
+          </td>
+          <td class="text-center">{{ rowData.name }}</td>
+          <td class="text-center">{{ rowData.createdOn }}</td>
+          <td>
+            <div class="text-center operation">
+              <i class="fa fa-trash" aria-hidden="true" (click)="deleteNotify(rowData?.id)"></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+        <tr>
+          <td [attr.colspan]="4">
+            <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+              <div class="ui-g-12 ui-md-3" style="text-align:center">
+                <img [attr.alt]="rowData.title" class="my-image-table" [src]="image_url+rowData.logo">
+              </div>
+              <div class="ui-g-12 ui-md-9">
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <b>عنوان: </b> {{rowData.title}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>وب سایت: </b> {{rowData.website}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>دسته بندی: </b> {{rowData.category}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>توضیحات: </b> {{rowData.description}}
+                  </div>
+                  <div class="ui-g-12" *ngIf="rowData.attachFile !== null && rowData.attachFile !== ''">
+                    <b>فایل ها: </b>
+                    <a href="{{image_url+rowData.attachFile}}" target="_blank">دانلود فایل</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template> -->
+    </p-table>
+  </div>
+</mat-card>

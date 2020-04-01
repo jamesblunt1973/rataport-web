@@ -1,0 +1,215 @@
+@import "helper";
+.seller-wrap {
+  padding-top: 33px;
+  padding-bottom: 30px;
+  @include respond-to(mobileL) {
+    margin-top: 35px;
+  }
+  .info {
+    display: flex;
+    .logo {
+      margin-left: 10px;
+      img {
+        border-radius: 4px;
+        width: 100px;
+        height: 100px;
+      }
+    }
+    .text {
+      h1 {
+        margin-top: 15px;
+        margin-bottom: 0;
+        @include respond-to(mobileL) {
+          font-size: 15px;
+        }
+      }
+      h3 {
+        margin: 0;
+        direction: ltr;
+        font-size: 14px;
+        color: #757575;
+        font-weight: 300;
+      }
+    }
+  }
+  .seller-prfil-wrapper {
+    display: flex;
+    float: left;
+    .sign {
+      padding-left: 20px;
+      height: 30px;
+      display: flex;
+      img {
+        width: 30px;
+        margin: 0 1px;
+      }
+      .durattion {
+        //background-image: url(../../../../../public/images/sign/memberyear.png);
+        background-size: contain;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        width: 30px;
+        text-align: center;
+        background-repeat: no-repeat;
+        padding-top: 0;
+        background-color: #f3eb28;
+        color: #fff;
+        margin: 0 3px;
+        border-radius: 10px;
+      }
+    }
+  }
+  .section {
+    text-align: center; // margin: 30px 0 30px 0;
+    &__circle {
+      display: inline-block;
+      font-size: 15px;
+      color: $primary-color;
+      &--right {
+        &::after {
+          content: "___________";
+          color: $primary-color;
+          position: relative;
+          bottom: 7px;
+          right: -6px;
+        }
+      }
+      &--left {
+        &::before {
+          content: "___________";
+          color: $primary-color;
+          position: relative;
+          bottom: 7px;
+          left: -6px;
+        }
+      }
+    }
+    &__title {
+      display: inline-block;
+      margin: 0 10px 0 10px;
+      font-weight: 700;
+      font-size: 18px;
+      @include respond-to(mobileL) {
+        font-size: 15px;
+      }
+    }
+  }
+  .slider-mat-card {
+    padding-bottom: 3px !important;
+  }
+  .my-title {
+    font-size: 18px;
+    /* font-weight: 400; */
+    color: #1976d2;
+    @include respond-to(mobileL) {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+    i {
+      background: #2196f3;
+      padding: 7px;
+      color: #fff;
+      border-radius: 50%;
+      @include respond-to(mobileL) {
+        display: none;
+      }
+    }
+  }
+  .mat-card-products {
+    ul {
+      @include respond-to(mobileL) {
+        margin-top: 10px;
+      }
+      li {
+        transition: all 0.175s;
+        cursor: pointer;
+        @include respond-to(mobileL) {
+          font-size: 14px;
+        }
+        &:hover {
+          padding-right: 5px;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  .detail-about {
+    padding: 0;
+    .tab-content {
+      margin: 18px;
+      .text-p {
+        font-size: 14px;
+        line-height: 30px;
+        font-weight: 300;
+      }
+    }
+  }
+  .social-mat-card {
+    padding: 5px 20px;
+    @include respond-to(mobileL) {
+      text-align: center;
+    }
+    ul {
+      display: inline-block;
+      margin: 0;
+      @include respond-to(mobileL) {
+        padding: 0;
+        margin: auto;
+      }
+      li {
+        list-style: none;
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        a {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  .seller-items {
+    .my-grid-wrap {
+      .grid-product-box {
+        @include respond-to(laptop) {
+          width: auto !important;
+        }
+      }
+    }
+  }
+}
+.head {
+  position: relative;
+  .addfav {
+    position: absolute;
+    left: 5px;
+    bottom: 3px;
+  }
+}
+
+.page-not-found {
+  padding: 60px 30px;
+
+  .my-wrapper-404 {
+    text-align: center;
+
+    img {
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  h2 {
+    font-weight: 300;
+  }
+
+  button {
+    font-family: IranSans;
+  }
+}
+
+.fa-exclamation-triangle {
+  color: red;
+  cursor: pointer;
+}

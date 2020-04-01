@@ -1,0 +1,176 @@
+<div class="container my-list-wrap">
+    <div class="row">
+        <!-- <div class="col-md-12">
+            <div *ngIf="products?.length === 0">
+                <div class="alert-box warning-box">
+                    <p class="font-iran">
+                        <span>
+                            <b>توجه! </b>
+                        </span>
+                        <span>متاسفانه در این دسته بندی محصولی پیدا نشد.</span>
+                    </p>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-md-12" *ngFor="let item of products">
+            <div class="list-product-box">
+                <div class="img-product">
+                    <a (click)="productDetail(item.id)" routerLink="#">
+                        <!--routerLink="detail/{{item.id}}"-->
+                        <div class="axs">
+                            <img src="{{image_url+item.image}}" alt="">
+                        </div>
+                    </a>
+                    <div class="discount" *ngIf="item.discount !== 0">
+                        <img src="/public/images/discount.svg" alt="discount" title="تخفیف">
+                    </div>
+                    <!-- end discount -->
+                </div>
+                <div class="description">
+                    <a routerLink="detail/{{item.id}}">
+                        <h3>{{item.name}}</h3>
+                    </a>
+                    <div class="options">
+                        <!-- <p *ngIf="item.brand !== null && item.brand !== ''">
+                            <i class="fa fa-square"></i>
+                            <span>برند:</span>
+                            <span>
+                                <b>{{ item.brand }}</b>
+                            </span>
+                        </p> -->
+                        <p>
+                            <i class="fa fa-square"></i>
+                            <span>حداقل سفارش:</span>
+                            <span>
+                                <b>{{ item.minOrder|englishToPersian }}</b>
+                                <b>{{ item.minOrderUnit }}</b>
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa fa-square"></i>
+                            <span>قیمت برای هر واحد:</span>
+                            <span *ngIf="item.discount !== 0">
+                                <b class="block-discount">{{ item.price|englishToPersian }}</b>
+                                <span class="discount-num">
+                                    <b>{{ item.priceAfterDiscount|englishToPersian }}</b>
+                                    <b> تومان</b>
+                                </span>
+                            </span>
+                            <span *ngIf="item.discount === 0">
+                                <b>{{ item.priceAfterDiscount|englishToPersian }}</b>
+                                <b> تومان</b>
+                            </span>
+                        </p>
+                        <p *ngIf="item.discount !== 0">
+                            <i class="fa fa-square"></i>
+                            <span>میزان تخفیف:</span>
+                            <span class="discount-num">
+                                <b>{{ item.discount|englishToPersian }} درصد</b>
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa fa-square"></i>
+                            <span>توانایی عرضه:</span>
+                            <span>
+                                <b>{{ item.supplyAbility|englishToPersian }}</b>
+                                <b>{{ item.supplyAbilityUnit }}</b>
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa fa-square"></i>
+                            <span>مدت زمان تحویل:</span>
+                            <span>
+                                <b>{{ item.deliveryTime|englishToPersian }}</b>
+                                <b>{{ item.deliveryTimePeriod }}</b>
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa fa-square"></i>
+                            <span>استان:</span>
+                            <span>
+                                <b>{{item.city}}</b>
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa fa-square"></i>
+                            <span>صفحه فروشنده:</span>
+                            <span>
+                                <b class="primary-color pointer" (click)="seller(item.sellerID)">مشاهده</b>
+                            </span>
+                        </p>
+                    </div>
+                    <!-- end options -->
+
+                    <!-- <div class="payamresan">
+                        <ul>
+                            <li *ngIf="item.gap !== null">
+                                <a href="" target="_blank">
+                                    <img src="/public/images/social/Gap.svg" alt="">
+                                </a>
+                            </li>
+                            <li *ngIf="item.iGap !== null">
+                                <a href="" target="_blank">
+                                    <img src="/public/images/social/iGap.svg" alt="">
+                                </a>
+                            </li>
+                            <li *ngIf="item.soroosh !== null">
+                                <a href="" target="_blank">
+                                    <img src="/public/images/social/Soroush.svg" alt="">
+                                </a>
+                            </li>
+                            <li *ngIf="item.bisphone !== null">
+                                <a href="" target="_blank">
+                                    <img src="/public/images/social/bisfoon.svg" alt="">
+                                </a>
+                            </li>
+                            <li *ngIf="item.telegram !== null">
+                                <a href="" target="_blank">
+                                    <img src="/public/images/social/telegram.svg" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div> -->
+                    <!-- end social -->
+                </div>
+                <div class="buttons-wrap">
+                    <!-- end discount -->
+                    <div class="sign">
+                        <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه"
+                            title="نشان ویژه">
+                        <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد"
+                            title="نشان اعتماد">
+                        <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین"
+                            title="نشان تضمین">
+                    </div>
+                    <!-- end sign -->
+                    <div class="margin-bottom-5">
+                        <button mat-raised-button color="primary" class="detail-product" (click)="compareProducts(item.id)">مقایسه
+                            محصول
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="primary" class="detail-product" (click)="productDetail(item.id)">جزئیات
+                            محصول
+                        </button>
+                    </div>
+                    <div>
+                        <p class="option-list font-iran">
+                            <span>معاملات موفق:</span>
+                            <span>
+                                <b>{{ item.successTransactions|englishToPersian }} از {{
+                                    item.totalTransactions|englishToPersian }}</b>
+                            </span>
+                        </p>
+                        <p class="option-list font-iran">
+                            <span>درصد پاسخگویی:</span>
+                            <span>
+                                <b>{{ item.percentageOfCustomerResponsiveness|englishToPersian }} درصد</b>
+                            </span>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

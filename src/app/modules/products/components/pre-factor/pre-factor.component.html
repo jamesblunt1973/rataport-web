@@ -1,0 +1,109 @@
+<section class="payment">
+  <app-loading *ngIf="!loadPreFactorStatus"></app-loading>
+  <div class="container" *ngIf="loadPreFactorStatus">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="invoice-wrap">
+          <h4 class="title-header">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+            <span class="margin-right-5"> پیش فاکتور </span>
+            <span class="margin-right-5"> - </span>
+            <span class="margin-right-5"> {{prefactor.orderDate}} </span>
+          </h4>
+        </mat-card>
+        <mat-card>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 margin-bottom-10">
+                <div class="row margin-bottom-10">
+                  <div class="col-md-4">
+                    <div class="product-items">
+                      <i class="fa fa-user-circle-o"></i>
+                      <span>نام و نام خانوادگی:</span>
+                      <b>
+                        <span>{{prefactor.buyerName}}</span>
+                      </b>
+                    </div>
+                  </div>
+                  <!-- CEO -->
+                  <div class="col-md-4">
+                    <div class="product-items">
+                      <i class="fa fa-address-book"></i>
+                      <span>آدرس:</span>
+                      <b>
+                        <span>{{prefactor.userAddress}}</span>
+                      </b>
+                    </div>
+                  </div>
+                  <!-- email -->
+                  <div class="col-md-4">
+                    <div class="product-items">
+                      <i class="fa fa-file-zip-o"></i>
+                      <span>کد پستی:</span>
+                      <b>
+                        <span>{{prefactor.userZipCode}}</span>
+                      </b>
+                    </div>
+                  </div>
+                  <!-- Cellphone -->
+                </div>
+                <div class="table-prefactr">
+                  <table class="tblorder nested">
+                    <thead>
+                      <tr>
+                        <td style="width: 453px; text-align: right; padding-right: 15px"> کالا </td>
+                        <td> تعداد</td>
+                        <td> قیمت واحد (تومان)</td>
+                        <td>قیمت کل (تومان)</td>
+                        <td>تخفیف کل (تومان)</td>
+                        <td>مبلغ کل (تومان)</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-right" style="text-align: right;">
+
+                          <span>{{prefactor.productName}}</span>
+
+                          <br>
+                        </td>
+                        <td>{{prefactor.count| englishToPersian }} {{prefactor.minOrderUnit }}</td>
+                        <td class="lnum">{{prefactor.unitPrice| englishToPersian }}</td>
+                        <td class="num">{{prices| englishToPersian }}</td>
+                        <td class="num rtl">{{discount | englishToPersian}}</td>
+                        <td class="num">{{total| englishToPersian }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <!-- </form> -->
+        </mat-card>
+        <mat-card class="invoice-wrap">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+              </div>
+              <div class="col-md-6 text-left">
+                <button mat-raised-button color="primary" class="font-iran" (click)="backClicked()">بازگشت</button>
+                <button mat-raised-button color="primary" class="font-iran" (click)="pay()">
+                  <span *ngIf="!sendAdd">پرداخت</span>
+                  <span class="loading-btn-span" *ngIf="sendAdd">
+                    <i class="fa fa-spinner fa-spin fa-fw "></i>
+                    <span class="sr-only ">Loading...</span>
+                    <span>لطفا صبر کنید ...</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
+</section>

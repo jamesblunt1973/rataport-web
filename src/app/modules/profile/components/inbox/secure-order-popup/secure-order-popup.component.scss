@@ -1,0 +1,16 @@
+.wrap {
+  max-width: 390px;
+
+  .title-page {
+    border-bottom: 1px solid #949494;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .no-margin {
+    display: flex;
+    align-items: center;
+  }
+}

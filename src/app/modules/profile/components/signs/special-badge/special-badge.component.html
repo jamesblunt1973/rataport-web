@@ -1,0 +1,72 @@
+<app-header [title]="'نشان ویژه'"></app-header>
+<mat-card>
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="!data1?.special">
+        <p class="text">
+          عضویت ویژه برای کسانی است که می خواهند سهم خوبی از بازار ایران را داشته باشند و از طریق رتاپورت می خواهند محصولات
+          خود را به بهترین شکل معرفی نمایند و در بازار ایران به کسب سود بپردازند.
+        </p>
+        <p class="text" *ngIf="data1?.specialBadgeYears>0">
+          شما {{data1?.specialBadgeYears|englishToPersian}} سال عضو ویژه رتاپورت بوده اید
+        </p>
+        <div>
+          <button mat-raised-button color="primary" class="font-iran" (click)="fee()">مقایسه تعرفه و خدمات</button>
+          <button mat-raised-button color="primary" class="font-iran" (click)="pay()">عضویت ویژه</button>
+        </div>
+      </div>
+      <div>
+
+        <!-- <div class="sign-image">
+          <img src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+        </div> -->
+        <div *ngIf="data1?.renewal" class="alert-box warning-box">
+          <p>
+            <span>
+              <b>توجه! </b>
+            </span>
+            <span>
+              در صورتی که عضویت ویژه خود را تمدید نکنید ، تمامی امکانات این طرح از شما سلب خواهد شد و عضویت شما به عادی تغییر
+              خواهد نمود.
+            </span>
+
+          </p>
+          <div>
+            <button mat-raised-button color="primary" class="font-iran" (click)="fee()">مقایسه تعرفه و خدمات</button>
+            <button mat-raised-button color="primary" class="font-iran" (click)="pay()">تمدید عضویت</button>
+          </div>
+
+        </div>
+        <p class="text" *ngIf="data1?.special">
+
+          <span>
+            <b>کاربر گرامی</b>
+          </span>
+          <br>
+          <span>
+            با قدردانی از حسن توجه شما به رتاپورت و انتخاب ما به عنوان شریک تجاریتان، شما تا تاریخ {{data1?.expireDate}} عضو ویژه سایت
+            می باشید.
+          </span>
+          <span>شما عضویت {{data1?.specialBadgeYears|englishToPersian}} ساله رتاپورت را کسب کرده اید</span>
+          <br>
+        </p>
+        <!--<div class="alert-box info-box">
+          <p>
+            <span>
+              <b>اطلاعات! </b>
+            </span>
+            <span>جهت نمایش اطلاعات استفاده میشه</span>
+          </p>
+        </div>
+        <div class="alert-box danger-box">
+          <p>
+            <span>
+              <b>خطا! </b>
+            </span>
+            <span>زمانی که خطایی رخ داده شود.</span>
+          </p>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</mat-card>

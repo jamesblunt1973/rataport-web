@@ -1,0 +1,320 @@
+<app-loading *ngIf="!loading"></app-loading>
+<section class="page-not-found clearfix" *ngIf="loading && block===true">
+  <div class="my-wrapper-404">
+
+    <div>
+      <h2>متاسفانه این کاربر توسط رتاپورت مسدود شده است!</h2>
+    </div>
+  </div>
+</section>
+<section class="seller-wrap" *ngIf="loading && block===false">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="margin-bottom-15 head">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info">
+                <div class="logo">
+                  <img src="{{image_url+userInfo.logo}}" alt="user">
+                </div>
+                <div class="text">
+                  <h1 *ngIf="userInfo.brand !== null && userInfo.brand !== ''">{{userInfo.brand}}</h1>
+                  <h1 *ngIf="userInfo.brand == null || userInfo.brand == ''">{{userInfo.ceo}}</h1>
+                  <h3 *ngIf="userInfo.brandInEnglish !== null || userInfo.brandInEnglish !== ''">{{userInfo.brandInEnglish}}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <!-- <div class="sign" *ngIf="!BadgesPermission"> -->
+              <div class="seller-prfil-wrapper">
+                <div class="sign">
+                  <span class="durattion" *ngIf="userInfo.specialBadge === true">{{userInfo.specialBadgeYears|englishToPersian}}</span>
+                  <img *ngIf="userInfo.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه"
+                    title="نشان ویژه">
+                  <img *ngIf="userInfo.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد"
+                    title="نشان اعتماد">
+                  <img *ngIf="userInfo.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین"
+                    title="نشان تضمین">
+
+                </div>
+                <!-- end sign -->
+                <div>
+                  <div class="member-since">
+                    <span>عضویت:</span>
+                    <span>{{ userInfo.regDate }}</span>
+                  </div>
+                  <div *ngIf="followPermission" class="follow-btn">
+                    <button mat-raised-button color="primary" class="font-iran" (click)="openLogin()" *ngIf="noLoginFollow">
+                      <i *ngIf="!followStatus" class="fa fa-user-plus" aria-hidden="true"></i>
+                      <span *ngIf="!followStatus">دنبال کردن</span>
+                      <span class="loading-btn-span" *ngIf="followStatus">
+                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                        <span>لطفا صبر کنید ...</span>
+                      </span>
+                    </button>
+                    <button mat-raised-button color="primary" class="font-iran" (click)="setFollow(sellerID)" *ngIf="!myProfile && dataStatus && !followed && !noLoginFollow">
+                      <i *ngIf="!followStatus" class="fa fa-user-plus" aria-hidden="true"></i>
+                      <span *ngIf="!followStatus">دنبال کردن</span>
+                      <span class="loading-btn-span" *ngIf="followStatus">
+                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                        <span>لطفا صبر کنید ...</span>
+                      </span>
+                    </button>
+                    <button mat-raised-button color="primary" class="font-iran" (click)="unFollow(sellerID)" *ngIf="!myProfile && dataStatus && followed && !noLoginFollow">
+                      <!-- <span class="ion-person-add"></span> -->
+                      <span>حذف دنبال کردن</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="addfav">
+            <button mat-icon-button (click)="addFavorite(sellerID)" *ngIf="!favorite">
+              <mat-icon matTooltip="افزودن به علاقه‌مندی" [matTooltipPosition]="'above'" aria-label="icon-button with a heart icon">favorite_border</mat-icon>
+            </button>
+            <button mat-icon-button (click)="addFavorite(sellerID)" *ngIf="favorite" color="primary">
+              <mat-icon matTooltip="حذف از علاقه‌مندی" [matTooltipPosition]="'above'" aria-label="icon-button with a heart icon">favorite</mat-icon>
+            </button>
+          </div>-->
+        </mat-card>
+        <mat-card class="padding-10 margin-bottom-15" *ngIf="seller.info.slogan !== null && seller.info.slogan !== ''">
+          <div class="section">
+            <span class="section__circle section__circle--left hidden-xs hidden-sm">
+              <i aria-hidden="true" class="fa fa-circle"></i>
+            </span>
+            <h2 class="section__title">{{seller.info.slogan}}</h2>
+            <span class="section__circle section__circle--right hidden-xs hidden-sm">
+              <i aria-hidden="true" class="fa fa-circle"></i>
+            </span>
+          </div>
+        </mat-card>
+        <mat-card class="margin-bottom-15 slider-mat-card hidden-xs hidden-sm">
+          <app-slider [slides]="slides"></app-slider>
+        </mat-card>
+      </div>
+    </div>
+    <!-- اطلاعات مجموعه -->
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="detail-about margin-bottom-15">
+          <mat-card-content>
+            <mat-tab-group class="">
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon>assignment_late</mat-icon>
+                  <span class="title">اطلاعات مجموعه</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-collection-information [collectionInformation]="collectionInformation" [slider]="workSlides"></app-tab-collection-information>
+                </div>
+                <!-- END tab-content -->
+              </mat-tab>
+              <mat-tab *ngIf="seller.info.aboutUs !== null && seller.info.aboutUs !== ''">
+                <ng-template mat-tab-label>
+                  <mat-icon>assignment_ind</mat-icon>
+                  <span class="title">درباره فروشنده</span>
+                </ng-template>
+                <div class="tab-content">
+                  <p class="text-p font-iran">{{seller.info.aboutUs}}</p>
+                </div>
+              </mat-tab>
+              <mat-tab *ngIf="team.length !== 0">
+                <ng-template mat-tab-label>
+                  <mat-icon>group</mat-icon>
+                  <span class="title">معرفی اعضا</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-members [team]="team"></app-tab-members>
+                </div>
+              </mat-tab>
+              <!-- <mat-tab *ngIf="seller.info.outlook !== null && seller.info.outlook !== '' && seller.badgesPermission==true"> -->
+              <mat-tab *ngIf="seller.info.outlook !== null && seller.info.outlook !== '' ">
+                <ng-template mat-tab-label>
+                  <mat-icon>camera</mat-icon>
+                  <span class="title">چشم انداز</span>
+                </ng-template>
+                <div class="tab-content">
+                  <p class="text-p font-iran">{{seller.info.outlook}}</p>
+                </div>
+              </mat-tab>
+              <mat-tab *ngIf="seller.info.goals !== null && seller.info.goals !== '' ">
+                <ng-template mat-tab-label>
+                  <mat-icon>assignment_turned_in</mat-icon>
+                  <span class="title">اهداف و ماموریت ها</span>
+                </ng-template>
+                <div class="tab-content">
+                  <p class="text-p font-iran">{{seller.info.goals}}</p>
+                </div>
+              </mat-tab>
+              <mat-tab *ngIf="seller.info.strategy !== null && seller.info.strategy !== '' ">
+                <ng-template mat-tab-label>
+                  <mat-icon>assignment_in</mat-icon>
+                  <span class="title">استراتژی و خط مشی</span>
+                </ng-template>
+                <div class="tab-content">
+                  <p class="text-p font-iran">{{seller.info.strategy}}</p>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <!-- محصولات -->
+    <div class="row" *ngIf="products.length !== 0">
+      <div class="col-md-3">
+        <mat-card class="mat-card-products">
+          <h5 class="text-center my-title">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            <span>دسته‌بندی محصولات</span>
+          </h5>
+          <ul>
+            <li (click)="getProducts(0)">
+              <span>نمایش همه</span>
+
+            </li>
+            <li *ngFor="let item of seller.categoryLevel3" (click)="getProducts(item.categoryID)">
+              <span>{{item.name}}</span>
+            </li>
+          </ul>
+        </mat-card>
+      </div>
+      <div class="col-md-9">
+        <mat-card class="margin-bottom-15 seller-items">
+          <app-products [products]="products"></app-products>
+        </mat-card>
+      </div>
+    </div>
+    <!-- فعالیت ها و گواهینامه و تاییدیه و مجوزها و دستاوردها -->
+    <div class="row" *ngIf="certificates.length !== 0">
+      <div class="col-md-12">
+        <div class="margin-bottom-15">
+          <div>
+            <app-certificates [certificates]="certificates"></app-certificates>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- دنبال کنندگان و معاملات فروشنده -->
+    <div class="row" *ngIf="deals.length !== 0">
+      <div class="col-md-12">
+        <mat-card class="margin-bottom-15">
+          <h5 class="text-center my-title">
+            <span>معاملات انجام شده </span>
+          </h5>
+          <app-transactions-seller [deals]="deals"></app-transactions-seller>
+        </mat-card>
+      </div>
+    </div>
+    <!-- اطلاعات تماس -->
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="detail-about">
+          <mat-card-content>
+            <mat-tab-group class="">
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon>mail</mat-icon>
+                  <span class="title">ارسال پیام</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-contact-supplier [sellerID]="sellerID"></app-tab-contact-supplier>
+                </div>
+              </mat-tab>
+              <mat-tab *ngIf="loggedIn">
+                <ng-template mat-tab-label>
+                  <mat-icon>contact_phone</mat-icon>
+                  <span class="title">اطلاعات تماس</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-contact-info *ngIf="seller.badgesPermission"  [contactUs]="contactUs"></app-tab-contact-info>
+                  <app-tab-messengers *ngIf="seller.badgesPermission" [contactUs]="contactUs"></app-tab-messengers>
+                  <span *ngIf="!seller.badgesPermission" class="title font-iran">متاسفانه این کاربر عضویت ویژه رتاپورت را ندارد در صورت ارتباط می بایست از طریق مذاکره با فروشنده برای هر محصول فروشنده با ایشان مکاتبه نمایید. و در صورت درخواست مشاهده اطلاعات تماس می توانید از طریق دکمه زیر به ایشان اطلاع رسانی کنید تا عضویت خود را ارتقا دهد .</span>
+                </div>
+              </mat-tab>
+              <mat-tab disabled="!loggedIn" *ngIf="!loggedIn">
+                <ng-template mat-tab-label>
+                  <mat-icon>contact_phone</mat-icon>
+                  <span class="title">اطلاعات تماس</span>
+                  <span (click)="loginKon()" *ngIf="!loggedIn" class="fa fa-exclamation-triangle"></span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-contact-info *ngIf="seller.badgesPermission" [contactUs]="contactUs"></app-tab-contact-info>
+                  <app-tab-messengers *ngIf="seller.badgesPermission" [contactUs]="contactUs"></app-tab-messengers>
+                </div>
+              </mat-tab>
+              <mat-tab *ngIf="supporters.length !== 0">
+                <ng-template mat-tab-label>
+                  <mat-icon>wc</mat-icon>
+                  <span class="title">پشتیبانان</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-supporters  *ngIf="seller.badgesPermission" [supporters]="supporters"></app-tab-supporters>
+                  <span *ngIf="!seller.badgesPermission" class="title font-iran">متاسفانه این کاربر عضویت ویژه رتاپورت را ندارد در صورت ارتباط می بایست از طریق مذاکره با فروشنده برای هر محصول فروشنده با ایشان مکاتبه نمایید. و در صورت درخواست مشاهده اطلاعات تماس می توانید از طریق دکمه زیر به ایشان اطلاع رسانی کنید تا عضویت خود را ارتقا دهد .</span>
+
+                </div>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon>group</mat-icon>
+                  <span class="title">دنبال کنندگان</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-followers-slider [followers]="followers"></app-followers-slider>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="social-mat-card" *ngIf="contactUs?.socials.length !== 0">
+          <div>
+            <span>ما را در شبکه‌های اجتماعی دنبال کنید: </span>
+            <span>
+              <ul>
+                <li *ngIf="contactUs?.socials[0]?.youtube !== null && contactUs?.socials[0]?.youtube !== ''">
+                  <a href="https://www.youtube.com/{{contactUs.socials[0]?.youtube}}">
+                    <i class="fa fa-youtube"></i>
+                  </a>
+                </li>
+                <li *ngIf="contactUs?.socials[0]?.linkedin !== null && contactUs?.socials[0]?.linkedin !== ''">
+                  <a href="https://www.linkedin.com/in/{{contactUs.socials[0]?.linkedin}}">
+                    <i class="fa fa-linkedin"></i>
+                  </a>
+                </li>
+                <li *ngIf="contactUs?.socials[0]?.googlePlus !== null && contactUs?.socials[0]?.googlePlus !== ''">
+                  <a href="https://plus.google.com/{{contactUs.socials[0]?.googlePlus}}">
+                    <i class="fa fa-google-plus"></i>
+                  </a>
+                </li>
+                <li *ngIf="contactUs?.socials[0]?.facebook !== null && contactUs?.socials[0]?.facebook !== ''">
+                  <a href="http://www.facebook.com/{{contactUs?.socials[0]?.facebook}}">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+                <li *ngIf="contactUs?.socials[0]?.twitter !== null && contactUs?.socials[0]?.twitter !== ''">
+                  <a href="https://twitter.com/{{contactUs?.socials[0]?.twitter}}">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+                <li *ngIf="contactUs?.socials[0]?.instagram !== null && contactUs?.socials[0]?.instagram !== ''">
+                  <a href="https://www.instagram.com/{{contactUs?.socials[0]?.instagram}}">
+                    <i class="fa fa-instagram"></i>
+                  </a>
+                </li>
+                <li *ngIf="contactUs?.socials[0]?.aparat !== null && contactUs?.socials[0]?.aparat !== ''">
+                  <a href="https://www.aparat.com/{{contactUs.socials[0]?.aparat}}">
+                    <i class="fa fa-video-camera"></i>
+                  </a>
+                </li>
+              </ul>
+            </span>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

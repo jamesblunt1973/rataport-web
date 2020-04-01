@@ -1,0 +1,83 @@
+<mat-card class="categories" *ngIf="categoryStatus">
+  <!-- <mat-card class="categories hidden-xs hidden-sm" *ngIf="categoryStatus"> -->
+  <ul class="categories__items">
+    <li class="categories__items--item title">
+      <span>
+        <mat-icon>list</mat-icon>
+      </span>
+      <span>دسته‌بندی محصولات</span>
+    </li>
+    <li class="categories__items--item" *ngFor="let item of categories">
+      <div class="circle">
+        <mat-icon>fiber_manual_record</mat-icon>
+      </div>
+      <div class="cat-name">{{ item.name }}</div>
+      <div class="arrow">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </div>
+      <mat-card class="categories__items--item--childs">
+        <div class="cat-wrap-info">
+          <div class="row ul-row">
+            <ul *ngFor="let citem of item.children" class="col-md-4">
+              <li>
+                <a>
+                  <b>{{ citem.name }}</b>
+                </a>
+              </li>
+              <li *ngFor="let ccitem of citem.children; let i = index;">
+                <a routerLink="/products/category/{{ ccitem.id }}" *ngIf="i < 5">
+                  {{ ccitem.name }}
+                </a>
+                <a routerLink="/products/category1/{{ citem.id }}" *ngIf="i === 5" class="primary-color no-text-decoration">
+                  مشاهده بیشتر
+                </a>
+              </li>
+            </ul>
+          </div>
+          <img src="{{image_url+item.image }}" alt="">
+        </div>
+      </mat-card>
+    </li>
+  </ul>
+</mat-card>
+
+
+<div class="hidden-lg hidden-md">
+  <div *ngIf="categoryStatus && level1Show" class="wrap-responsive-menu">
+    <ul class="responsive-menu-ul">
+      <li class="categories__items--item" *ngFor="let item of categories" (click)="breakCategories2(item)">
+        <div class="cat-name1">
+          <span>{{ item.name }}</span>
+          <i class="fa fa-chevron-left arrow"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="categoryStatus && level2Show" class="wrap-responsive-menu">
+    <ul class="responsive-menu-ul">
+      <li class="categories__items--item" *ngFor="let item of categories2" (click)="breakCategories3(item)">
+        <div class="cat-name1">
+          <span>{{ item.name }}</span>
+          <i class="fa fa-chevron-left arrow"></i>
+        </div>
+      </li>
+      <li class="backToPerv" (click)="backToPerv2()">
+        <span>بازگشت</span>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="categoryStatus && level3Show" class="wrap-responsive-menu">
+    <ul class="responsive-menu-ul">
+      <li class="categories__items--item" *ngFor="let item of categories3">
+        <a routerLink="/products/category/{{ item.id }}" class="link-to-products">
+          {{ item.name }}
+        </a>
+      </li>
+      <li class="backToPerv" (click)="backToPerv3()">
+        <span>بازگشت</span>
+      </li>
+    </ul>
+  </div>
+</div>

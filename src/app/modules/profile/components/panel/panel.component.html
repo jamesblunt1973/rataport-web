@@ -1,0 +1,84 @@
+<section class="profile-root">
+  <div class="container">
+    <div class="row margin-bottom-10">
+      <div class="col-md-3 width-full-tablet">
+        <p-sidebar [(visible)]="display" position="right" class="hidden-md hidden-lg">
+          <mat-card class="seller">
+            <app-loading *ngIf="!loadingData"></app-loading>
+            <div *ngIf="loadingData">
+              <div class="seller__img" (click)="sellerPage(user.sellerID)">
+                <img src="{{ image_url+user.logo }}" alt="" class="pointer">
+              </div>
+              <div class="seller__name pointer" (click)="sellerPage(user.sellerID)">
+                <!-- {{user.ceo}} -->
+                <span *ngIf="user.brand !== null && user.brand !== ''">{{user.brand}}</span>
+                <span *ngIf="user.brand == null || user.brand == ''">{{user.ceo}}</span>
+                <!-- <span *ngIf="user.brand === null">{{user.ceo}}</span> -->
+                <!-- <span *ngIf="user.brand === ''">{{user.ceo}}</span> -->
+              </div>
+              <div class="seller__address">
+                <span>
+                  <i class="fa fa-map-marker"></i>
+                </span>
+                <span>{{ user.cityName }}</span>
+                <p class="register-date">
+                  <span>
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </span>
+                  <span>عضویت در</span>
+                  <span>{{ user.regDate }}</span>
+                </p>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card class="menu-sidebar">
+            <p-panelMenu [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
+          </mat-card>
+          <!-- END SELLER -->
+        </p-sidebar>
+        <button pButton type="button" (click)="display = true" icon="fa-user" class="hidden-md hidden-lg m-top-25-mobile margin-bottom-10"></button>
+        <div class="hidden-xs hidden-sm">
+          <mat-card class="seller">
+            <app-loading *ngIf="!loadingData"></app-loading>
+            <div *ngIf="loadingData">
+              <div class="seller__img" (click)="sellerPage(user.sellerID)">
+                <img src="{{ image_url+user.logo }}" alt="" class="pointer">
+              </div>
+              <div class="seller__name pointer" (click)="sellerPage(user.sellerID)">
+                <!-- {{user.ceo}} -->
+                <span *ngIf="user.brand !== null && user.brand !== ''">{{user.brand}}</span>
+                <span *ngIf="user.brand == null || user.brand == ''">{{user.ceo}}</span>
+                <!-- <span *ngIf="user.brand === null">{{user.ceo}}</span> -->
+                <!-- <span *ngIf="user.brand === ''">{{user.ceo}}</span> -->
+              </div>
+              <div class="seller__address">
+                <span>
+                  <i class="fa fa-map-marker"></i>
+                </span>
+                <span>{{ user.cityName }}</span>
+                <p class="register-date">
+                  <span>
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </span>
+                  <span>عضویت در</span>
+                  <span>{{ user.regDate }}</span>
+                </p>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card class="menu-sidebar">
+            <p-panelMenu [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
+          </mat-card>
+          <!-- END SELLER -->
+        </div>
+      </div>
+      <div class="col-md-9 width-full-tablet">
+        <div class="profile-body">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>

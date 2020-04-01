@@ -1,0 +1,213 @@
+@import "helper";
+footer {
+  .item-name-header {
+    @include respond-to(mobileL) {
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+  }
+  padding-top: 30px;
+  background-color: $primary-text;
+  border-top: 10px solid;
+  border-color: $secondry-text;
+  color: $text-icons-color;
+  position: relative;
+  .goto-top {
+    width: 40px !important;
+    top: -28px;
+    z-index: 2;
+    height: 40px !important;
+    -webkit-transition: 0.3s cubic-bezier(1, 0, 0.03, 1);
+    transition: 0.3s cubic-bezier(1, 0, 0.03, 1);
+    position: absolute !important;
+    right: 0;
+    left: 0;
+    margin: auto !important;
+    background-color: #fd3100;
+    outline: none !important;
+    border: none;
+    border-radius: 4px;
+    color: #fcfcfc;
+    cursor: pointer;
+    &:hover {
+      -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+        0 3px 6px rgba(0, 0, 0, 0.23);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+  }
+  .col-md-3 {
+    @include respond-to(tablet) {
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+    @include respond-to(mobileL) {
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  .footer-items {
+    padding: 0;
+    @include respond-to(mobileL) {
+      margin-top: 0;
+    }
+    &__item {
+      list-style: none;
+      font-size: 15px;
+      font-weight: 200;
+      -webkit-transition: all 0.175s;
+      -moz-transition: all 0.175s;
+      -ms-transition: all 0.175s;
+      -o-transition: all 0.175s;
+      transition: all 0.175s;
+      @include respond-to(mobileL) {
+        font-size: 14px;
+      }
+      &:hover {
+        padding-right: 3px;
+      }
+      a {
+        text-decoration: none;
+        color: $text-icons-color;
+        span {
+          mat-icon {
+            height: 20px;
+            font-size: 20px;
+            width: 20px;
+            @include respond-to(mobileL) {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  } // END FOOTER-ITEMS
+  .social-footer {
+    padding: 0px;
+    @include respond-to(mobileM) {
+      text-align: center;
+      margin: 0;
+    }
+    li {
+      display: inline-block;
+      list-style: none;
+      margin-left: 1px;
+      .telegram {
+        transition: all 0.175s;
+        display: block;
+        background: url("/public/images/social/telegram-hover.svg");
+        width: 30px;
+        height: 30px;
+        &:hover {
+          background: url("/public/images/social/telegram-main.svg");
+        }
+      }
+      .instagram {
+        transition: all 0.175s;
+        display: block;
+        background: url("/public/images/social/instagram-hover.svg");
+        width: 30px;
+        height: 30px;
+        &:hover {
+          background: url("/public/images/social/instagram.svg");
+        }
+      }
+      .linkedin {
+        transition: all 0.175s;
+        display: block;
+        background: url("/public/images/social/linkedin-hover.svg");
+        width: 30px;
+        height: 30px;
+        &:hover {
+          background: url("/public/images/social/linkedin.svg");
+        }
+      }
+      .aparat {
+        transition: all 0.175s;
+        display: block;
+        background: url("/public/images/social/aparat-hover.svg");
+        width: 30px;
+        height: 30px;
+        &:hover {
+          background: url("/public/images/social/aparat.svg");
+        }
+      }
+    }
+  }
+  .app-download {
+    text-align: left;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    .col-md-4 {
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    &__btn {
+      background: #949393;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      font-family: IRANSans;
+      color: #fcfcfc;
+      cursor: pointer;
+      img {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        top: 4px;
+      }
+      span {
+        &:last-child {
+          position: relative;
+          border-right: 1px solid #d6d6d6;
+          padding-right: 7px;
+          font-size: 12px;
+          font-weight: bold;
+          top: -3px;
+        }
+      }
+    }
+  } // END APP-DOWNLOAD
+  .copyright {
+    width: 100%; // height: 45px;
+    background-color: #1c1b1b;
+    .footer-menu {
+      padding: 0;
+      &__item {
+        list-style: none;
+        display: inline-block;
+        margin-left: 18px;
+        @include respond-to(mobileL) {
+          display: block;
+          text-align: center;
+        }
+        a {
+          font-size: 14px;
+          text-decoration: none;
+          color: $text-icons-color;
+        }
+      }
+    }
+    &__text {
+      text-align: left;
+      font-size: 15px;
+      font-weight: 200;
+      @include respond-to(tablet) {
+        text-align: center;
+      }
+      a {
+        color: #fcfcfc;
+        text-decoration: none;
+      }
+    }
+  }
+}

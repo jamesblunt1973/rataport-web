@@ -1,0 +1,61 @@
+<div class="container my-grid-wrap">
+  <div class="row">
+    <div class="col-lg-4 col-md-6" *ngFor="let item of brands">
+      <div class="grid-product-box">
+        <div class="img-product">
+          <a>
+            <div class="axs axs-seller">
+              <img src="{{image_url+item.logo}}" alt="">
+            </div>
+          </a>
+          <!-- <div class="sign">
+              <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+              <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+              <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+            </div> -->
+          <!-- end sign -->
+        </div>
+        <!-- end img-product -->
+        <div class="title">
+          <a>
+            <span>{{ item.title }}</span>
+          </a>
+        </div>
+        <!-- end title -->
+        <div class="options">
+          <p>
+            <i class="fa fa-square"></i>
+            <span>استان:</span>
+            <span>
+              <b>{{ item.region }}</b>
+            </span>
+          </p>
+          <p>
+            <i class="fa fa-square"></i>
+            <span>وب سایت:</span>
+            <span *ngIf="item.website !== null && item.website !== ''; then thenBlock; else elseBlock"></span>
+            <ng-template #thenBlock>
+              <span>
+                <b>
+                  <a href="{{ item.website }}" target="_blank" class="primary-color no-text-decoration">نمایش وب سایت</a>
+                 
+                </b>
+              </span>
+            </ng-template>
+            <ng-template #elseBlock>
+              <span>
+                <b> <a routerLink="/seller/{{ item.sellerID }}"  class="primary-color no-text-decoration">نمایش صفحه فروشنده</a></b>
+              </span>
+            </ng-template>
+
+            <span></span>
+          </p>
+        </div>
+        <!-- end options -->
+        <!-- <div class="btn-grid-prod" (click)="sellerDetail(item.id)">
+          <button class="btn">اطلاعات فروشنده</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<app-header [title]="'تماس با ما'"></app-header>
+<mat-card>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table #dt [columns]="cols" [value]="products" [responsive]="true" [loading]="loading" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+        [paginator]="true">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="جستجوی محصول" (input)="dt.filterGlobal($event.target.value, 'contains')">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <!-- <th style="width: 3em">ردیف</th> -->
+            <th> نام محصول</th>
+            <th>پیشنهاد فروش</th>
+            <th>تخفیف</th>
+            <th>موجود</th>
+            <th>عملیات</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              <div class="text-center">
+                {{ product.name }}
+              </div>
+            </td>
+            <td>
+              <div class="text-center">
+                <span class="primary-color pointer" (click)="registerSuggest()">ثبت اطلاعات</span>
+              </div>
+            </td>
+            <td>
+              <div class="text-center">
+                {{ product.discount }}
+              </div>
+            </td>
+
+            <td>
+              <div class="text-center">
+                <mat-slide-toggle [checked]="true" color="primary" (change)="displayStatus($event)"></mat-slide-toggle>
+              </div>
+            </td>
+            <td>
+              <div class="text-center operation">
+                <i class="fa fa-pencil-square-o" aria-hidden="true" (click)="editProduct()"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="deleteProduct(product?.id)"></i>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</mat-card>

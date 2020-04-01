@@ -1,0 +1,252 @@
+<app-header [title]="'درخواست‌های خرید'"></app-header>
+<mat-card class="list-man">
+  <app-loading *ngIf="!loading"></app-loading>
+  <mat-accordion *ngIf="loading">
+    <mat-expansion-panel (opened)="true" [expanded]="step === 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>درخواست‌های ارسالی</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p-table #dt [columns]="cols" [value]="products" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+        [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <!-- <th style="width: 2.25em">
+              <i class="fa fa-eye"></i>
+            </th> -->
+            <th style="width: 2.25em"></th>
+            <th> نام محصول</th>
+            <th>تاریخ</th>
+            <th>میزان خرید</th>
+            <th>قیمت پیشنهادی</th>
+            <th>پاسخ فروشنده‌ها</th>
+            <th>وضعیت تایید</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+          <tr class="my-tr-table">
+            <!-- <td class="status text-center">
+              <span class="unread" *ngIf="!rowData.buyerRead">
+                <i class="fa fa-circle"></i>
+              </span>
+            </td> -->
+            <td>
+              <a href="#" [pRowToggler]="rowData">
+                <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+              </a>
+            </td>
+            <td class="text-center">
+              <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                {{ rowData.productName }}
+              </a>
+            </td>
+            <td class="text-center">{{ rowData.createdOn }}</td>
+            <td class="text-center">
+              <span>{{ rowData.countNeed|englishToPersian }}</span>
+              <span>{{ rowData.unit }}</span>
+            </td>
+            <td class="text-center">
+              <span>{{ rowData.proposedPrice|englishToPersian }}</span>
+              <span>تومان</span>
+            </td>
+            <td class="text-center">
+              <span class="primary-color pointer" (click)="openModal('PurchaseRequest',rowData.id)">نمایش ({{
+                rowData.newReplies|englishToPersian }} از {{ rowData.allReplies|englishToPersian }})</span>
+            </td>
+            <td class="text-center">
+              <span class="confrim" *ngIf="rowData.confirm">تایید شد</span>
+              <span class="noconfrim" *ngIf="rowData.confirm === false">عدم پذبرش</span>
+              <span class="watting" *ngIf="rowData.confirm === null">در حال بررسی</span>
+            </td>
+            <!-- <td class="text-center">
+              <a href="#" [pRowToggler]="rowData" class="see-more-data">
+                <span *ngIf="!expanded" class="more">جزئیات بیشتر</span>
+                <span *ngIf="expanded" class="close">بستن جزئیات</span>
+              </a>
+            </td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+          <tr>
+            <td [attr.colspan]="7">
+              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                <div *ngIf="rowData.images.length>0" class="ui-g-12 ui-md-3" style="text-align:center">
+                  <img [attr.alt]="rowData.productName" class="my-image-table" [src]="image_url+rowData.images[0].name">
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <b>نام محصول: </b> {{rowData.productName}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>تاریخ ثبت: </b> {{rowData.createdOn}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>تاریخ انقضا: </b> {{rowData.expireDate}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>میزان خرید: </b> {{rowData.countNeed|englishToPersian}} {{ rowData.unit }}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>قیمت پیشنهادی: </b> {{rowData.proposedPrice|englishToPersian}}
+                      <span>تومان</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>روش پرداخت: </b> {{rowData.paymentMethod}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>روش حمل و نقل: </b> {{rowData.shippingMethod}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.applicantDescription !== null && rowData.applicantDescription !== ''">
+                      <b>توضیحات: </b> {{rowData.applicantDescription}}
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.attachedFile !== null && rowData.attachedFile !== ''">
+                      <b>فایل پیوست: </b>
+                      <a target="_blank" class="no-text-decoration primary-color" href="{{image_url+rowData.attachedFile}}">دانلود</a>
+                    </div>
+                    <div *ngIf="rowData.images.length>0" class="ui-g-12 border-bottom-1 margin-bottom-10">
+                      <b>مشاهده تصاویر : </b>
+                    </div>
+                    <div *ngIf="rowData.images.length>0" class="ui-g-12 border-bottom-1 margin-bottom-10">
+                      <a *ngFor="let image of rowData.images" target="_blank" class="no-text-decoration primary-color"
+                        href="{{image_url+image.name}}">
+                        <img [attr.alt]="rowData.productName" class="my-image-table" [src]="image_url+image.name" />
+                      </a>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>درخواست‌های دریافتی</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p-table #dt2 [columns]="cols" [value]="products2" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable2"
+        [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt2.filterGlobal($event.target.value, 'contains')">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <!-- <th style="width: 2.25em"></th> -->
+            <th style="width: 2.25em"></th>
+            <th>نام محصول</th>
+            <th>تاریخ</th>
+            <th>میزان خرید</th>
+            <th>قیمت پیشنهادی</th>
+            <th>پاسخ</th>
+            <!-- <th></th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+          <tr class="my-tr-table">
+            <!-- <td class="status text-center">
+              <span class="unread" *ngIf="!rowData.buyerRead">
+                <i class="fa fa-circle"></i>
+              </span>
+            </td> -->
+            <td>
+              <a href="#" [pRowToggler]="rowData">
+                <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+              </a>
+            </td>
+            <td class="text-center">
+              <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                {{ rowData.productName }}
+              </a>
+            </td>
+            <td class="text-center">{{ rowData.createdOn }}</td>
+            <td class="text-center">
+              <span>{{ rowData.countNeed|englishToPersian }}</span>
+              <span>{{ rowData.unit }}</span>
+            </td>
+            <td class="text-center">
+              <span>{{ rowData.proposedPrice|englishToPersian }}</span>
+              <span>تومان</span>
+            </td>
+            <td class="text-center">
+              <span *ngIf="rowData.replies==null || rowData.replies.length==0 && rowData.validExpireDate==true" class="primary-color pointer"
+                (click)="openModalAnswer('PurchaseRequestAnswer',rowData.id)">پاسخ دهید</span>
+              <span *ngIf="rowData.replies!==null && rowData.replies.length>0">پاسخ داده شده</span>
+              <span *ngIf="rowData.validExpireDate==false">منقضی شده</span>
+            </td>
+            <!-- <td class="text-center">
+              <a href="#" [pRowToggler]="rowData" class="see-more-data">
+                <span *ngIf="!expanded" class="more">جزئیات بیشتر</span>
+                <span *ngIf="expanded" class="close">بستن جزئیات</span>
+              </a>
+            </td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+          <tr>
+            <td [attr.colspan]="6">
+              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                <div *ngIf="rowData.images.length>0" class="ui-g-12 ui-md-3" style="text-align:center">
+                  <img [attr.alt]="rowData.brand" class="my-image-table" [src]="image_url+rowData.images[0].name">
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <b>نام محصول: </b> {{rowData.productName}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>تاریخ: </b> {{rowData.createdOn}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>میزان خرید: </b> {{rowData.countNeed|englishToPersian}} {{ rowData.unit }}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>قیمت پیشنهادی: </b> {{rowData.proposedPrice|englishToPersian}}
+                      <span>تومان</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>روش پرداخت: </b> {{rowData.paymentMethod}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>روش حمل و نقل: </b> {{rowData.shippingMethod}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.applicantDescription !== null && rowData.applicantDescription !== ''">
+                      <b>توضیحات: </b> {{rowData.applicantDescription}}
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.attachedFile !== null && rowData.attachedFile !== ''">
+                      <b>فایل پیوست: </b>
+                      <a target="_blank" class="no-text-decoration primary-color" href="{{image_url+rowData.attachedFile}}">دانلود</a>
+                    </div>
+                    <div *ngIf="rowData.images.length>0" class="ui-g-12 border-bottom-1 margin-bottom-10">
+                      <b>مشاهده تصاویر : </b>
+                    </div>
+                    <div *ngIf="rowData.images.length>0" class="ui-g-12 border-bottom-1 margin-bottom-10">
+                      <a *ngFor="let image of rowData.images" target="_blank" class="no-text-decoration primary-color"
+                        href="{{image_url+image.name}}">
+                        <img [attr.alt]="rowData.productName" class="my-image-table" [src]="image_url+image.name" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>

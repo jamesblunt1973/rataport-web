@@ -1,0 +1,96 @@
+<mat-card dir="rtl" class="wrap popup-my-wrap">
+  <div *ngIf="name === 'PurchaseRequest'">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-page">پاسخ فروشنده‌ها</div>
+        </div>
+        <p-table #dt [columns]="cols" [value]="products" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+          [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 2.25em">
+                <i class="fa fa-eye"></i>
+              </th>
+              <th style="width: 2.25em"></th>
+              <th>فروشنده‌</th>
+              <th>تاریخ ثبت</th>
+              <th>قیمت هر واحد</th>
+              <th>عملیات</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+            <tr class="my-tr-table">
+              <td class="status text-center">
+                <span class="unread" *ngIf="!rowData.applicantRead">
+                  <i class="fa fa-circle"></i>
+                </span>
+              </td>
+              <td>
+                <a href="#" [pRowToggler]="rowData">
+                  <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                  {{ rowData.brand }}
+                </a>
+              </td>
+              <td class="text-center">{{ rowData.regDate }}</td>
+              <td class="text-center">{{rowData.unitPrice|englishToPersian}} تومان</td>
+              <td class="text-center">
+                <span class="primary-color pointer" (click)="isReadApplicant(rowData.id)" *ngIf="!rowData.applicantRead">خواندم</span>
+              </td>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+            <tr>
+              <td [attr.colspan]="6">
+                <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                  <div class="ui-g-12 ui-md-3" style="text-align:center">
+                    <img [attr.alt]="rowData.ceo" class="my-image-table" *ngIf="rowData.images?.name" [src]="image_url+rowData.images?.name">
+                  </div>
+                  <div class="ui-g-12 ui-md-9">
+                    <div class="ui-g">
+                      <div class="ui-g-12">
+                        <b>فروشنده‌: </b>
+                        <a target="_blank" class="no-text-decoration primary-color" routerLink="/seller/{{rowData.sellerID}}">{{rowData.brand}}</a>
+                      </div>
+                      <div class="ui-g-12">
+                        <b>تاریخ ثبت: </b> {{rowData.regDate}}
+                      </div>
+                      <div class="ui-g-12">
+                        <b>قیمت هر واحد: </b> {{rowData.unitPrice|englishToPersian}} تومان
+                      </div>
+                      <div class="ui-g-12">
+                        <b>توضیحات: </b> {{rowData.description}}
+                      </div>
+                      <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.attachFile !== null && rowData.attachFile !== ''">
+                        <b>فایل پیوست: </b>
+                        <a target="_blank" class="no-text-decoration primary-color" href="{{image_url+rowData.attachFile}}">دانلود</a>
+                      </div>
+                      <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.attachedFile !== null && rowData.attachedFile !== ''">
+                        <b>مشاهده تصاویر : </b>
+
+                        <a *ngFor="let image of rowData.images" target="_blank" class="no-text-decoration primary-color" href="{{image_url+image.name}}">
+                          <img [attr.alt]="rowData.productName" class="my-image-table" [src]="image_url+image.name" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</mat-card>

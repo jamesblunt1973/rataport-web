@@ -1,0 +1,365 @@
+<section class="offers-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="padding-0">
+          <mat-tab-group [selectedIndex]="indexSelected">
+            <mat-tab label="درخواست‌های خرید">
+              <p-table #dt [columns]="cols" [value]="requests" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loading"
+                       [rows]="50" [rowsPerPageOptions]="[50,100,200]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 2.25em"></th>
+                    <th> نام محصول</th>
+                    <th>تاریخ</th>
+                    <th>میزان سفارش</th>
+                    <th>قیمت پیشنهادی هر واحد</th>
+                    <th>مقصد</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+                  <tr class="my-tr-table">
+                    <td>
+                      <a href="#" [pRowToggler]="rowData">
+                        <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+                      </a>
+                    </td>
+                    <td class="text-center">
+                      <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                        {{ rowData.productName }}
+                      </a>
+                    </td>
+                    <td class="text-center">{{ rowData.createdOn }}</td>
+                    <td class="text-center">
+                      <span>{{ rowData.countNeed|englishToPersian }} {{rowData.unit}}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ rowData.proposedPrice|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ rowData.destination }}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+                  <tr>
+                    <td [attr.colspan]="6">
+                      <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                        <div *ngIf="rowData.images!=null && rowData.images.length>0" class="ui-g-12 ui-md-3" style="text-align:center">
+                          <img [attr.alt]="rowData.brand" class="my-image-table" [src]="image_url+rowData.images[0].name">
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <div class="ui-g">
+                            <div class="ui-g-12" *ngIf="rowData.productName !== null && rowData.productName !== ''">
+                              <b>نام محصول: </b> {{rowData.productName}}
+                            </div>
+                            <!--<div class="ui-g-12" *ngIf="rowData.brand !== null && rowData.brand !== ''">
+                              <b>نام تجاری: </b> {{rowData.brand}}
+                            </div>-->
+                            <div class="ui-g-12" *ngIf="rowData.createdOn !== null && rowData.createdOn !== ''">
+                              <b>تاریخ ثبت: </b> {{rowData.createdOn}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.createdOn !== null && rowData.createdOn !== ''">
+                              <b>تاریخ انقضا: </b> {{rowData.expireDate}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.countNeed !== null && rowData.countNeed !== ''">
+                              <b>میزان سفارش: </b> {{rowData.countNeed|englishToPersian}} {{rowData.unit}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.proposedPrice !== null && rowData.proposedPrice !== ''">
+                              <b>قیمت پیشنهادی هر واحد: </b>
+                              <span>{{rowData.proposedPrice|englishToPersian}}</span>
+                              <span>تومان</span>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.destination !== null && rowData.destination !== ''">
+                              <b>مقصد: </b> {{rowData.destination}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.shippingMethod !== null && rowData.shippingMethod !== ''">
+                              <b>شیوه حمل و نقل: </b> {{rowData.shippingMethod}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.paymentMethod !== null && rowData.paymentMethod !== ''">
+                              <b>شیوه پرداخت: </b> {{rowData.paymentMethod}}
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-5">
+                          <div class="ui-g">
+                            <!--<div class="ui-g-12">
+                              <b>خریدار: </b> {{rowData.ceo}}
+                            </div>-->
+                            <div *ngIf="rowData.validExpireDate==true && specialMember==true">
+                              <div class="ui-g-12" *ngIf="rowData.mobile !== null && rowData.mobile !== ''">
+                                <b>تلفن همراه: </b> {{rowData.mobile|englishToPersian}}
+                              </div>
+                              <div class="ui-g-12" *ngIf="rowData.phoneNumber !== null && rowData.phoneNumber !== ''">
+                                <b>تلفن ثابت: </b> {{rowData.phoneNumber|englishToPersian}}
+                              </div>
+                              <div class="ui-g-12" *ngIf="rowData.email !== null && rowData.email !== ''">
+                                <b>ایمیل: </b> {{rowData.email}}
+                              </div>
+                              <div class="ui-g-12" *ngIf="rowData.website !== null && rowData.website !== ''">
+                                <b>وب سایت: </b> {{rowData.website}}
+                              </div>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.applicantDescription !== null && rowData.applicantDescription !== ''">
+                              <b>توضیحات خریدار: </b> {{rowData.applicantDescription}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.images.length !== 0 ">
+                              <b>سایر تصاویر : </b>
+                              <div *ngFor="let item of rowData.images; let i = index">
+                                <a target="_blank" class="no-text-decoration primary-color" href="{{image_url+item.name}}">مشاهده تصویر {{(i+1)}}</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </mat-tab>
+            <mat-tab label="پیشنهادات فروش">
+              <p-table #dt2 [columns]="cols" [value]="offers" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loading" [rows]="50"
+                       [rowsPerPageOptions]="[50,100,200]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt2.filterGlobal($event.target.value, 'contains')">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 2.25em"></th>
+                    <th> نام محصول</th>
+                    <th>تاریخ</th>
+                    <th>میزان موجودی</th>
+                    <th>قیمت برای هر واحد</th>
+                    <th>محل محصول</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+                  <tr class="my-tr-table">
+                    <td>
+                      <a href="#" [pRowToggler]="rowData">
+                        <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+                      </a>
+                    </td>
+                    <!-- <td class="text-center">{{ rowData.name }}</td> -->
+                   
+                    <td class="text-center">
+                      <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                        {{ rowData.name }}
+                      </a>
+                    </td>
+                    <td class="text-center">{{ rowData.offerRegDate }}</td>
+                    <td class="text-center">
+                      <span>{{ rowData.count|englishToPersian }} {{rowData.minOrderUnit}}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ rowData.price|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ rowData.province }}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+                  <tr>
+                    <td [attr.colspan]="6">
+                      <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                          <img [attr.alt]="rowData.brand" class="my-image-table" [src]="image_url+rowData.image">
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <div class="ui-g">
+                            <div class="ui-g-12" *ngIf="rowData.id !== null && rowData.id !== ''">
+                              <b>کد محصول: </b> {{rowData.id|englishToPersian}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.name !== null && rowData.name !== ''">
+                              <b>نام محصول: </b> <a routerLink="/products/detail/{{rowData.id}}" class="primary-color no-text-decoration">{{rowData.name}}</a>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.brand !== null && rowData.brand !== ''">
+                              <b>نام تجاری: </b> <a routerLink="/seller/{{rowData.sellerID}}" class="primary-color no-text-decoration">{{rowData.brand}}</a>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.offerRegDate !== null && rowData.offerRegDate !== ''">
+                              <b>تاریخ ثبت: </b> {{rowData.offerRegDate}}
+                            </div>
+                           
+                            <div class="ui-g-12" *ngIf="rowData.minOrder !== null && rowData.minOrder !== ''">
+                              <b>حداقل سفارش: </b>
+                              <span>{{rowData.minOrder|englishToPersian}}</span>
+                              <span>{{rowData.minOrderUnit}}</span>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.count !== null && rowData.count !== ''">
+                              <b>میزان موجودی: </b> {{rowData.count|englishToPersian}} {{rowData.minOrderUnit}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.price !== null && rowData.price !== ''">
+                              <b>قیمت برای هر واحد: </b>
+                              <span>{{rowData.price|englishToPersian}}</span>
+                              <span>تومان</span>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.province !== null && rowData.province !== ''">
+                              <b>محل محصول: </b> {{rowData.province}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.offerDescription !== null && rowData.offerDescription !== ''">
+                              <b>توضیحات فروشنده: </b> {{rowData.offerDescription}}
+                            </div>
+                            <div class="ui-g-12">
+                              <a mat-raised-button class="font-iran color-fff" color="primary" routerLink="/products/detail/{{rowData.id}}">
+                                نمایش
+                                بیشتر
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-5">
+                          <div class="ui-g">
+                            <!-- <div class="ui-g-12" *ngIf="rowData.mobile !== null && rowData.mobile !== ''">
+                              <b>تلفن همراه: </b> {{rowData.mobile}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.phoneNumber !== null && rowData.phoneNumber !== ''">
+                              <b>تلفن ثابت: </b> {{rowData.phoneNumber}}
+                            </div> -->
+                            <div class="ui-g-12" *ngIf="rowData.province !== null && rowData.province !== ''">
+                              <b>استان: </b> {{rowData.province}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </mat-tab>
+            <mat-tab label="تخفیفات">
+              <p-table #dt3 [columns]="cols" [value]="discounts" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loading"
+                       [rows]="50" [rowsPerPageOptions]="[50,100,200]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt3.filterGlobal($event.target.value, 'contains')">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 2.25em"></th>
+                    <th> نام محصول</th>
+                    <th>تاریخ ثبت</th>
+                    <th>تاریخ انقضا</th>
+                    <th> حداقل سفارش</th>
+                    <th>مبلغ</th>
+                    <th>مبلغ با تخفیف</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+                  <tr class="my-tr-table">
+                    <td>
+                      <a href="#" [pRowToggler]="rowData">
+                        <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+                      </a>
+                    </td>
+                    <!-- <td class="text-center">{{ rowData.name }}</td> -->
+                   
+                    <td class="text-center">
+                      <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                        {{ rowData.name }}
+                      </a>
+                    </td>
+                    <td class="text-center">{{ rowData.discountRegDate }}</td>
+                    <td class="text-center">{{ rowData.discountExpire }}</td>
+                    <td class="text-center">
+                      <span>{{ rowData.minOrder|englishToPersian }} {{rowData.minOrderUnit}}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ rowData.price|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ rowData.priceWithDiscount|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+                  <tr>
+                    <td [attr.colspan]="7">
+                      <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                          <img [attr.alt]="rowData.name" class="my-image-table" [src]="image_url+rowData.image">
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <div class="ui-g">
+                            <div class="ui-g-12" *ngIf="rowData.name !== null && rowData.name !== ''">
+                              <b>نام محصول: </b> <a routerLink="/products/detail/{{rowData.id}}" class="primary-color no-text-decoration">{{rowData.name}}</a>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.id !== null && rowData.id !== ''">
+                              <b>کد محصول: </b> {{rowData.id|englishToPersian}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.brand !== null && rowData.brand !== ''">
+                              <b>نام تجاری: </b> {{rowData.brand}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.discountRegDate !== null && rowData.discountRegDate !== ''">
+                              <b>تاریخ ثبت: </b> {{rowData.discountRegDate}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.discountExpire !== null && rowData.discountExpire !== ''">
+                              <b>تاریخ انقضا: </b> {{rowData.discountExpire}}
+                            </div>
+                           
+                            <div class="ui-g-12" *ngIf="rowData.province !== null && rowData.province !== ''">
+                              <b>استان: </b> {{rowData.province}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.minOrder !== null && rowData.minOrder !== ''">
+                              <b>حداقل سفارش: </b> {{rowData.minOrder|englishToPersian}} {{rowData.minOrderUnit}}
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.categoryName !== null && rowData.categoryName !== ''">
+                              <b>گروه بندی محصول: </b> {{rowData.categoryName}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-5">
+                          <div class="ui-g">
+                            <div class="ui-g-12" *ngIf="rowData.price !== null && rowData.price !== ''">
+                              <b>قیمت برای هر واحد: </b>
+                              <span>{{ rowData.price|englishToPersian }}</span>
+                              <span>تومان</span>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.price !== null && rowData.price !== ''">
+                              <b>میزان تخفیف: </b>
+                              <span class="discount-num">{{ rowData.discount|englishToPersian }} درصد</span>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.priceWithDiscount !== null && rowData.priceWithDiscount !== ''">
+                              <b>مبلغ با تخفیف: </b>
+                              <span>{{ rowData.priceWithDiscount|englishToPersian }}</span>
+                              <span>تومان</span>
+                            </div>
+                            <div class="ui-g-12" *ngIf="rowData.discountDescription !== null && rowData.discountDescription !== ''">
+                              <b>توضیحات: </b>
+                              <span>{{ rowData.discountDescription }}</span>
+                            </div>
+                            <div class="ui-g-12">
+                              <b>نمایش جزئیات بیشتر: </b>
+                              <!-- <span>{{ rowData.discountDescription }}</span> -->
+                              <a routerLink="/products/detail/{{rowData.id}}" class="primary-color no-text-decoration">{{rowData.name}}</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+<app-header [title]="'پیام مدیریت'"></app-header>
+<mat-card class="padding-0">
+  <div>
+    <div class="padding-10">
+      <button mat-raised-button color="warn" class="font-iran" (click)="deleteAll('delete')">حذف همه</button>
+    </div>
+    <p-table #dt [columns]="cols" [value]="notifications" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+      [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">
+          <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+          <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 2.25em">
+            <i class="fa fa-eye"></i>
+          </th>
+          <th style="width: 2.25em"></th>
+          <th style="width: 20.25em"> عنوان</th>
+          <th style="width: 5.25em">تاریخ ثبت</th>
+           <th style="width: 5.25em"></th> 
+          <th style="width: 5.25em">عملیات</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+        <tr class="my-tr-table">
+          <td class="status text-center">
+            <span class="unread" *ngIf="!rowData.isRead">
+              <i class="fa fa-circle"></i>
+            </span>
+          </td>
+          <td>
+            <a href="#" [pRowToggler]="rowData">
+              <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+            </a>
+          </td>
+          <td class="text-center">
+            <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+              {{ rowData.title }}
+            </a>
+          </td>
+          <td class="text-center font-12">{{ rowData.createdOn }}</td>
+           <td class="text-center font-12">
+            <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration" (click)="ReadAndGo(rowData?.id, rowData.kind)">
+              مشاهده
+            </a>
+          </td> 
+          <td>
+            <div class="text-center operation">
+              <i class="fa fa-trash" aria-hidden="true" (click)="deleteNotification(rowData?.id)"></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+        <tr>
+          <td [attr.colspan]="5">
+            <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+              <div class="ui-g-12 ui-md-12">
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <b>عنوان: </b> {{rowData.title}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>تاریخ ثبت: </b> {{rowData.createdOn}}
+                  </div>
+                  <div class="ui-g-12" *ngIf="rowData.description!=null && rowData.description!=''">
+                    <b>متن پیام: </b> {{rowData.description}}
+                  </div>
+                  <div class="ui-g-12" *ngIf="rowData.description!=null && rowData.description!=''">
+                    <b>تصویر : </b>
+                     <img src="{{image_url+rowData.image}}" style="width:100%" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</mat-card>

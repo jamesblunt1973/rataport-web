@@ -1,0 +1,488 @@
+<app-header [title]="'حفاظت ازخرید'"></app-header>
+<mat-card class="list-man">
+  <app-loading *ngIf="!loading"></app-loading>
+  <mat-accordion *ngIf="loading">
+    <mat-expansion-panel (opened)="true" [expanded]="step === 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>سفارشات ارسالی</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p-table #dt [columns]="cols" [value]="orderSentLists" dataKey="id" [paginator]="true" [responsive]="true"
+        [loading]="loadingTable" [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 2.25em">
+              <i class="fa fa-eye"></i>
+            </th>
+            <th style="width: 2.25em"></th>
+            <th> محصول</th>
+            <th>تاریخ ثبت</th>
+            <th>فروشنده</th>
+            <th>وضعیت معامله</th>
+            <th style="width: 6.25em">اتمام معامله</th>
+            <th style="width: 7.25em">وضعیت تایید</th>
+            <th style="width: 6.25em">عملیات</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+          <tr class="my-tr-table">
+            <td class="status text-center">
+              <span class="unread" *ngIf="!rowData.applicantViewStatus">
+                <i class="fa fa-circle"></i>
+              </span>
+            </td>
+            <td>
+              <a href="#" [pRowToggler]="rowData">
+                <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+              </a>
+            </td>
+            <td class="text-center">
+              <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                {{ rowData.productName }}
+              </a>
+            </td>
+            <td class="text-center">{{ rowData.orderDate }}</td>
+            <td class="text-center">{{ rowData.sellerName }}</td>
+            <td class="text-center">
+              <span>{{rowData.dealStatus}}</span>
+            </td>
+            <td class="text-center">
+              <span *ngIf="rowData.finishDeal">
+                <i class="fa fa-check finishDeal"></i>
+              </span>
+            </td>
+            <!-- <td class="text-center">
+              <span class="primary-color pointer" *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && rowData.sendBySellerStatus"
+                (click)="openModal('ReceiveGoodsByBuyer',rowData.id)">دریافت کالا</span>
+            </td>
+            <td class="text-center">
+              <span class="primary-color pointer" *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && !rowData.sendBySellerStatus"
+                (click)="openModal('CancelBeforeShipping',rowData.id)">انصراف ازخرید</span>
+              <span class="primary-color pointer" *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && rowData.sendBySellerStatus"
+                (click)="openModal('CancelAfterShipping',rowData.id)">انصراف ازخرید</span>
+            </td> -->
+            <td class="text-center">
+              <span class="confrim" *ngIf="rowData.confirm">تایید شد</span>
+              <span class="noconfrim" *ngIf="rowData.confirm === false">عدم پذبرش</span>
+              <span class="watting" *ngIf="rowData.confirm === null">در حال بررسی</span>
+            </td>
+            <td class="text-center">
+              <span class="primary-color pointer" (click)="isReadApplicant(rowData.id)" *ngIf="!rowData.applicantViewStatus">خواندم</span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+          <tr>
+            <td [attr.colspan]="8">
+              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                <div class="ui-g-12 ui-md-3" style="text-align:center">
+                  <img [attr.alt]="rowData.title" class="my-image-table" [src]="image_url+rowData.image">
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <b>محصول: </b> <a routerLink="/products/detail/{{rowData.productID}}" class="no-text-decoration primary-color"
+                                        target="_blank">{{rowData.productName}}</a>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>کد محصول: </b> {{rowData.productID|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>شماره رسید: </b> {{rowData.id|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>حجم سفارش: </b>{{rowData.count|englishToPersian}} {{rowData.minOrderUnit}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مبلغ قرارداد: </b> {{rowData.paidMoney|englishToPersian}}
+                      <span>تومان</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مبلغ پیش پرداخت: </b> {{rowData.prePayment|englishToPersian}}
+                      <span>تومان</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>بسته بندی داخلی: </b> {{rowData.innerPackaging}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>بسته بندی خارجی: </b> {{rowData.externalPackaging}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>روش ارسال: </b> {{rowData.shippingMethod}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>توضیحات: </b> {{rowData.description}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>فروشنده: </b> {{rowData.sellerName}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>ایمیل: </b> {{rowData.email}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.mobile !== null && rowData.mobile !== ''">
+                      <b>موبایل: </b> {{rowData.mobile|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.mobile2 !== null && rowData.mobile2 !== ''">
+                      <b>موبایل۲: </b> {{rowData.mobile2|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.phoneNumber !== null && rowData.phoneNumber !== ''">
+                      <b>تلفن: </b> {{rowData.phoneNumber|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.phoneNumber2 !== null && rowData.phoneNumber2 !== ''">
+                      <b>تلفن۲: </b> {{rowData.phoneNumber2|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.fax1 !== null && rowData.fax1 !== ''">
+                      <b>فکس: </b> {{rowData.fax1|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.fax2 !== null && rowData.fax2 !== ''">
+                      <b>فکس۲: </b> {{rowData.fax2|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.website !== null && rowData.website !== ''">
+                      <b>وب سایت: </b> {{rowData.website}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.address !== null && rowData.address !== ''">
+                      <b>آدرس: </b> {{rowData.address}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.zipCode !== null && rowData.zipCode !== ''">
+                      <b>کدپستی: </b> {{rowData.zipCode|englishToPersian}}
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-5">
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <b>تاریخ ثبت: </b> {{rowData.orderDate}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.cancelPurchaseBeforeShipping">
+                      <b>تاریخ انصراف: </b> {{rowData.cancelDate}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.deliveryDatebySeller!=''">
+                      <b>تاریخ ارسال کالا: </b> {{rowData.deliveryDatebySeller}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.recieveDatebyApplicant!=''">
+                      <b>تاریخ دریافت کالا: </b> {{rowData.recieveDatebyApplicant}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.confirm && rowData.sendBySellerStatus && !rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && rowData.sendBySellerStatus">
+                      <b> دریافت کالا: </b> {{rowData.recieveDatebyApplicant}}
+                      <span class="primary-color pointer" *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && rowData.sendBySellerStatus"
+                            (click)="openModal('ReceiveGoodsByBuyer',rowData.id)">دریافت کالا</span>
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.confirm">
+                      <div *ngIf="rowData.returnDatebyApplicant!=''">
+                        <b>انصراف از خرید: </b>
+                        <span> {{rowData.returnDatebyApplicant}}</span>
+                      </div>
+                      <div *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && !rowData.sendBySellerStatus">
+                        <b>انصراف از خرید: </b>
+                        <span class="primary-color pointer" (click)="openModal('CancelBeforeShipping',rowData.id)">
+                          انصراف
+                          ازخرید
+                        </span>
+                      </div>
+                      <div *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && rowData.sendBySellerStatus">
+                        <b>انصراف از خرید: </b>
+                        <span class="primary-color pointer" (click)="openModal('CancelAfterShipping',rowData.id)">
+                          انصراف
+                          ازخرید
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.cancelPurchaseAfterShipping || rowData.cancelPurchaseBeforeShipping">
+                      <b>دلیل انصراف: </b> {{rowData.cencelReason}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.confirm && rowData.cancelPurchaseAfterShipping">
+                      <b>برگشت کالا: </b> {{rowData.recieveDatebySeller}}
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.wayBillFile !== null && rowData.wayBillFile !== ''">
+                      <b>بارنامه: </b>
+                      <a href="{{image_url+rowData.wayBillFile}}" class="no-text-decoration primary-color" target="_blank">
+                        دانلود
+                        فایل
+                      </a>
+                    </div>
+
+                    <div class="ui-g-12">
+                      <b>هزینه حمل: </b> {{rowData.costOfShipping}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>هزینه بیمه : </b> {{rowData.costOfInsurance}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مقصد : </b> {{rowData.destination}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مدت زمان تحویل : </b> {{rowData.deliveryTime}} {{rowData.deliveryTimePeriod}}
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.wayBillFile !== null && rowData.wayBillFile !== ''">
+                      <b>فایل پیوست: </b>
+                      <a href="{{image_url+rowData.contractFile}}" class="no-text-decoration primary-color" target="_blank">
+                        دانلود
+                        فایل
+                      </a>
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.wayBillFile !== null && rowData.wayBillFile !== ''">
+                      <b>تصاویر محصول فروشنده: </b>
+                      <div *ngFor="let photo of rowData.sellerPhotoes; let i = index">
+                        <br />
+                        <a href="{{image_url+photo}}" class="no-text-decoration primary-color" target="_blank">
+                          تصویر
+                          {{(i+1)}}
+                        </a>
+                      </div>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>وضعیت معامله: </b>
+                      <span class="discount-num">{{rowData.dealStatus}}</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>اتمام معامله: </b>
+                      <span *ngIf="rowData.finishDeal">
+                        {{rowData.finishDateDeal}}
+                        <!--<i class="fa fa-check finishDeal"></i>-->
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>سفارشات دریافتی</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p-table #dt2 [columns]="cols" [value]="orderReceivedLists" dataKey="id" [paginator]="true" [responsive]="true"
+        [loading]="loadingTable2" [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt2.filterGlobal($event.target.value, 'contains')">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 2.25em">
+              <i class="fa fa-eye"></i>
+            </th>
+            <th style="width: 2.25em"></th>
+            <th> محصول</th>
+            <th>تاریخ ثبت</th>
+            <th>خریدار</th>
+            <th>تاریخ ارسال</th>
+
+            <th>وضعیت معامله</th>
+            <th>اتمام معامله</th>
+            <th>عملیات</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+          <tr class="my-tr-table">
+            <td class="status text-center">
+              <span class="unread" *ngIf="!rowData.sellerViewStatus">
+                <i class="fa fa-circle"></i>
+              </span>
+            </td>
+            <td>
+              <a href="#" [pRowToggler]="rowData">
+                <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+              </a>
+            </td>
+            <td class="text-center">
+              <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+                {{ rowData.productName }}
+              </a>
+            </td>
+            <td class="text-center">{{ rowData.orderDate }}</td>
+            <td class="text-center">{{ rowData.buyerName }}</td>
+            <td class="text-center">
+              {{rowData.deliveryDatebySeller}}
+            </td>
+
+            <td class="text-center">
+              <span>{{rowData.dealStatus}}</span>
+            </td>
+            <td class="text-center">
+              <span *ngIf="rowData.finishDeal">
+                <i class="fa fa-check finishDeal"></i>
+              </span>
+            </td>
+            <td class="text-center">
+              <span class="primary-color pointer" (click)="isReadSeller(rowData.id)" *ngIf="!rowData.sellerViewStatus">خواندم</span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+          <tr>
+            <td [attr.colspan]="8">
+              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                <div class="ui-g-12 ui-md-3" style="text-align:center">
+                  <img [attr.alt]="rowData.title" class="my-image-table" [src]="image_url+rowData.image">
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <b>محصول: </b> <a routerLink="/products/detail/{{rowData.productID}}" class="no-text-decoration primary-color"
+                                        target="_blank">{{rowData.productName}}</a>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>کد محصول: </b> {{rowData.productID|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>شماره رسید: </b> {{rowData.id|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>حجم سفارش: </b>{{rowData.count|englishToPersian}} {{rowData.minOrderUnit}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مبلغ قرارداد: </b> {{rowData.paidMoney|englishToPersian}}
+                      <span>تومان</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مبلغ پیش پرداخت: </b> {{rowData.prePayment|englishToPersian}}
+                      <span>تومان</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>بسته بندی داخلی: </b> {{rowData.innerPackaging}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>بسته بندی خارجی: </b> {{rowData.externalPackaging}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>روش ارسال: </b> {{rowData.shippingMethod}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.description || rowData.description">
+                      <b>توضیحات خریدار: </b> {{rowData.description}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>خریدار: </b> {{rowData.buyerName}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>ایمیل: </b> {{rowData.email}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.mobile !== null && rowData.mobile !== ''">
+                      <b>موبایل: </b> {{rowData.mobile|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.mobile2 !== null && rowData.mobile2 !== ''">
+                      <b>موبایل۲: </b> {{rowData.mobile2|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.phoneNumber !== null && rowData.phoneNumber !== ''">
+                      <b>تلفن: </b> {{rowData.phoneNumber|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.phoneNumber2 !== null && rowData.phoneNumber2 !== ''">
+                      <b>تلفن۲: </b> {{rowData.phoneNumber2|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.fax1 !== null && rowData.fax1 !== ''">
+                      <b>فکس: </b> {{rowData.fax1|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.fax2 !== null && rowData.fax2 !== ''">
+                      <b>فکس۲: </b> {{rowData.fax2|englishToPersian}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.website !== null && rowData.website !== ''">
+                      <b>وب سایت: </b> {{rowData.website}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.address !== null && rowData.address !== ''">
+                      <b>آدرس: </b> {{rowData.address}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.zipCode !== null && rowData.zipCode !== ''">
+                      <b>کدپستی: </b> {{rowData.zipCode|englishToPersian}}
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-5">
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <b>تاریخ ثبت: </b> {{rowData.orderDate}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.cancelPurchaseBeforeShipping">
+                      <b>تاریخ انصراف: </b> {{rowData.cancelDate}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.sendBySellerStatus">
+                      <b>تاریخ تایید ارسال: </b> {{rowData.deliveryDatebySeller}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && !rowData.sendBySellerStatus">
+                      <b>تایید ارسال: </b>
+                      <span class="primary-color pointer" *ngIf="!rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && !rowData.sendBySellerStatus"
+                            (click)="openModal('ShippingBySeller',rowData.id)">تایید ارسال</span>
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.returnDatebyApplicant!=''">
+                      <b> تاریخ انصراف خریدار: </b> {{rowData.returnDatebyApplicant}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.recieveDatebyApplicant!=''">
+                      <b> تاریخ دریافت کالا: </b> {{rowData.recieveDatebyApplicant}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.cencelReason!=='' && rowData.cencelReason!==null">
+                      <b> دلایل انصراف خریدار: </b> {{rowData.cencelReason}}
+                    </div>
+                    <div class="ui-g-12" *ngIf="rowData.confirm && rowData.cancelPurchaseAfterShipping">
+                      <b>برگشت کالا: </b> {{rowData.recieveDatebySeller}}
+                      <span class="primary-color pointer" *ngIf="rowData.cancelPurchaseAfterShipping && !rowData.cancelPurchaseBeforeShipping && !rowData.recieveByApplicantStatus && !rowData.recieveBySellerStatus && rowData.sendBySellerStatus"
+                            (click)="openModal('RecieveBySeller',rowData.id)">دریافت کالا</span>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>وضعیت معامله: </b>
+                      <span class="discount-num">{{rowData.dealStatus}}</span>
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.wayBillFile !== null && rowData.wayBillFile !== ''">
+                      <b>بارنامه: </b>
+                      <a href="{{image_url+rowData.wayBillFile}}" class="no-text-decoration primary-color" target="_blank">
+                        دانلود
+                        فایل
+                      </a>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>هزینه حمل: </b> {{rowData.costOfShipping}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>هزینه بیمه : </b> {{rowData.costOfInsurance}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مقصد : </b> {{rowData.destination}}
+                    </div>
+                    <div class="ui-g-12">
+                      <b>مدت زمان تحویل : </b> {{rowData.deliveryTime}} {{rowData.deliveryTimePeriod}}
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.wayBillFile !== null && rowData.wayBillFile !== ''">
+                      <b>فایل پیوست: </b>
+                      <a href="{{image_url+rowData.contractFile}}" class="no-text-decoration primary-color" target="_blank">
+                        دانلود
+                        فایل
+                      </a>
+                    </div>
+                    <div class="ui-g-12 border-bottom-1 margin-bottom-10" *ngIf="rowData.applicantPhotoes.length!== 0">
+                      <b>تصاویر محصول برگشتی: </b>
+                      <div *ngFor="let photo of rowData.applicantPhotoes; let i = index">
+                        <br />
+                        <a href="{{image_url+photo}}" class="no-text-decoration primary-color" target="_blank">
+                          تصویر
+                          {{(i+1)}}
+                        </a>
+                      </div>
+                    </div>
+                    <div class="ui-g-12">
+                      <b>اتمام معامله: </b>
+                      <span *ngIf="rowData.finishDeal">
+                        {{rowData.finishDateDeal}}
+                        <!--<i class="fa fa-check finishDeal"></i>-->
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>

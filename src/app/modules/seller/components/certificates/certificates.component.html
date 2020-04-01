@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-3">
+    <mat-card class="mat-card-products">
+      <h5 class="text-center my-title">
+        <i class="fa fa-list" aria-hidden="true"></i>
+        <span>دسته‌بندی گواهینامه‌ها</span>
+      </h5>
+      <ul>
+        <li (click)="getAllContents()">
+          <span>نمایش همه</span>
+        </li>
+        <li (click)="getContents(sellerID, 'فعالیت')">
+          <span>فعالیت‌ها</span>
+        </li>
+        <li (click)="getContents(sellerID, 'گواهینامه')">
+          <span>گواهینامه‌ها</span>
+        </li>
+        <li (click)="getContents(sellerID, 'تاییدیه')">
+          <span>تاییدیه‌ها</span>
+        </li>
+        <li (click)="getContents(sellerID, 'مجوز')">
+          <span>مجوزها</span>
+        </li>
+        <li (click)="getContents(sellerID, 'دستاورد')">
+          <span>دستاوردها</span>
+        </li>
+      </ul>
+    </mat-card>
+  </div>
+  <!-- <div class="col-md-9" *ngIf="certificates.length !== 0"> -->
+  <div class="col-md-9">
+    <!-- <div class="conatainer"> -->
+    <mat-card class="pas-certificate">
+      <div class="box-certificate" *ngFor="let item of certificates">
+        <mat-card class="padding-10 margin-bottom-10">
+          <div>
+            <p class="text-center margin-bottom-0">{{item.title}}</p>
+            <p class="text-center margin-top-0">{{item.regDate}}</p>
+          </div>
+          <div class="text-center">
+            <a class="primary-color pointer" (click)="showPop(item.name)">
+              <i class="fa fa-eye fa-3x"></i>
+            </a>
+            <!-- <span >نمایش تصویر</span> -->
+            <div class="img-show-popup" id="{{item.name}}">
+              <span (click)="hidePop(item.name)" class="fa fa-close"></span>
+              <img src="{{image_url+item.name}}" alt="">
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-card>
+    <!-- </div> -->
+  </div>
+</div>

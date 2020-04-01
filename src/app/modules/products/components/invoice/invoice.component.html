@@ -1,0 +1,243 @@
+<section class="payment">
+  <app-loading *ngIf="!loadOrderStatus"></app-loading>
+  <div class="container" *ngIf="loadOrderStatus">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <mat-card class="invoice-wrap">
+          <h4 class="title-header">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+            <span class="margin-right-5"> اطلاعات محصول </span>
+          </h4>
+        </mat-card>
+        <form [formGroup]="orderForm" (ngSubmit)="registerOrder(orderForm.value)">
+          <mat-card>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12 margin-bottom-10">
+                  <div class="alert-box warning-box">
+                    <p>
+                      <span>
+                        <b>توجه! </b>
+                      </span>
+                      <span>قبل از ثبت سفارش با فروشنده تماس بگیرید و از صحت موجودی آن با خبر شوید.</span>
+                    </p>
+                  </div>
+                  <div class="margin-bottom-10">
+                    <b>
+                      <span>{{order.productName }}</span>
+                      <!--<span>{{order.sellerBrand }}</span>-->
+                    </b>
+                  </div>
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>حداقل سفارش: </span>
+                    <b>
+                      <span>{{ order.minOrder|englishToPersian }}</span>
+                      <span>{{ order.minOrderUnit }}</span>
+                    </b>
+                  </div>
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>قیمت برای هر واحد: </span>
+                    <b>
+                      <span>{{ order.price|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </b>
+                  </div>
+                  <div class="product-items" *ngIf="order.priceAfterDiscount!=null && order.priceAfterDiscount!=0">
+                    <i class="fa fa-square"></i>
+                    <span>قیمت  با تخفیف برای هر واحد: </span>
+                    <b>
+                      <span>{{ order.priceAfterDiscount|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </b>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <input matInput type="number" required placeholder="حجم سفارش"
+                           [formControl]="minOrderCtrl" [(ngModel)]="count" (change)="countChange()" (ngModelChange)="calculateTotalPrice($event)">
+                    <mat-error *ngIf="minOrderCtrl.hasError('required')" >
+                      حجم سفارش فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select [(value)]="order.minOrderUnit" placeholder="واحد">
+                      <mat-option [value]="order.minOrderUnit">
+                        {{ order.minOrderUnit }}
+                      </mat-option>
+                    </mat-select>
+
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="شیوه حمل و نقل " [formControl]="shippingMethodCtrl">
+                      <mat-option *ngFor="let item of order.shippingMethod" [value]="item">
+                        {{ item }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="shippingMethodCtrl.hasError('required')">
+                      شیوه حمل و نقل فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="بسته بندی داخلی" [formControl]="internalPackControl">
+                      <mat-option *ngFor="let item of order.innerPackage" [value]="item">
+                        {{ item }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="internalPackControl.hasError('required')">
+                      بسته بندی داخلی فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="بسته بندی خارجی" [formControl]="foreignPackControl">
+                      <mat-option *ngFor="let item of order.externalPackage" [value]="item">
+                        {{ item }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="foreignPackControl.hasError('required')">
+                      بسته بندی خارجی فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="full-width">
+                    <textarea matInput matTextareaAutosize matAutosizeMinRows="3" placeholder="توضیحات تکمیلی" [formControl]="descriptionCtrl"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <!-- </form> -->
+          </mat-card>
+          <mat-card class="invoice-wrap">
+            <h4 class="title-header">
+              <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+              <span class="margin-right-5"> اطلاعات شما </span>
+            </h4>
+          </mat-card>
+          <mat-card>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6" *ngIf="order.userBrand !== null">
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>نام تجاری:</span>
+                    <b>
+                      <span>{{ order.userBrand }}</span>
+                    </b>
+                  </div>
+                </div>
+                <!-- Businese name -->
+                <div class="col-md-6">
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>مدیریت:</span>
+                    <b>
+                      <span>{{ order.ceo }}</span>
+                    </b>
+                  </div>
+                </div>
+                <!-- CEO -->
+                <div class="col-md-6" *ngIf="order.tel !== null">
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>تلفن ثابت:</span>
+                    <b>
+                      <span>{{ order.tel|englishToPersian }}</span>
+                    </b>
+                  </div>
+                </div>
+                <!-- Home number -->
+                <div class="col-md-6">
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>ایمیل:</span>
+                    <b>
+                      <span>{{ order.email }}</span>
+                    </b>
+                  </div>
+                </div>
+                <!-- email -->
+                <div class="col-md-6" *ngIf="order.mobile !== null">
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>شماره همراه:</span>
+                    <b>
+                      <span>{{ order.mobile|englishToPersian }}</span>
+                    </b>
+                  </div>
+                </div>
+                <!-- Cellphone -->
+                <div class="col-md-6" *ngIf="order.fax !== null">
+                  <div class="product-items">
+                    <i class="fa fa-square"></i>
+                    <span>فکس:</span>
+                    <b>
+                      <span>{{ order.fax|englishToPersian }}</span>
+                    </b>
+                  </div>
+                </div>
+                <!-- Fax -->
+                <div class="col-md-12"></div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <input matInput required type="number" placeholder="کد پستی" [formControl]="postalCodCtrl">
+                    <mat-error *ngIf="minOrderCtrl.hasError('required')">
+                      کد پستی فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="full-width">
+                    <textarea required matInput matTextareaAutosize matAutosizeMinRows="2" placeholder="آدرس" [formControl]="addressCtrl"></textarea>
+                    <mat-error *ngIf="minOrderCtrl.hasError('required')">
+                      آدرس فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-checkbox color="primary" [formControl]="agreeCtrl">تایید می کنم که اطلاعات بالا صحیح و متعلق به من است</mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card class="invoice-wrap">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div>
+                    <span>مبلغ قابل پرداخت:</span>
+                    <b>
+                      <span>{{ totalPrice|englishToPersian }}</span>
+                      <span>تومان</span>
+                    </b>
+                  </div>
+                </div>
+                <div class="col-md-6 text-left">
+                  <button mat-raised-button color="primary" class="font-iran">
+                    <span *ngIf="!sendAdd">ثبت سفارش</span>
+                    <span class="loading-btn-span" *ngIf="sendAdd">
+                      <i class="fa fa-spinner fa-spin fa-fw "></i>
+                      <span class="sr-only ">Loading...</span>
+                      <span>لطفا صبر کنید ...</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </form>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,169 @@
+<app-header [title]="'نشان اعتماد'"></app-header>
+<mat-card class="signs-page-matcard">
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="!data1?.trust">
+        <p class="text">
+          <span>
+            <b>کاربر گرامی</b>
+          </span>
+          <br>
+          <span>
+            قبل از تایید هویت از سمت رتاپورت و دریافت نشان اعتماد ، شما می بایست
+            <a routerLink="/profile/sign/special" class="primary-color decoration-none">عضو ویژه</a> رتاپورت باشید. در صورتی که شما عضو دارای نشان اعتماد رتاپورت شوید ، هویت شما برای خریداران محصولاتتان
+            احراز خواهد شد و می توانید معاملات بیشتری را از طریق اینترنت انجام دهید.
+          </span>
+          <br>
+        </p>
+        <p class="text">
+          <span>مجوز های لازم برای اشخاص حقوقی:</span>
+        </p>
+        <ul>
+          <li>آگهی تاسیس شرکت</li>
+          <li>آگهی آخرین تغییرات مدیرعامل و هیئت مدیره</li>
+          <li>آگهی آخرین تغییرات آدرس محل فعالیت</li>
+        </ul>
+        <p class="text">
+          <span>مجوزهای لازم برای اشخاص حقیقی:</span>
+        </p>
+        <ul>
+          <li>جواز کسب و کار</li>
+          <li>اسکن کارت ملی فرد دارای جواز</li>
+        </ul>
+      
+      </div>
+      <div *ngIf="data1?.trust">
+        <p class="text">
+          <span>
+            <b>کاربر گرامی</b>
+          </span>
+          <br>
+          <span>
+            ضمن تشکر از ارسال مدارک
+            شما تا تاریخ {{data1?.expireDate}} از اعضای تایید شده ی رتاپورت خواهید بود .
+          </span>
+          <br>
+        </p>
+
+
+      </div>
+    </div>
+  </div>
+</mat-card>
+<mat-card *ngIf="data1?.special">
+  <div class="margin-bottom-10">
+    <mat-accordion>
+      <mat-expansion-panel (opened)="openStatus" [expanded]="step === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>آپلود مدارک (حداکثر حجم مجاز فایل 3 مگابایت می باشد)</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form #sendDocument [formGroup]="sendDocumentForm" (ngSubmit)="sendDocumentFunc(sendDocumentForm.value)">
+          <div class="container">
+            <div class="row">
+             
+              <div class="col-md-5">
+                <div class="flex-display">
+                  <p>
+                    <span class="up-cat font-iran">آپلود فایل: </span>
+                  </p>
+                  <p class="no-margin">
+                    <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onProgress)="onProgress($event)"
+                                   maxFileSize="3000000" (onUpload)="onBasicUploadAuto($event)" auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="توضیحات تکمیلی" [formControl]="descriptionControl" [(ngModel)]="description" matTextareaAutosize
+                            matAutosizeMinRows="5" matAutosizeMaxRows="3"></textarea>
+                  <mat-error *ngIf="descriptionControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="font-iran" mat-raised-button color="primary">
+                  <span *ngIf="!sendreg">ارسال اطلاعات</span>
+                  <span class="loading-btn-span" *ngIf="sendreg">
+                    <i class="fa fa-spinner fa-spin fa-fw "></i>
+                    <span class="sr-only ">Loading...</span>
+                    <span>لطفا صبر کنید ...</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <p-table #dt [columns]="cols" [value]="items" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+           [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 2.25em"></th>
+        <th >تاریخ ثبت</th>
+        <th >فایل</th>
+        <th >نتیجه</th>
+        <th >عملیات</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+      <tr class="my-tr-table">
+        <td>
+          <a href="#" [pRowToggler]="rowData">
+            <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="width: 1.25em"></i>
+          </a>
+        </td>
+       
+        <td>
+          <div class="text-center">{{ rowData?.createdOn }}</div>
+        </td>
+        <td>
+          <div class="text-center">
+            <a href="{{image_url+rowData?.name }}" class="no-text-decoration primary-color" target="_blank">دانلود فایل</a>
+          </div>
+        </td>
+        <td class="text-center">
+          <span class="confrim" *ngIf="rowData.confirm">تایید شد</span>
+          <span class="noconfrim" *ngIf="rowData.confirm === false">عدم پذبرش</span>
+          <span class="watting" *ngIf="rowData.confirm === null">در حال بررسی</span>
+        </td>
+        <!-- <td>
+    <div class="text-center">{{ item?.description }}</div>
+  </td> -->
+        <td>
+          <div class="text-center operation">
+            <i class="fa fa-trash" aria-hidden="true" (click)="documentDelete(rowData?.id)"></i>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+      <tr>
+        <td [attr.colspan]="5">
+          <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+            <div class="ui-g-12 ui-md-9">
+              <div class="ui-g">
+             
+                <div class="ui-g-12">
+                  <b>توضیحات: </b> {{rowData.description}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</mat-card>

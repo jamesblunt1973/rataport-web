@@ -1,0 +1,345 @@
+<div class="login-box">
+  <mat-tab-group dir="rtl" class="my-tab-group" (selectedTabChange)="tabChanged($event)" [selectedIndex]="indexSelected">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="hidden-xs hidden-sm">assignment_ind</mat-icon>
+        <span class="title">ورود</span>
+      </ng-template>
+      <div class="content-modal-wrap login">
+        <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+          <p>
+            <mat-form-field class="full-width">
+              <input type="tel" required maxlength="11" matInput placeholder="لطفا تلفن همراه خود را وارد نمایید" dir="ltr" [formControl]="cellphoneControl">
+              <mat-error *ngIf="cellphoneControl.hasError('required')">
+                لطفا تلفن همراه را با فرمت درست وارد کنید
+              </mat-error>
+              <mat-error *ngIf="cellphoneControl.hasError('minlength')">
+                تلفن همراه فیلد ضروری است
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <!-- END EMAIL -->
+          <p>
+            <mat-form-field class="full-width">
+              <input matInput required placeholder="لطفا رمز عبور خود را وارد نمایید" [type]="hidepass ? 'password' : 'text'" [formControl]="loginPasswordControl">
+              <mat-icon matSuffix (click)="hidepass = !hidepass">{{hidepass ? 'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-error *ngIf="loginPasswordControl.hasError('required')">
+                رمز عبور فیلد اجباری است
+              </mat-error>
+              <mat-error *ngIf="loginPasswordControl.hasError('minlength')">
+                رمز عبور بایستی بیش از ۶ کاراکتر باشد
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p class="margin-bottom-10">
+            <mat-checkbox color="primary" [formControl]="remembermeControl">مرا به خاطر بسپار!</mat-checkbox>
+          </p>
+          <!-- END CONFIRM PASSWORD -->
+          <p-captcha siteKey="6LcpklEUAAAAAL-w3ut2tGvvbaipGTUtG_hn_o5b" (onResponse)="showResponseLogin($event)"
+                     [language]="'fa'"></p-captcha>
+          <p class="forgetPass" (click)="forgetPass()">رمز عبور را فراموش کرده‌ای؟</p>
+          <p>
+            <span>آیا هنوز ثبت نام نکرده اید؟</span>
+            <span>|</span>
+            <span class="gotologin" (click)="gotoregister()">ثبت نام</span>
+          </p>
+          <div class="text-left">
+            <button mat-raised-button type="button" (click)="onNoClick()">انصراف</button>
+            <button mat-raised-button color="primary">
+              <span *ngIf="!sendLogin">ورود</span>
+              <span class="loading-btn-span" *ngIf="sendLogin">
+                <i class="fa fa-spinner fa-spin fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="hidden-xs hidden-sm">person_add</mat-icon>
+        <span class="title">ثبت نام</span>
+      </ng-template>
+      <div class="content-modal-wrap">
+        <div class="container">
+          <form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
+            <div class="row">
+              <div class="col-md-12">
+                <p>
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="نوع شخصیت:" [formControl]="legalControl"  [(ngModel)]="legal">
+                      <mat-option disabled>انتخاب کنید</mat-option>
+                      <mat-option value="0">حقیقی</mat-option>
+                      <mat-option value="1">حقوقی</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </p>
+              </div>
+              <!-- END SHAKHSIYAT -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="نوع کسب و کار" [formControl]="kasbokarControl">
+                      <mat-option *ngFor="let kasb of kasbokar" [value]="kasb.value">
+                        {{ kasb.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="kasbokarControl.hasError('required')">
+                      نوع کسب و کار فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END KASBOKAR -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="نوع فعالیت" [formControl]="activityControl">
+                      <mat-option *ngFor="let activity of activities" [value]="activity.value">
+                        {{ activity.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="activityControl.hasError('required')">
+                      نوع فعالیت فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END ACTIVITY -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput type="text" required placeholder="نام و نام خانوادگی مدیریت" [formControl]="adminNameControl"
+                      [(ngModel)]="managementName" name="hossein" />
+                    <button mat-button *ngIf="managementName" matSuffix mat-icon-button aria-label="Clear" (click)="managementName=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="adminNameControl.hasError('required')">
+                      نام و نام خانوادگی مدیریت فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END MANAGEMENT NAME -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput type="text" required placeholder="نام تجاری" [formControl]="BrandControl"
+                      [(ngModel)]="Brand" />
+                    <button mat-button *ngIf="Brand" matSuffix mat-icon-button aria-label="Clear" (click)="Brand=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="BrandControl.hasError('required')">
+                      نام تجاری فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END Brand -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput type="text" required placeholder="نام تجاری انگلیسی" [formControl]="BrandEnglishControl"
+                      [(ngModel)]="BrandInEnglish" />
+                    <button mat-button *ngIf="BrandInEnglish" matSuffix mat-icon-button aria-label="Clear" (click)="BrandInEnglish=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="BrandEnglishControl.hasError('required')">
+                      نام تجاری انگلیسی فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END Brand -->
+
+
+              <!-- <div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input type="tel" required maxlength="11" matInput placeholder="لطفا تلفن همراه خود را وارد نمایید" dir="ltr" [formControl]="emailRegControl">
+                    <mat-error *ngIf="cellphoneControl.hasError('required')">
+                      لطفا تلفن همراه را با فرمت درست وارد کنید
+                    </mat-error>
+                    <mat-error *ngIf="cellphoneControl.hasError('minlength')">
+                      تلفن همراه فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div> -->
+              <!-- END EMAIL -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width" *ngIf="regionsStatus">
+                    <mat-select required placeholder="استان" [formControl]="provinceControl">
+                      <mat-option *ngFor="let province of regions" [value]="province.id">
+                        {{ province.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END PROVINCE -->
+              <div class="col-md-12">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput type="tel" required maxlength="11" [formControl]="cellphoneControl" dir="ltr"
+                           placeholder="تلفن همراه" value="">
+                    <mat-error *ngIf="cellphoneControl.hasError('required')">
+                      تلفن همراه فیلد اجباری است
+                    </mat-error>
+                    <mat-error *ngIf="cellphoneControl.hasError('minlength')">
+                      تلفن همراه را درست وارد کنید
+                    </mat-error>
+                   
+                      <!-- <mat-hint align="end">{{cellphone.value.length}} / 11</mat-hint> -->
+                  </mat-form-field>
+                </p>
+              </div>
+              <!-- END MOBILE -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput type="tel" maxlength="3" dir="ltr" placeholder="پیش شماره تلفن ثابت" value=""
+                      [formControl]="prephoneControl">
+
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END PRE HOMEPHONE -->
+              <!--<div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput type="tel" maxlength="8" dir="ltr" placeholder="تلفن ثابت" value="" [formControl]="phoneControl">
+
+                  </mat-form-field>
+                </p>
+              </div>-->
+              <!-- END HOMEPHONE -->
+              <div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput required placeholder="رمز عبور" [formControl]="passwordControl" [type]="hide ? 'password' : 'text'"
+                           id="password" name="password" [(ngModel)]="account.password">
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <mat-error *ngIf="passwordControl.hasError('required')">
+                      رمز عبور فیلد اجباری است
+                    </mat-error>
+                    <mat-error *ngIf="passwordControl.hasError('minlength')">
+                      رمز عبور بایستی بیش از ۶ کاراکتر باشد
+                    </mat-error>
+                  </mat-form-field>
+                  <ng2-password-strength-bar [passwordToCheck]="account.password" [barLabel]="barLabel" [barColors]="myColors">
+                  </ng2-password-strength-bar>
+                </p>
+              </div>
+              <!-- END PASSWORD -->
+              <div class="col-md-6">
+                <p>
+                  <mat-form-field class="full-width">
+                    <input matInput required placeholder="تکرار رمز عبور" [formControl]="rePasswordControl" [type]="confirmhide ? 'password' : 'text'">
+                    <mat-icon matSuffix (click)="confirmhide = !confirmhide">
+                      {{
+confirmhide ? 'visibility' :
+                      'visibility_off'
+                      }}
+                    </mat-icon>
+                    <mat-error *ngIf="rePasswordControl.hasError('required')">
+                      رمز عبور فیلد اجباری است
+                    </mat-error>
+                    <mat-error *ngIf="rePasswordControl.hasError('minlength')">
+                      رمز عبور بایستی بیش از ۶ کاراکتر باشد
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>
+              <!-- END CONFIRM PASSWORD -->
+              <div class="col-md-12">
+                <span class="margin-top-5">
+                  <mat-checkbox color="primary" [formControl]="agreeCtrl">
+                    <a target="_blank" class="primary-color no-text-decoration" routerLink="/contents/page/21">
+                      توافقنامه کاربری
+                    </a> را قبول دارم.
+                  </mat-checkbox>
+                </span>
+                <!-- <span class="margin-right-10 margin-left-10"> | </span>
+                <span class="margin-top-5">
+                  <mat-checkbox color="primary" [formControl]="emailNewLetterControl">
+                    مایل به دریافت خبرنامه از رتاپورت
+                    هستید؟
+                  </mat-checkbox>
+                </span> -->
+              </div>
+              <div class="col-md-12">
+                <p-captcha siteKey="6LcpklEUAAAAAL-w3ut2tGvvbaipGTUtG_hn_o5b" (onResponse)="showResponseRegister($event)"
+                           [language]="'fa'"></p-captcha>
+              </div>
+              <div class="col-md-6">
+                <p>
+                  <span>آیا قبلا عضو شده اید؟</span>
+                  <span>|</span>
+                  <span class="gotologin" (click)="gotologin()">ورود</span>
+                </p>
+              </div>
+              <div class="col-md-6 text-left">
+                <button mat-raised-button type="button" (click)="onNoClick()">انصراف</button>
+                <button mat-raised-button color="primary" [disabled]="sendreg">
+                  <span *ngIf="!sendreg">ثبت نام</span>
+                  <span class="loading-btn-span" *ngIf="sendreg">
+                    <i class="fa fa-spinner fa-spin fa-fw "></i>
+                    <span class="sr-only ">Loading...</span>
+                    <span>لطفا صبر کنید ...</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="hidden-xs hidden-sm">https</mat-icon>
+        <span class="title">فراموشی رمز</span>
+      </ng-template>
+      <div class="content-modal-wrap login">
+        <p class="font-14">
+          اگر رمز عبور خود را فراموش کرده‌اید!
+          <br> نگران نباشید ما کد فعال سازی را برای شما پیامک می کنیم.
+        </p>
+        <form [formGroup]="forgetPasswordForm" (ngSubmit)="forgetPasswordUser(forgetPasswordForm.value)">
+          <p class="margin-bottom-10">
+            <mat-form-field class="full-width">
+              <input required matInput placeholder="لطفا تلفن همراه خود را وارد نمایید" dir="ltr" [formControl]="cellphoneControl">
+              <mat-error *ngIf="cellphoneControl.hasError('minlength')">
+                لطفا تلفن همراه را با فرمت درست وارد کنید
+              </mat-error>
+              <mat-error *ngIf="cellphoneControl.hasError('required')">
+                تلفن همراه فیلد ضروری است
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <!-- END EMAIL -->
+          <div class="margin-bottom-10">
+            <p-captcha siteKey="6LcpklEUAAAAAL-w3ut2tGvvbaipGTUtG_hn_o5b" (onResponse)="showResponseForget($event)"
+                       [language]="'fa'"></p-captcha>
+          </div>
+          <div class="text-left">
+            <button mat-raised-button type="button" (click)="onNoClick()">انصراف</button>
+            <button mat-raised-button color="primary">
+              <span *ngIf="!sendreset">بازیابی رمز عبور</span>
+              <span class="loading-btn-span" *ngIf="sendreset">
+                <i class="fa fa-spinner fa-spin fa-fw "></i>
+                <span class="sr-only ">Loading...</span>
+                <span>لطفا صبر کنید ...</span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  
+</div>

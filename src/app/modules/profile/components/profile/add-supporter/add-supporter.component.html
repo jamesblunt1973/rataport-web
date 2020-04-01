@@ -1,0 +1,65 @@
+<mat-card dir="rtl" class="wrap">
+  <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-supporter">{{title}}</div>
+        </div>
+        <div class="col-md-12">
+          <div>
+            <p class="no-margin">
+              <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onBeforeSend)="onBeforeSend($event)"
+                (onProgress)="onProgress($event)" accept="image/*" maxFileSize="10000000" (onUpload)="onBasicUploadAuto($event)"
+                auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <input matInput type="text" required placeholder="نام و نام خانوادگی" [formControl]="nameCtrl" [(ngModel)]="name" name="name"
+            />
+            <mat-icon matSuffix>account_circle</mat-icon>
+            <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="nameCtrl.hasError('required')">
+              نام و نام خانوادگی فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width" *ngIf="status">
+            <input matInput type="number" required placeholder="شماره همراه" [formControl]="phoneCtrl" [(ngModel)]="phone" name="phone"
+            />
+            <mat-icon matSuffix>phone_iphone</mat-icon>
+            <button mat-button *ngIf="phone" matSuffix mat-icon-button aria-label="Clear" (click)="phone=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="phoneCtrl.hasError('required')">
+              شماره همراه فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width" *ngIf="!status">
+            <input matInput type="text" required placeholder="سمت" [formControl]="postCtrl" [(ngModel)]="post" name="post" />
+            <mat-icon matSuffix>work </mat-icon>
+            <button mat-button *ngIf="post" matSuffix mat-icon-button aria-label="Clear" (click)="post=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="postCtrl.hasError('required')">
+              سمت فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <button mat-raised-button type="button" (click)="close()" class="font-iran">انصراف</button>
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

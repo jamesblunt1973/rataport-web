@@ -1,0 +1,49 @@
+<form [formGroup]="registerForm" (ngSubmit)="registerMessage(registerForm.value)">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-4">
+        <mat-form-field class="full-width">
+          <input required matInput type="text" placeholder=" عنوان" [formControl]="subjectCtrl" [(ngModel)]="subject" name="subject"
+          />
+          <mat-icon matSuffix>edit</mat-icon>
+          <button mat-button *ngIf="subject" matSuffix mat-icon-button aria-label="Clear" (click)="subject=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="subjectCtrl.hasError('required')">
+            عنوان فیلد اجباری است
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <mat-form-field required class="full-width">
+          <textarea matInput placeholder="متن پیام" [formControl]="messageCtrl"></textarea>
+          <mat-icon matSuffix>sms</mat-icon>
+          <mat-error *ngIf="messageCtrl.hasError('required')">
+            متن پیام فیلد اجباری است
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <div class="row margin-top-5">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <button mat-raised-button color="primary" class="font-iran">
+          <span *ngIf="!sendAdd">ارسال</span>
+          <span class="loading-btn-span" *ngIf="sendAdd">
+            <i class="fa fa-spinner fa-spin fa-fw "></i>
+            <span class="sr-only ">Loading...</span>
+            <span>لطفا صبر کنید ...</span>
+          </span>
+        </button>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</form>

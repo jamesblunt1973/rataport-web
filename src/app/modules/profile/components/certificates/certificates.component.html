@@ -1,0 +1,127 @@
+<app-header [title]="'گواهینامه‌ها'"></app-header>
+<mat-card>
+  <div class="margin-bottom-10">
+    <mat-accordion>
+      <mat-expansion-panel (opened)="openStatus" [expanded]="step === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>افزودن گواهینامه جدید (حداکثر حجم مجاز فایل ۵۰۰ کیلوبایت می باشد)</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form action="">
+          <div class="container">
+            <div class="row margin-bottom-10">
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="نوع" [formControl]="typeControl" [(ngModel)]="type" name="type">
+                    <mat-option *ngFor="let item of typeOption" [value]="item.name">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="typeControl.hasError('required')">
+                    نوع فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" required placeholder="موضوع" [formControl]="subjectControl" [(ngModel)]="subject" name="subject"
+                  />
+                  <button mat-button *ngIf="subject" matSuffix mat-icon-button aria-label="Clear" (click)="subject=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="subjectControl.hasError('required')">
+                    موضوع فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <dp-date-picker dir="rtl" required="true" name="day" [(ngModel)]="dateObject" open="hb($event)" mode="day" placeholder="تاریخ"
+                  theme="dp-material">
+                </dp-date-picker>
+             
+              </div>
+              <div class="col-md-5 margin-top-10">
+                <div class="flex-display">
+                  <p>
+                    <span class="up-cat font-iran">آپلود تصویر گواهینامه: </span>
+                  </p>
+                  <p class="no-margin">
+                    <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onProgress)="onProgress($event)"
+                       maxFileSize="3000000" (onUpload)="onBasicUploadAuto($event)" auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="font-iran" mat-raised-button color="primary" (click)="addCertificate()">
+                  <span *ngIf="!sendreg">ثبت گواهینامه</span>
+                  <span class="loading-btn-span" *ngIf="sendreg">
+                    <i class="fa fa-spinner fa-spin fa-fw "></i>
+                    <span class="sr-only ">Loading...</span>
+                    <span>لطفا صبر کنید ...</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <p-table #dt [columns]="cols" [value]="certificates" [responsive]="true" [loading]="loading" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+    [paginator]="true">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="جستجوی گواهینامه" (input)="dt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <!-- <th style="width: 3em">ردیف</th> -->
+        <th> نوع</th>
+        <th>موضوع</th>
+        <th>تاریخ</th>
+        <th>تصویر</th>
+        <th>وضعیت</th>
+        <th>عملیات</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-certificate>
+      <tr>
+        <!-- <td></td> -->
+        <td>
+          <div class="text-center">{{ certificate?.subject }}</div>
+        </td>
+        <td>
+          <div class="text-center">{{ certificate?.title }}</div>
+        </td>
+        <td>
+          <div class="text-center">{{ certificate?.regDate }}</div>
+        </td>
+        <td>
+          <div class="text-center">
+            <a href="{{image_url+certificate?.name }}" target="_blank">دانلود فایل</a>
+          </div>
+        </td>
+        <td class="text-center">
+          <span class="confrim" *ngIf="certificate.confirm">تایید شد</span>
+          <span class="noconfrim" *ngIf="certificate.confirm === false">عدم پذبرش</span>
+          <span class="watting" *ngIf="certificate.confirm === null">در حال بررسی</span>
+        </td>
+        <td>
+          <div class="text-center operation">
+            <!-- <i class="fa fa-pencil-square-o" aria-hidden="true" (click)="editCer"></i> -->
+            <i class="fa fa-trash" aria-hidden="true" (click)="deleteCertificate(certificate?.id)"></i>
+            <!-- <span class="ion-ios-trash-outline" (click)="deleteProduct()" icon="fa-external-link-square" label="Show"></span> -->
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+
+</mat-card>

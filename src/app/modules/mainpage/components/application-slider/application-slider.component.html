@@ -1,0 +1,58 @@
+<section *ngIf="loadStatus">
+  <!--========== PAGE CONTENT ==========-->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="neshanha">معرفی اپلیکیشن‌ها</div>
+      </div>
+    </div>
+  </div>
+  <!-- Pricing List v4 -->
+  <div class="bg-color-sky-light">
+    <div class="content-md container" *ngIf="sliderStatus">
+      <!-- <div class="row"> -->
+
+      <div class="apps  owl-carousel owl-theme app-slider">
+        <div *ngFor="let item of apps; let last = last;let i=index;">
+          <div class="clearfix my-row" style="background-image: url('/public/images/back.png')">
+            <div class="">
+              <div class="padding-40">
+                <h1 class="my-title">{{item.name}}</h1>
+                <p class="txt-apps-slider">{{item.description}}</p>
+                <div>
+                  <div class="ico-for-dl">
+                    <a href="{{item.link1}}" target="_blank">
+                      <img class="my-down" src="/public/images/appstore.svg" width="100" height="30" alt="">
+                      <!-- <span>
+                        <img class="myimg" src="/public/images/google-play.svg" width="30" height="30" alt="">
+                      </span>
+                      <span>دانلود از گوگل پلی</span> -->
+                    </a>
+                  </div>
+                  <div class="ico-for-dl">
+                    <a href="{{item.link2}}" target="_blank">
+                      <img class="my-down" src="/public/images/google-play1.svg" width="100" height="30" alt="">
+                      <!-- <span> -->
+                      <!-- <img class="myimg" src="/public/images/apple.svg" width="30" height="30" alt=""> -->
+                      <!-- </span>
+                      <span>دانلود از apple store</span> -->
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{ last ? slide() : ''}}
+            <!-- <div class="col-md-6"> -->
+            <!-- <img [src]="image_url+item.logo" alt=""> -->
+
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- </div> -->
+      <!--// end row -->
+    </div>
+  </div>
+  <!-- End Pricing List v4 -->
+</section>

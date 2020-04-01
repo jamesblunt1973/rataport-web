@@ -1,0 +1,82 @@
+@import 'helper';
+.wrap-qa {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, .15);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .15);
+    position: relative;
+    margin-bottom: 15px;
+    font-family: IRANSans !important;
+    &__header {
+        height: 37px;
+        line-height: 37px;
+        background: #e8e9eb;
+        padding: 0 15px;
+        font-size: 13px;
+        border-radius: 2px 2px 0 0;
+        .qa-author {
+            float: left;
+        }
+    }
+    &__body {
+        color: #555;
+        background: #f5f6f7;
+        padding: 17px 15px 23px;
+        font-size: 12.7px;
+        line-height: 25px;
+        &--question {
+            p {
+                margin: 0;
+            }
+        }
+        &--answer {
+            margin-top: 15px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            p {
+                margin: 0;
+            }
+            .user-info {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+.wrap-qa__footer {
+    margin: 0px;
+    text-align: left;
+    padding: 8px;
+    margin-bottom: 25px;
+    color: $primary-color;
+    font-family: IRANSans !important;
+    cursor: pointer;
+    p {
+        margin: 0;
+    }
+}
+
+p-rating {
+    display: inline-block;
+    margin-right: 20px;
+    span {
+        font-size: 18px !important;
+    }
+}
+
+.reg-point {
+    margin-right: 15px;
+    font-size: 13px;
+    background: #2196f3;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+	@include respond-to(mobileL){
+		display: block;
+		text-align: center;
+	}
+}

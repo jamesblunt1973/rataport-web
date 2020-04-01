@@ -1,0 +1,95 @@
+<div class="products-wrap my-grid-wrap transactions owl-carousel owl-theme ads-slider" *ngIf="deals.length > 4">
+  <div class="grid-product-box" *ngFor="let item of deals; let last = last;let i=index;">
+    <div>
+      <div class="img-product">
+        <a routerLink="/products/detail/{{item.productID}}">
+          <div class="axs">
+            <img [src]="image_url+item.image" alt="">
+          </div>
+        </a>
+      </div>
+      <!-- end img-product -->
+      <div class="title">
+        <a routerLink="/products/detail/{{item.productID}}">
+          <span>{{item.name}}</span>
+        </a>
+      </div>
+      <!-- end title -->
+      <!-- end social -->
+      <div class="options">
+        <p>
+          <i class="fa fa-square"></i>
+          <span>دفعات معامله:</span>
+          <span>
+            <b>{{(item.success + item.unSuccess)|englishToPersian}} </b>
+          </span>
+        </p>
+        <p>
+          <i class="fa fa-square"></i>
+          <span>معاملات موفق:</span>
+          <span>
+            <b>{{item.success|englishToPersian}}</b>
+          </span>
+        </p>
+        <p>
+          <i class="fa fa-square"></i>
+          <span>معاملات ناموفق:</span>
+          <span>
+            <b>{{item.unSuccess|englishToPersian}}</b>
+          </span>
+        </p>
+      </div>
+      <!-- end options -->
+      {{ last ? slide2() : ''}}
+    </div>
+  </div>
+</div>
+
+<div class="my-grid-wrap" *ngIf="deals.length < 4">
+  <div class="row">
+    <div class="grid-product-box m-custom col-md-4" *ngFor="let item of deals; let last = last;let i=index;">
+      <div>
+        <div class="img-product">
+          <a routerLink="/products/detail/{{item.productID}}">
+            <div class="axs">
+              <img [src]="image_url+item.image" alt="">
+            </div>
+          </a>
+        </div>
+        <!-- end img-product -->
+        <div class="title">
+          <a routerLink="/products/detail/{{item.productID}}">
+            <span>{{item.name}}</span>
+          </a>
+        </div>
+        <!-- end title -->
+        <!-- end social -->
+        <div class="options">
+          <p>
+            <i class="fa fa-square"></i>
+            <span>دفعات معامله:</span>
+            <span>
+              <b>{{(item.success + item.unSuccess)|englishToPersian}} </b>
+            </span>
+          </p>
+          <p>
+            <i class="fa fa-square"></i>
+            <span>معاملات موفق:</span>
+            <span>
+              <b>{{item.success|englishToPersian}}</b>
+            </span>
+          </p>
+          <p>
+            <i class="fa fa-square"></i>
+            <span>معاملات ناموفق:</span>
+            <span>
+              <b>{{item.unSuccess|englishToPersian}}</b>
+            </span>
+          </p>
+        </div>
+        <!-- end options -->
+        {{ last ? slide2() : ''}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@import 'helper';
+.root-products {
+    padding: 33px 0;
+    .options {
+        padding: 10px;
+        padding-bottom: 0;
+        border-bottom: 1px solid #e0e0e0;
+        button.change-status {
+            background: none;
+            border: 0;
+            font-size: 25px;
+            cursor: pointer;
+            outline: none;
+        }
+        .active {
+            color: $primary-color;
+        }
+    }
+}

@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="grid-data">
+        <table class="tbl-tab-table full-width">
+          <colgroup>
+            <col width="30%">
+            <col width="60%">
+            <col width="10%">
+          </colgroup>
+          <tbody>
+            <tr *ngIf="seller.brand !== null && seller.brand !== ''">
+              <td>
+                <span class="bold">نام تجاری:</span>
+              </td>
+              <td>
+                <span>{{seller.brand}}</span>
+              </td>
+              <td class="padding-0">
+                <!-- <mat-icon>verified_user</mat-icon> -->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="bold">مدیرعامل:</span>
+              </td>
+              <td>
+                <span>{{seller.ceo}}</span>
+              </td>
+              <td class="padding-0">
+                <!-- <mat-icon>verified_user</mat-icon> -->
+              </td>
+            </tr>
+            <!-- <tr>
+              <td>
+                <span class="bold">نوع فعالیت:</span>
+              </td>
+              <td>
+                <span>{{seller.activityType}}</span>
+              </td>
+              <td class="padding-0">
+                
+              </td>
+            </tr> -->
+            <tr *ngIf="seller.ownershipType !== null && seller.ownershipType !== '' && seller.legal==1">
+              <td>
+                <span class="bold">نوع مالکیت:</span>
+              </td>
+              <td>
+                <span>{{seller.ownershipType}}</span>
+              </td>
+              <td class="padding-0">
+                <!-- <mat-icon>verified_user</mat-icon> -->
+              </td>
+            </tr>
+            <tr *ngIf="seller.establishedYear !== null && seller.establishedYear !== ''">
+              <td>
+                <span class="bold">سال تاسیس:</span>
+              </td>
+              <td>
+                <span>{{seller.establishedYear|englishToPersian}}</span>
+              </td>
+              <td class="padding-0">
+                <!-- <mat-icon>verified_user</mat-icon> -->
+              </td>
+            </tr>
+            <tr *ngIf="seller.employeesNO !== null && seller.employeesNO !== ''">
+              <td>
+                <span class="bold">تعداد کارمندان:</span>
+              </td>
+              <td>
+                <span>{{seller.employeesNO|englishToPersian}}</span>
+                <span>نفر</span>
+              </td>
+              <td class="padding-0">
+                <!-- <mat-icon>verified_user</mat-icon> -->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="bold">محل اصلی:</span>
+              </td>
+              <td>
+                <span>{{seller.province}}</span>
+              </td>
+              <td class="padding-0">
+                <!-- <mat-icon>verified_user</mat-icon> -->
+              </td>
+            </tr>
+            <!--<tr>
+              <td>
+                <span class="bold">درباره فروشنده:</span>
+              </td>
+              <td>
+                <span class="font-12">{{seller.aboutUs}}</span>
+              </td>
+              <td class="padding-0">
+              </td>
+            </tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-7 hidden-xs hidden-sm">
+      <div class="sellerImg sellerImgSlider  owl-carousel owl-theme">
+        <div *ngFor="let item of seller.workPlace; let last = last;let i=index;">
+          <img src="{{image_url+item.name}}" alt=""> {{ last ? slide() : ''}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

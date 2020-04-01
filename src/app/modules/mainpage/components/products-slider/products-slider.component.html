@@ -1,0 +1,318 @@
+<section class="products-slider" *ngIf="sliderNewProductsStatus && sliderNewPersianProductsStatus && sliderNewKnowledgebaseProductsStatus">
+  <div class="container">
+    <mat-card class="wrapper">
+      <div class="row">
+        <div class="col-md-3 col-sm-12">
+          <div class="menu">
+            <ul>
+              <li (click)="changeTab(1)" [ngClass]="{'active':tabIndex === 1}">
+                <span>محصولات جدید</span>
+              </li>
+              <li (click)="changeTab(2)" [ngClass]="{'active':tabIndex === 2}">
+                <span>کالاهای ایرانی جدید</span>
+              </li>
+              <li (click)="changeTab(3)" [ngClass]="{'active':tabIndex === 3}">
+                <span>محصولات دانش بنیان جدید</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9 col-sm-12">
+          <div class="products-wrap  owl-carousel owl-theme my-grid-wrap" *ngIf="tabIndex === 1 && sliderNewProductsStatus">
+            <div class="grid-product-box" *ngFor="let item of sliderNewProducts; let last = last;let i=index;">
+              <div class="img-product">
+                <a routerLink="products/detail/{{item.id}}">
+                  <div class="axs">
+                    <img src="{{ image_url+item.image }}" alt="">
+                  </div>
+                </a>
+                <div class="discount font-iran" *ngIf="item.discount !== 0">
+                  <div class="discount-number">٪{{ item.discount|englishToPersian }}</div>
+                  <!-- <img src="/public/images/discount.svg" alt="discount" title="تخفیف"> -->
+                  <span></span>
+                </div>
+
+                <!-- end sign -->
+                <!-- end discount -->
+              </div>
+              <!-- end img-product -->
+              <div class="sign">
+                <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+                <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+                <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+              </div>
+              <div class="title">
+                <a routerLink="products/detail/{{item.id}}">
+                  <span>{{ item.name }}</span>
+                </a>
+              </div>
+              <div class="payamresan">
+                <ul>
+                  <li *ngIf="item.gap !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/Gap.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.iGap !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/iGap.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.soroosh !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/Soroush.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.bisphone !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/bisfoon.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.telegram !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/telegram.svg" alt="">
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- end title -->
+              <div class="options">
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>استان:</span>
+                  <span>
+                    <b>{{item.city[0]}}</b>
+                  </span>
+                </p>
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>حداقل سفارش:</span>
+                  <span>
+                    <b>{{ item.minOrder|englishToPersian }} {{ item.minOrderUnit }}</b>
+                  </span>
+                </p>
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>قیمت برای هر واحد:</span>
+                  <span>
+                    <b>
+                      <span>{{ item.price|englishToPersian }}</span> تومان
+                    </b>
+                  </span>
+                </p>
+                <p *ngIf="item.brand !== null && item.brand !== ''">
+                  <i class="fa fa-square"></i>
+                  <span>فروشنده:</span>
+                  <span>
+                    <b>
+                      <a class="primary-color no-text-decoration" routerLink="/seller/{{item.sellerID}}">{{ item.brand}}</a>
+                    </b>
+                  </span>
+                </p>
+
+              </div>
+              <!-- end options -->
+              {{ last ? productsCarousel() : ''}}
+            </div>
+          </div>
+          <!-- end new products -->
+          <div class="products-wrap  owl-carousel owl-theme my-grid-wrap" *ngIf="tabIndex === 2">
+            <div class="grid-product-box" *ngFor="let item of sliderNewPersianProducts; let last = last;let i=index;">
+              <div class="img-product">
+                <a routerLink="products/detail/{{item.id}}">
+                  <div class="axs">
+                    <img src="{{ image_url+item.image }}" alt="">
+                  </div>
+                </a>
+                <div class="discount font-iran" *ngIf="item.discount !== 0">
+                  <div class="discount-number">٪{{ item.discount|englishToPersian }}</div>
+                  <!-- <img src="/public/images/discount.svg" alt="discount" title="تخفیف"> -->
+                  <span></span>
+                </div>
+
+                <!-- end sign -->
+                <!-- end discount -->
+              </div>
+              <!-- end img-product -->
+              <div class="sign">
+                <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+                <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+                <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+              </div>
+              <div class="title">
+                <a routerLink="products/detail/{{item.id}}">
+                  <span>{{ item.name }}</span>
+                </a>
+              </div>
+              <div class="payamresan">
+                <ul>
+                  <li *ngIf="item.gap !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/Gap.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.iGap !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/iGap.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.soroosh !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/Soroush.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.bisphone !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/bisfoon.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.telegram !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/telegram.svg" alt="">
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- end title -->
+              <div class="options">
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>استان:</span>
+                  <span>
+                    <b>{{item.city[0]}}</b>
+                  </span>
+                </p>
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>حداقل سفارش:</span>
+                  <span>
+                    <b>{{ item.minOrder|englishToPersian }} {{ item.minOrderUnit }}</b>
+                  </span>
+                </p>
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>قیمت برای هر واحد:</span>
+                  <span>
+                    <b>
+                      <span>{{ item.price|englishToPersian }}</span> تومان
+                    </b>
+                  </span>
+                </p>
+                <p *ngIf="item.brand !== null && item.brand !== ''">
+                  <i class="fa fa-square"></i>
+                  <span>فروشنده:</span>
+                  <span>
+                    <b>
+                      <a class="primary-color no-text-decoration" routerLink="/seller/{{item.sellerID}}">{{ item.brand}}</a>
+                    </b>
+                  </span>
+                </p>
+              </div>
+              <!-- end options -->
+              {{ last ? productsCarousel() : ''}}
+            </div>
+          </div>
+          <!-- end iranian new products -->
+          <div class="products-wrap  owl-carousel owl-theme my-grid-wrap" *ngIf="tabIndex === 3">
+            <div class="grid-product-box" *ngFor="let item of sliderNewKnowledgebaseProducts; let last = last;let i=index;">
+              <div class="img-product">
+                <a routerLink="products/detail/{{item.id}}">
+                  <div class="axs">
+                    <img src="{{ image_url+item.image }}" alt="">
+                  </div>
+                </a>
+                <div class="discount font-iran" *ngIf="item.discount !== 0">
+                  <div class="discount-number">٪{{ item.discount|englishToPersian }}</div>
+                  <!-- <img src="/public/images/discount.svg" alt="discount" title="تخفیف"> -->
+                  <span></span>
+                </div>
+
+                <!-- end sign -->
+                <!-- end discount -->
+              </div>
+              <!-- end img-product -->
+              <div class="sign">
+                <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+                <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+                <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+              </div>
+              <div class="title">
+                <a routerLink="products/detail/{{item.id}}">
+                  <span>{{ item.name }}</span>
+                </a>
+              </div>
+              <div class="payamresan">
+                <ul>
+                  <li *ngIf="item.gap !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/Gap.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.iGap !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/iGap.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.soroosh !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/Soroush.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.bisphone !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/bisfoon.svg" alt="">
+                    </a>
+                  </li>
+                  <li *ngIf="item.telegram !== null">
+                    <a href="" target="_blank">
+                      <img src="/public/images/social/telegram.svg" alt="">
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- end title -->
+              <div class="options">
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>استان:</span>
+                  <span>
+                    <b>{{item.city[0]}}</b>
+                  </span>
+                </p>
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>حداقل سفارش:</span>
+                  <span>
+                    <b>{{ item.minOrder|englishToPersian }} {{ item.minOrderUnit }}</b>
+                  </span>
+                </p>
+                <p>
+                  <i class="fa fa-square"></i>
+                  <span>قیمت برای هر واحد:</span>
+                  <span>
+                    <b>
+                      <span>{{ item.price|englishToPersian }}</span> تومان
+                    </b>
+                  </span>
+                </p>
+                <p *ngIf="item.brand !== null && item.brand !== ''">
+                  <i class="fa fa-square"></i>
+                  <span>فروشنده:</span>
+                  <span>
+                    <b>
+                      <a class="primary-color no-text-decoration" routerLink="/seller/{{item.sellerID}}">{{ item.brand}}</a>
+
+                    </b>
+                  </span>
+                </p>
+              </div>
+              <!-- end options -->
+              {{ last ? productsCarousel() : ''}}
+            </div>
+          </div>
+          <!-- end new danesh bonyan products -->
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</section>

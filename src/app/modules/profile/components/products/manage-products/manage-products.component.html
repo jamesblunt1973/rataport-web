@@ -1,0 +1,77 @@
+<app-header [title]="'مدیریت محصول'"></app-header>
+<mat-card class="padding-0">
+  <div class="row">
+    <div class="col-md-12">
+      <p-table #dt [columns]="cols" [value]="products" [responsive]="true" [loading]="loading" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+               [paginator]="true">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="جستجوی محصول" (input)="dt.filterGlobal($event.target.value, 'contains')">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <!-- <th style="width: 3em">ردیف</th> -->
+            <th style="width: 20em"> نام محصول</th>
+            <th style="width: 12em">پیشنهاد فروش</th>
+            <th style="width: 15em">تخفیف</th>
+            <th style="width: 5em">موجود</th>
+            <th style="width: 5em">وضعیت</th>
+            <th style="width: 5em">عملیات</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              <div class="text-center">
+                {{ product.name }}
+              </div>
+            </td>
+            <td>
+              <div class="text-center" *ngIf="offerPermission">
+                <span class="primary-color pointer" *ngIf="product.count === 0" (click)="registerSuggest('productSuggest',product.id)">ثبت اطلاعات</span>
+                <span class="primary-color pointer" *ngIf="product.count !== 0 && product.confirmOffer" (click)="showDiscount('productOfferBind', product.id)">جزئیات - <span class="confrim">تایید شد</span></span>
+                <span class="primary-color pointer" *ngIf="product.count !== 0 && product.confirmOffer === false" (click)="showDiscount('productOfferBind', product.id)">جزئیات - <span class="noconfrim">عدم پذبرش</span></span>
+                <span class="primary-color pointer" *ngIf="product.count !== 0 && product.confirmOffer === null" (click)="showDiscount('productOfferBind', product.id)">جزئیات - <span class="watting">در حال بررسی</span></span>
+              </div>
+              <div class="text-center" *ngIf="!offerPermission">
+                <mat-icon class="info-alert-color" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+              </div>
+            </td>
+            <td>
+              <div class="text-center" *ngIf="discountPermission">
+                <div class="discount-num" *ngIf="product.discount !== 0">
+                  <span>%{{ product.discount|englishToPersian }}</span>
+                </div>
+                <span class="primary-color pointer" *ngIf="product.discount === 0" (click)="registerSuggest('productDiscount', product.id)">ثبت تخفیف</span>
+                <span class="primary-color pointer" *ngIf="product.discount !== 0 && product.confirmDiscount" (click)="showDiscount('productDiscountBind', product.id)">جزئیات - <span class="confrim">تایید شد</span></span>
+                <span class="primary-color pointer" *ngIf="product.discount !== 0 && product.confirmDiscount === false" (click)="showDiscount('productDiscountBind', product.id)">جزئیات - <span class="noconfrim">عدم پذبرش</span></span>
+                <span class="primary-color pointer" *ngIf="product.discount !== 0 && product.confirmDiscount === null" (click)="showDiscount('productDiscountBind', product.id)">جزئیات - <span class="watting">در حال بررسی</span></span>
+              </div>
+              <div class="text-center" *ngIf="!discountPermission">
+                <mat-icon class="info-alert-color" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+              </div>
+            </td>
+            <td>
+              <div class="text-center">
+                <mat-slide-toggle color="primary" [checked]="product.isActive" (change)="displayStatus($event, product.id)"></mat-slide-toggle>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="confrim" *ngIf="product.confirm">تایید شد</span>
+              <span class="noconfrim" *ngIf="product.confirm === false">عدم پذبرش</span>
+              <span class="watting" *ngIf="product.confirm === null">در حال بررسی</span>
+            </td>
+            <td>
+              <div class="text-center operation">
+                <i class="fa fa-pencil-square-o" aria-hidden="true" (click)="editProduct(product?.id)"></i>
+                <i class="fa fa-trash" aria-hidden="true" (click)="deleteProduct(product?.id)"></i>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</mat-card>

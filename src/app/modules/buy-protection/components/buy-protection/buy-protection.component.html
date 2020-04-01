@@ -1,0 +1,246 @@
+<section class="add-buy-request m-top-30-tablet">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <mat-card>
+          <h4>حفاظت از خرید</h4>
+          <div class="container">
+            <form [formGroup]="registerProductCodeForm" (ngSubmit)="loadData(registerProductCodeForm.value)">
+              <div class="row border-1px">
+                <div class="col-md-12 padding-top-10">
+                  <div class="alert-box info-box" *ngIf="isComplete==true">
+                    <p>
+                      <span>
+                        <b>راهنما! </b>
+                      </span>
+                      <span>
+                        ابتدا کد محصول را وارد کنید سپس بر روی بارگذاری اطلاعات محصول کلیک کنید و منتظر بمانید تا اطلاعات
+                        محصول نمایش داده شود.
+                      </span>
+                    </p>
+                  </div>
+                  <div class="alert-box warning-box" *ngIf="isComplete==false">
+                    <p>
+                      <span>
+                        <b>کاربر گرامی! </b>
+                      </span>
+                      <span>برای دسترسی به این قسمت لطفا اطلاعات الزامی پروفایل کاربری (اطلاعات کاربری، اطلاعات تماس، اطلاعات بانکی) را تکمیل نمایید.</span>
+
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="isComplete==true">
+                  <mat-form-field class="full-width">
+                    <input matInput type="number" required placeholder="کد محصول" [formControl]="productCodeCtrl" [(ngModel)]="productCode" name="productCode"
+                    />
+                    <button mat-button *ngIf="productCode" matSuffix mat-icon-button aria-label="Clear" (click)="productCode=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="productCodeCtrl.hasError('required')">
+                      کد محصول فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="isComplete==true">
+                  <button mat-raised-button color="primary" class="font-iran">
+                    <span *ngIf="!loading">بارگذاری اطلاعات محصول</span>
+                    <span class="loading-btn-span" *ngIf="loading">
+                      <i class="fa fa-spinner fa-spin fa-fw"></i>
+                      <span class="sr-only">Loading...</span>
+                      <span>لطفا صبر کنید ...</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="row border-1px" *ngIf="infoLoaded && isComplete==true">
+              <div class="col-md-12 margin-bottom-10">
+                <div>
+                  <b>
+                    <span>{{info.name}}</span>
+                  </b>
+                </div>
+              </div>
+              <div class="col-md-6 margin-bottom-5">
+                <div class="product-items">
+                  <i class="fa fa-square"></i>
+                  <span>نام تامین کننده:</span>
+                  <b>
+                    <span>{{info.ceo}}</span>
+                  </b>
+                </div>
+              </div>
+              <div class="col-md-6 margin-bottom-5">
+                <div class="product-items">
+                  <i class="fa fa-square"></i>
+                  <span>ایمیل تامین کننده:</span>
+                  <b>
+                    <span>{{info.email}}</span>
+                  </b>
+                </div>
+              </div>
+            </div>
+            <form *ngIf="infoLoaded && isComplete==true" [formGroup]="registerSecureOrderForm" (ngSubmit)="registerSecureOrder(registerSecureOrderForm.value)">
+              <div class="row border-1px">
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <input matInput type="number" required placeholder="حجم معامله" [formControl]="transactionSizeCtrl" [(ngModel)]="transactionSize"
+                      name="transactionSize">
+                    <button mat-button *ngIf="insuranceCosts" matSuffix mat-icon-button aria-label="Clear" (click)="insuranceCosts=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="transactionSizeCtrl.hasError('required')">
+                      حجم معامله فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="واحد حجم معامله" [formControl]="transactionSizeUnitCtrl">
+                      <mat-option *ngFor="let item of units" [value]="item.name">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="transactionSizeUnitCtrl.hasError('required')">
+                      واحد حجم معامله فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <input matInput type="number" required placeholder="مبلغ قرارداد (تومان)" [formControl]="contractCostCtrl" [(ngModel)]="contractCost"
+                      name="contractCost">
+                    <button mat-button *ngIf="contractCost" matSuffix mat-icon-button aria-label="Clear" (click)="contractCost=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="contractCostCtrl.hasError('required')">
+                      مبلغ قرارداد فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-6 padding-top-15 padding-bottom-15">
+                  <mat-checkbox color="primary" [formControl]="prepaymentCtrl" (change)="prepaymentCtrlChange($event)">معامله شما پیش پرداخت دارد ؟</mat-checkbox>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width" *ngIf="prepaymentCtrl.value">
+                    <input matInput type="number" placeholder="مبلغ پیش پرداخت ( تومان )" [formControl]="prePaymentValueCtrl" [(ngModel)]="prePaymentValue"
+                      name="prePaymentValue" (change)="priceChange()">
+                    <button mat-button *ngIf="prePaymentValue" matSuffix mat-icon-button aria-label="Clear" (click)="prePaymentValue=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="prePaymentValueCtrl.hasError('required')">
+                      مبلغ قرارداد فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="شیوه حمل و نقل به چه صورت است ؟" [formControl]="shippingMethodCtrl">
+                      <mat-option *ngFor="let item of shippingMethod" [value]="item">
+                        {{ item }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="shippingMethodCtrl.hasError('required')">
+                      شیوه حمل و نقل فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="هزینه حمل به عهده فروشنده است یا خریدار ؟" [formControl]="transportationCostsCtrl">
+                      <mat-option value="خریدار">خریدار</mat-option>
+                      <mat-option value="فروشنده">فروشنده</mat-option>
+                      <mat-option value="هردو">هردو</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="transportationCostsCtrl.hasError('required')">
+                      این فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="هزینه بیمه به عهده فروشنده است یا خریدار ؟" [formControl]="insuranceCostsCtrl">
+                      <mat-option value="خریدار">خریدار</mat-option>
+                      <mat-option value="فروشنده">فروشنده</mat-option>
+                      <mat-option value="هردو">هردو</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="insuranceCostsCtrl.hasError('required')">
+                      این فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="full-width">
+                    <mat-select required placeholder="مقصد بار کجاست ؟" [formControl]="destinationCtrl">
+                      <mat-option *ngFor="let item of destination" [value]="item.name">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="destinationCtrl.hasError('required')">
+                      مقصد فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-md-6"></div> -->
+
+                <div class="col-md-5">
+                  <mat-form-field class="full-width">
+                    <input matInput type="number" placeholder="مدت زمان تحویل" [formControl]="deliveryTimeControl" [(ngModel)]="deliveryTime"
+                      name="deliveryTime" />
+                    <button mat-button *ngIf="deliveryTime" matSuffix mat-icon-button aria-label="Clear" (click)="deliveryTime=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="deliveryTimeControl.hasError('required')">
+                      این فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5 margin-top-10">
+                  <mat-radio-group [formControl]="DeliveryTimePeriodControl" [(ngModel)]="DeliveryTimePeriod">
+                    <mat-radio-button color="primary" checked value="روز کاری">روز کاری</mat-radio-button>
+                    <mat-radio-button color="primary" value="هفته کاری">هفته کاری</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+
+                <div class="col-md-6">
+                  <span class="peyvast">فایل پیوست:</span>
+                  <span>
+                    <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" [disabled]="uploadActive" (onSelect)="onSelect($event)"
+                      [disabled]="uploadActive" (onProgress)="onProgress($event)" accept="" maxFileSize="10000000" (onUpload)="onBasicUploadAuto($event)"
+                      auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+                  </span>
+                </div>
+
+                <div class="col-md-12">
+                  <mat-form-field class="full-width">
+                    <textarea matInput matTextareaAutosize matAutosizeMinRows="2" placeholder="توضیحات" [formControl]="descriptionCtrl"></textarea>
+                    <mat-error *ngIf="descriptionCtrl.hasError('required')">
+                      توضیحات فیلد اجباری است
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 text-left">
+                  <button mat-raised-button color="primary" class="font-iran">
+                    <span *ngIf="!loading">ثبت درخواست</span>
+                    <span class="loading-btn-span" *ngIf="loading">
+                      <i class="fa fa-spinner fa-spin fa-fw"></i>
+                      <span class="sr-only">Loading...</span>
+                      <span>لطفا صبر کنید ...</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+.txt-apps-slider {
+    font-weight: 100;
+    color: #ffffff;
+}
+
+.ico-for-dl {
+    display: inline-block; // background: #eeeeee;
+    font-size: 13px;
+    padding: 4px 2px;
+    border-radius: 6px; // box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    margin-left: 8px;
+    a {
+        text-decoration: none;
+        color: #868686;
+    }
+    .myimg {
+        width: 25px;
+        height: 25px; // margin: 0 !important;
+    }
+}
+
+.my-down {
+    width: 165px !important;
+    height: 47px !important;
+}
+
+.my-row {
+    min-height: 375px;
+    border-radius: 3px;
+}
+
+.my-title {
+    color: #ffffff;
+    font-size: 25px;
+}

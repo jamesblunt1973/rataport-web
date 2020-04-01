@@ -1,0 +1,39 @@
+<section class="root">
+    <div class="cat-slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <app-categories></app-categories>
+                </div>
+                <div class="col-md-9 hidden-xs hidden-sm">
+                    <app-slider></app-slider>
+                </div>
+            </div>
+        </div>
+    </div>
+  <br />
+    <app-special-offers></app-special-offers>
+    <div class="container margin-bottom-15 pointer" *ngIf="status">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card class="padding-0 vizheh-baner" (click)="sign()">
+                    <img src="{{image_url+siteInfo1.logo1}}" alt="">
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    <!-- <app-special-offers></app-special-offers> -->
+    <app-products-slider></app-products-slider>
+    <div class="container margin-top-15 margin-bottom-15 pointer hidden-xs hidden-sm" *ngIf="status">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card class="no-padding padding-0" (click)="brand()">
+                    <img src="{{image_url+siteInfo1.logo2}}" alt="">
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    <app-help></app-help>
+    <app-sign class="hidden-xs hidden-sm"></app-sign>
+    <!-- <app-application-slider></app-application-slider> -->
+</section>

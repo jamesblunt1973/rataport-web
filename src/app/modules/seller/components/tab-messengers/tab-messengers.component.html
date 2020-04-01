@@ -1,0 +1,34 @@
+<div class="payamresan margin-top-5">
+  <ul *ngIf="contactUs.messengers.length !== 0">
+    <!-- <li *ngIf="sellerInfo.gap !== null"> -->
+    <li *ngIf="contactUs.messengers[0]?.gap !== null && contactUs.messengers[0]?.gap !== ''">
+      <a href="https://gap.im/{{contactUs.messengers[0]?.gap}}" target="_blank">
+        <img src="/public/images/social/Gap.svg" alt="">
+      </a>
+    </li>
+    <!-- <li *ngIf="sellerInfo.iGap !== null"> -->
+    <li *ngIf="contactUs.messengers[0]?.iGap !== null && contactUs.messengers[0]?.iGap !== ''">
+      <a href="https://profile.igap.net/{{contactUs.messengers[0]?.iGap}}" target="_blank">
+        <img src="/public/images/social/iGap.svg" alt="">
+      </a>
+    </li>
+    <!-- <li *ngIf="sellerInfo.soroosh !== null"> -->
+    <li *ngIf="contactUs.messengers[0]?.soroosh !== null && contactUs.messengers[0]?.soroosh !== ''">
+      <a href="https://sapp.ir/{{contactUs.messengers[0]?.soroosh}}" target="_blank">
+        <img src="/public/images/social/Soroush.svg" alt="">
+      </a>
+    </li>
+    <!-- <li *ngIf="sellerInfo.bisphone !== null"> -->
+    <li *ngIf="contactUs.messengers[0]?.bisphone !== null && contactUs.messengers[0]?.bisphone !== ''">
+      <a href="http://bpn.im/{{contactUs.messengers[0]?.bisphone}}" target="_blank">
+        <img src="/public/images/social/bisfoon.svg" alt="">
+      </a>
+    </li>
+    <!-- <li *ngIf="sellerInfo.telegram !== null"> -->
+    <li *ngIf="contactUs.messengers[0]?.telegram !== null && contactUs.messengers[0]?.telegram !== ''">
+      <a href="https://www.t.me/{{contactUs.messengers[0]?.telegram}}" target="_blank">
+        <img src="/public/images/social/telegram.svg" alt="">
+      </a>
+    </li>
+  </ul>
+</div>

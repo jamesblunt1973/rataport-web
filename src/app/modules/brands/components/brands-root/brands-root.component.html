@@ -1,0 +1,106 @@
+<section class="root-products">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="site-map">
+          <ul>
+            <li class="first">
+              <span>
+                <i class="fa fa-clone" aria-hidden="true"></i>
+              </span>
+              <span>شما اینجا هستید</span>
+              <span>|</span>
+            </li>
+            <li *ngFor="let item of siteMap; last as l">
+              <a href="{{ item.link }}">
+                <span>{{ item.name }}</span>
+              </a>
+              <span *ngIf="!l" class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+          </ul>
+        </mat-card>
+        <!-- END SITE MAP -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="sidebar">
+          <div *ngIf="sidebarStatus">
+            <app-loading></app-loading>
+          </div>
+          <app-sidebar [filters]="filters" [levels]="levels" (filterOptions)="getFilterOptions($event)" *ngIf="productIndex && loadFiltersStatus"></app-sidebar>
+          <!-- <app-sidebar-seller [filters]="filters" [levels]="levels" (filterOptions)="getFilterOptions($event)" *ngIf="sellerIndex"></app-sidebar-seller> -->
+        </div>
+      </div>
+      <div class="col-md-9">
+        <mat-card class="padding-0">
+          <mat-tab-group class="my-tab-group" (selectedTabChange)="tabChanged($event)">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>widgets</mat-icon>
+                <span class="title">برندها</span>
+              </ng-template>
+              <!-- <div class="txt-tabs"> -->
+              <div class="wrap-products">
+                <div class="options">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-12 font-iran">
+                        <b>
+                          <span>نمایش همه مجموعه‌ها</span>
+                        </b>
+                        <span> - </span>
+                        <span>
+                          <small>{{ productLenght|englishToPersian }}</small>
+                          <small>برند</small>
+                        </span>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-select placeholder="کالا، تخفیف" multiple>
+                            <mat-option *ngFor="let item of brands" [value]="item.value">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-select placeholder="مرتب سازی براساس">
+                            <mat-option>هیچ کدام</mat-option>
+                            <mat-option *ngFor="let item of sort" [value]="item.value">{{ item.viewValue }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4 text-left">
+                        <button class="change-status" [ngClass]="{'active': gridBtn}" (click)="grid()">
+                          <span class="fa fa-th"></span>
+                        </button>
+                        <button class="change-status" [ngClass]="{'active': listBtn}" (click)="list()">
+                          <span class="fa fa-bars"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="loading">
+                  <app-loading></app-loading>
+                </div>
+                <!-- <app-grid-products [products]="products" [hidden]="!gridBtn"></app-grid-products>
+                <app-list-products [products]="products" [hidden]="!listBtn"></app-list-products> -->
+              </div>
+              <!-- </div> -->
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+      </div>
+    </div>
+
+
+  </div>
+</section>

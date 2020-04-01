@@ -1,0 +1,91 @@
+<div class="similar-products  owl-carousel owl-theme my-grid-wrap">
+  <div class="grid-product-box" *ngFor="let item of products; let last = last;let i=index;">
+    <div class="img-product">
+      <a routerLink="/products/detail/{{item.id}}">
+        <div class="axs">
+          <img src="{{ image_url+item.image }}" alt="">
+        </div>
+      </a>
+      <div class="discount font-iran" *ngIf="item.discount !== 0">
+        <div class="discount-number">٪{{ item.discount|englishToPersian }}</div>
+        <span></span>
+      </div>
+      <div class="sign">
+        <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+        <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+        <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+      </div>
+      <!-- end sign -->
+      <!-- end discount -->
+    </div>
+    <!-- end img-product -->
+    <div class="title">
+      <a routerLink="/products/detail/{{item.id}}">
+        <span>{{ item.name }}</span>
+      </a>
+    </div>
+    <!-- <div class="payamresan" *ngIf="item.socials !== null && item.socials !== ''">
+      <ul>
+        <li *ngIf="item.gap !== null">
+          <a href="" target="_blank">
+            <img src="/public/images/social/Gap.svg" alt="">
+          </a>
+        </li>
+        <li *ngIf="item.iGap !== null">
+          <a href="" target="_blank">
+            <img src="/public/images/social/iGap.svg" alt="">
+          </a>
+        </li>
+        <li *ngIf="item.soroosh !== null">
+          <a href="" target="_blank">
+            <img src="/public/images/social/Soroush.svg" alt="">
+          </a>
+        </li>
+        <li *ngIf="item.bisphone !== null">
+          <a href="" target="_blank">
+            <img src="/public/images/social/bisfoon.svg" alt="">
+          </a>
+        </li>
+        <li *ngIf="item.telegram !== null">
+          <a href="" target="_blank">
+            <img src="/public/images/social/telegram.svg" alt="">
+          </a>
+        </li>
+      </ul>
+    </div> -->
+    <!-- end title -->
+    <div class="options">
+      <p>
+        <i class="fa fa-square"></i>
+        <span>استان:</span>
+        <span>
+          <b>{{item.province}}</b>
+        </span>
+      </p>
+      <p>
+        <i class="fa fa-square"></i>
+        <span>حداقل سفارش:</span>
+        <span>
+          <b>{{ item.minOrder|englishToPersian }} {{ item.minOrderUnit }}</b>
+        </span>
+      </p>
+      <p>
+        <i class="fa fa-square"></i>
+        <span>قیمت برای هر واحد:</span>
+        <span>
+          <b>
+            <span>{{ item.price|englishToPersian }}</span> تومان</b>
+        </span>
+      </p>
+      <p>
+        <i class="fa fa-square"></i>
+        <span>فروشنده:</span>
+        <span>
+          <b class="primary-color pointer" (click)="seller(item.sellerID)">{{item.ceo}}</b>
+        </span>
+      </p>
+    </div>
+    <!-- end options -->
+    {{ last ? carouselSimilarProducts() : ''}}
+  </div>
+</div>

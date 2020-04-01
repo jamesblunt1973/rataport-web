@@ -1,0 +1,148 @@
+<div class="contacts-wrap m-top-30-tablet">
+  <h1 class="title">تماس با ما</h1>
+  <!-- <hr class="no-margin"> -->
+
+  <div class="body">
+    <app-loading *ngIf="!status"></app-loading>
+    <div *ngIf="status">
+      <h3 class="text-center onvan font-iran">با ما در تماس باشید</h3>
+      <p class="matn-tamas">{{info.contactUsDescription}}</p>
+      <br>
+
+      <div class="clearfix">
+        <form class="example-form" #messageForm [formGroup]="sendMessageForm" (ngSubmit)="sendMsg(sendMessageForm.value)">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" [formControl]="nameControl" placeholder="نام و نام خانوادگی" [(ngModel)]="your_name" />
+                  <button mat-button *ngIf="your_name" matSuffix mat-icon-button aria-label="Clear" (click)="your_name=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="nameControl.hasError('required')">
+                    نام و نام خانوادگی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" [formControl]="emailControl" placeholder="ایمیل" [(ngModel)]="your_email" />
+                  <button mat-button *ngIf="your_email" matSuffix mat-icon-button aria-label="Clear" (click)="your_email=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="emailControl.hasError('required')">
+                    ایمیل فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="tel" [formControl]="TelControl" placeholder="تلفن ثابت" [(ngModel)]="your_tel" />
+                  <button mat-button *ngIf="your_tel" matSuffix mat-icon-button aria-label="Clear" (click)="your_tel=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                 
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="tel" [formControl]="mobileControl" placeholder="تلفن همراه" [(ngModel)]="your_mobile" />
+                  <button mat-button *ngIf="your_mobile" matSuffix mat-icon-button aria-label="Clear" (click)="your_mobile=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="emailControl.hasError('required')">
+                    تلفن همراه فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>              <div class="col-md-6">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="واحد پاسخگویی" [formControl]="unitControl">
+                    <mat-option *ngFor="let unit of units" [value]="unit.id">
+                      {{ unit.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="unitControl.hasError('required')">
+                    واحد پاسخگویی فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="full-width">
+                  <input matInput type="text" [formControl]="subjectControl" placeholder="موضوع" [(ngModel)]="your_subject" />
+                  <button mat-button *ngIf="your_subject" matSuffix mat-icon-button aria-label="Clear" (click)="your_subject=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="subjectControl.hasError('required')">
+                    موضوع فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="full-width">
+                  <textarea matInput [formControl]="messageControl" [(ngModel)]="your_message" placeholder="متن پیام"></textarea>
+                  <mat-error *ngIf="messageControl.hasError('required')">
+                    متن پیام فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <br>
+                <button mat-raised-button color="primary" class="font-iran">
+                  <span *ngIf="!sendMessage">ارسال پیام</span>
+                  <span class="loading-btn-span" *ngIf="sendMessage">
+                    <i class="fa fa-spinner fa-spin fa-fw "></i>
+                    <span class="sr-only ">Loading...</span>
+                    <span>لطفا صبر کنید</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- END clearfix -->
+    </div>
+
+  </div>
+  <mat-card class="no-padding" *ngIf="status">
+    <div class="clearfix">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 bg">
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [fullscreenControl]="true" [styles]="mapStyle">
+              <agm-marker [iconUrl]="'/public/images/map-marker.png'" [latitude]="lat" [longitude]="lng"></agm-marker>
+            </agm-map>
+          </div>
+          <div class="col-md-6 bg right">
+            <h2 class="title font-iran">رتــــاپورت</h2>
+            <p>{{info.address1}} </p>
+            <div class="info">
+              <span>{{info.email1}}</span>
+              <br>
+              <span>{{info.tel1|englishToPersian}}</span>
+            </div>
+            <!-- <div class="social">
+              <span>
+                <a href="https://www.instagram.com/iranogram.co/" target="_blank">
+                  <i class="fa fa-instagram"></i>
+                </a>
+              </span>
+              <span>
+                <a href="https://www.facebook.com/iranogram" target="_blank">
+                  <i class="fa fa-facebook"></i>
+                </a>
+              </span>
+              <span>
+                <a href="https://twitter.com/iranogram" target="_blank">
+                  <i class="fa fa-twitter"></i>
+                </a>
+              </span>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+</div>

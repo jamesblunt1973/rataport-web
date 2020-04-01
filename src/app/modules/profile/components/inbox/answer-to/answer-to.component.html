@@ -1,0 +1,87 @@
+<mat-card dir="rtl" class="wrap" *ngIf="status === 'priceInquery'">
+  <form [formGroup]="registerPriceInqueryForm" (ngSubmit)="registerPriceInquery(registerPriceInqueryForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-supporter">پاسخ به استعلام</div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <input matInput type="number" required placeholder="قیمت جدید( تومان)" [formControl]="priceCtrl" [(ngModel)]="price" name="price"
+            />
+            <mat-icon matSuffix>attach_money</mat-icon>
+            <button mat-button *ngIf="price" matSuffix mat-icon-button aria-label="Clear" (click)="price=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="priceCtrl.hasError('required')">
+              قیمت جدید فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="توضیحات" [formControl]="answerCtrl" [(ngModel)]="answer"></textarea>
+            <!-- <mat-icon matSuffix>phone_iphone</mat-icon> -->
+            <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="answerCtrl.hasError('required')">
+              توضیحات فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>
+
+<mat-card dir="rtl" class="wrap" *ngIf="status === 'negotiate'">
+  <form [formGroup]="registerNegotiateForm" (ngSubmit)="registerNegotiate(registerNegotiateForm.value)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title-supporter">پاسخ به مذاکره</div>
+        </div>
+        <div class="col-md-12">
+          <div>
+            <p class="no-margin">
+              <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onBeforeSend)="onBeforeSend($event)"
+                (onProgress)="onProgress($event)" accept="image/*" maxFileSize="10000000" (onUpload)="onBasicUploadAuto($event)"
+                auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="توضیحات" [formControl]="answerCtrl" [(ngModel)]="answer"></textarea>
+            <!-- <mat-icon matSuffix>phone_iphone</mat-icon> -->
+            <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="answerCtrl.hasError('required')">
+              توضیحات فیلد اجباری است
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 text-left">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

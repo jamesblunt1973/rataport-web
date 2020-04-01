@@ -1,0 +1,396 @@
+<div class="container" *ngIf="loading">
+  <app-loading></app-loading>
+</div>
+<section class="page-not-found clearfix" *ngIf="!loading && block===true">
+  <div class="my-wrapper-404">
+
+    <div>
+      <h2>متاسفانه این کاربر توسط رتاپورت مسدود شده است!</h2>
+    </div>
+  </div>
+</section>
+<section class="root-detail" *ngIf="!loading && block===false">
+  <div class="container">
+    <div class="row margin-bottom-10">
+      <div class="col-md-12">
+        <mat-card class="site-map">
+          <ul>
+            <li class="first">
+              <span>
+                <i class="fa fa-clone" aria-hidden="true"></i>
+              </span>
+              <span>شما اینجا هستید</span>
+              <span> | </span>
+            </li>
+            <li>
+              <a routerLink='/'>
+                <span> خانه </span>
+              </a>
+              <span class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+            <li>
+              <a routerLink="/products/{{ siteMap[0]?.id }}">
+                <span> {{ siteMap[0]?.name }} </span>
+              </a>
+              <span class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+            <li>
+              <a routerLink="/products/category1/{{ siteMap[1]?.id }}">
+                <span> {{ siteMap[1]?.name }} </span>
+              </a>
+              <span class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+            <li>
+              <a routerLink="/products/category/{{ siteMap[0]?.id }}/{{ siteMap[1]?.id }}/{{ siteMap[2]?.id }}">
+                <span> {{ siteMap[2]?.name }} </span>
+              </a>
+              <span class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li>
+            <li>
+              <a>
+                <span> {{ siteMap[3]?.name }} </span>
+              </a>
+            </li>
+            <!-- <li *ngFor="let item of siteMap; last as l">
+              <a routerLink="/products/category1/{{ item.id }}">
+                <span>{{ item.name }}</span>
+              </a>
+              <span *ngIf="!l" class="arrow">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </span>
+            </li> -->
+          </ul>
+        </mat-card>
+        <!-- END SITE MAP -->
+      </div>
+      <div class="col-md-9">
+        <mat-card class="products-wrap">
+          <div class="products-wrap__views">
+            <span>{{productDetails.view|englishToPersian}}</span>
+            <span>
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+          <div class="products-wrap__gallery">
+            <p-galleria [images]="images" panelWidth="300" panelHeight="250" [showCaption]="false"></p-galleria>
+          </div>
+          <div class="products-wrap__description">
+            <h1>
+              <span>{{ productDetails.name }}</span>
+            </h1>
+            <p class="update-date">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <b> آخرین به روز رسانی:</b>
+              <span>{{ productDetails.updatedOn }}</span>
+            </p>
+            <div class="product-detail-p">
+              <p>
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>کد محصول: </b>
+                </span>
+                <span>{{ productDetails.code|englishToPersian }}</span>
+              </p>
+              <p>
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>حداقل سفارش: </b>
+                </span>
+                <span>{{ productDetails.minOrder|englishToPersian }}</span>
+                <span>{{ productDetails.minOrderUnit }}</span>
+              </p>
+              <p *ngIf="productDetails.deliveryTime !== ''">
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>حداکثر مدت زمان تحویل : </b>
+                </span>
+                <span>{{ productDetails.deliveryTime|englishToPersian }}</span>
+                <span>{{ productDetails.deliveryTimePeriod }} </span>
+              </p>
+              <p>
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>توانایی تامین : </b>
+                </span>
+                <span>
+                  {{ productDetails.supplyAbility|englishToPersian }} {{ productDetails.supplyAbilityUnit }}
+                </span>
+                <span> در </span>
+                <span>{{ productDetails.supplyAbilityPeriod }}</span>
+              </p>
+              <p *ngIf="productDetails.depoBase === true">
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>موجودی دپو | انبار : </b>
+                </span>
+                <span>
+                  {{ productDetails.minOrderDepo|englishToPersian }} {{ productDetails.vahedMinOrderDepo}}
+                </span>
+               
+              </p>
+              <p *ngIf="productDetails.deliveryMethods.length>0">
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>شرایط تحویل بار : </b>
+                </span>
+                <span class="transfer" *ngFor="let item of productDetails.deliveryMethods">
+                  <span>{{ item }}</span>
+                </span>
+              </p>
+              <!-- <p *ngIf="productDetails.shippingMethod.length>0">
+                <span>
+                  <i class="fa fa-circle"></i>
+                  <b>شیوه حمل و نقل : </b>
+                </span>
+                <span class="transfer" *ngFor="let item of productDetails.shippingMethod">
+                  <i class="fa fa-ship" *ngIf="item == 'دریایی'"></i>
+                  <i class="fa fa-truck" *ngIf="item == 'زمینی'"></i>
+                  <i class="fa fa-plane" *ngIf="item == 'هوایی'"></i>
+                  <i class="fa fa-train" *ngIf="item == 'ریلی'"></i>
+                  <span>{{ item }}</span>
+                </span>
+              </p> -->
+            </div>
+            <p class="price-products">
+              <span>قیمت برای هر واحد : </span>
+              <span *ngIf="productDetails.discount !== 0">
+                <b class="block-discount">{{ productDetails.price|englishToPersian }}</b>
+                <span>
+                  <b>{{ productDetails.priceAfterDiscount|englishToPersian }}</b>
+                  <b> تومان</b>
+                </span>
+              </span>
+              <span *ngIf="productDetails.discount === 0">
+                <b>{{ productDetails.priceAfterDiscount|englishToPersian }}</b>
+                <b> تومان</b>
+              </span>
+              <span class="off" *ngIf="productDetails.discount !== 0">
+                {{productDetails.discount|englishToPersian}}% تخفیف
+              </span>
+            </p>
+            <!-- END product-detail-p -->
+          </div>
+          <!-- END products-wrap__description -->
+        </mat-card>
+        <!-- END products-wrap -->
+        <mat-card class="product-buttons">
+          <div class="links">
+            <ul>
+              <li class="mini-btn">
+                <button mat-icon-button (click)="addFavorite(productDetails.id)" *ngIf="!favorite">
+                  <mat-icon matTooltip="افزودن به علاقه‌مندی" [matTooltipPosition]="'above'" aria-label="icon-button with a heart icon">favorite_border</mat-icon>
+                </button>
+                <button mat-icon-button (click)="addFavorite(productDetails.id)" *ngIf="favorite" color="primary">
+                  <mat-icon matTooltip="حذف از علاقه‌مندی" [matTooltipPosition]="'above'" aria-label="icon-button with a heart icon">favorite</mat-icon>
+                </button>
+              </li>
+              <li class="mini-btn">
+                <button mat-icon-button (click)="openShareButtons()">
+                  <mat-icon matTooltip="اشتراک گذاری" [matTooltipPosition]="'above'" aria-label="icon-button with a heart icon">share</mat-icon>
+                </button>
+              </li>
+              <!-- <li class="splitter"></li> -->
+              <li>
+                <a (click)="openModal()">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <span>گزارش محتوا</span>
+                </a>
+              </li>
+              <li class="hidden-xs hidden-sm">
+                <a (click)="printPage()">
+                  <i class="fa fa-print" aria-hidden="true"></i>
+                  <span>چاپ</span>
+                </a>
+              </li>
+              <li *ngIf="productDetails.catalog !== null && productDetails.catalog !== ''">
+                <a href="{{image_url+productDetails.catalog}}" target="_blank">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                  <span>دانلود کاتالوگ</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <span>{{productDetails.rateNo|englishToPersian}}</span>
+                </a>
+              </li>
+              <li class="rating">
+                <p-rating [(ngModel)]="productDetails.rate" readonly="true" [cancel]="false"></p-rating>
+              </li>
+            </ul>
+          </div>
+          <div class="btns">
+            <button mat-raised-button color="primary" *ngIf="inqueryPermission==true" (click)="openCallForPrice()">
+              <span class="fa fa-envelope"></span>
+              <span> استعلام قیمت </span>
+            </button>
+            <button mat-raised-button color="primary" *ngIf="order==true" (click)="payment(productId)">
+              <span class="fa fa-shopping-cart"></span>
+              <span>خرید از طریق رتاپورت</span>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-3">
+        <mat-card class="seller">
+          <div class="mysign">
+            <span class="durattion" *ngIf="sellerInfo.specialBadge === true">{{sellerInfo.specialBadgeYears|englishToPersian}}</span>
+            <img *ngIf="sellerInfo.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه"
+              title="نشان ویژه">
+            <img *ngIf="sellerInfo.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد"
+              title="نشان اعتماد">
+            <img *ngIf="sellerInfo.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین"
+              title="نشان تضمین">
+          </div>
+          <div class="seller__img">
+            <img src="{{ image_url+ sellerInfo.logo}}" alt="">
+          </div>
+          <div class="seller__name">
+            <a routerLink="/seller/{{sellerInfo.id}}">
+              <span *ngIf="sellerInfo.brand !== null && sellerInfo.brand !== ''">{{ sellerInfo.brand }}</span>
+              <span *ngIf="sellerInfo.brand == null || sellerInfo.brand == ''">{{ sellerInfo.ceo }}</span>
+            </a>
+          </div>
+          <div class="seller__address">
+            <p class="margin-bottom-0">
+              <span>
+                <i class="fa fa-map-marker"></i>
+              </span>
+              <span>{{ sellerInfo.province }}</span>
+            </p>
+            <p class="register-date">
+              <span>
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </span>
+              <span>عضویت در</span>
+              <span>{{ sellerInfo.regDate }}</span>
+            </p>
+          </div>
+          <!-- <div class="payamresan margin-top-5" *ngIf="messengers">
+            <ul class="margin-bottom-0" *ngIf="messengers.length !== 0">
+              <li *ngIf="messengers?.gap !== null && messengers?.gap !== ''">
+                <a href="https://gap.im/{{messengers?.gap}}" target="_blank">
+                  <img src="/public/images/social/Gap.svg" alt="">
+                </a>
+              </li>
+              <li *ngIf="messengers?.iGap !== null && messengers?.iGap !== ''">
+                <a href="https://profile.igap.net/{{messengers?.iGap}}" target="_blank">
+                  <img src="/public/images/social/iGap.svg" alt="">
+                </a>
+              </li>
+              <li *ngIf="messengers?.soroosh !== null && messengers?.soroosh !== ''">
+                <a href="https://sapp.ir/{{messengers?.soroosh}}" target="_blank">
+                  <img src="/public/images/social/Soroush.svg" alt="">
+                </a>
+              </li>
+              <li *ngIf="messengers?.bisphone !== null && messengers?.bisphone !== ''">
+                <a href="http://bpn.im/{{messengers?.bisphone}}" target="_blank">
+                  <img src="/public/images/social/bisfoon.svg" alt="">
+                </a>
+              </li>
+              <li *ngIf="messengers?.telegram !== null && messengers?.telegram !== ''">
+                <a href="https://www.t.me/{{messengers?.telegram}}" target="_blank">
+                  <img src="/public/images/social/telegram.svg" alt="">
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </mat-card>
+        <mat-card class="moamele">
+          <p>
+            <span> معاملات موفق</span>
+            <span>{{ sellerInfo.successTransactions|englishToPersian }} از {{
+              sellerInfo.totalTransactions|englishToPersian }} </span>
+          </p>
+          <p>
+            <span>درصد پاسخگویی</span>
+            <span>{{ sellerInfo.percentageOfCustomerResponsiveness|englishToPersian }} درصد</span>
+          </p>
+        </mat-card>
+
+        <mat-card class="show-detail-seller">
+          <div class="btn" (click)="sellerProfile(sellerInfo.id)">
+            <span>اطلاعات تماس فروشنده</span>
+          </div>
+        </mat-card>
+        <!-- END SELLER -->
+      </div>
+    </div>
+    <!-- END row -->
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="detail-products">
+          <mat-card-content>
+            <mat-tab-group class="">
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="hidden-xs hidden-sm">assignment_turned_in</mat-icon>
+                  <span class="title">جزئیات محصول</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-detail [productDetails]="productDetails"></app-tab-detail>
+                </div>
+                <!-- END tab-content -->
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="hidden-xs hidden-sm">assignment_ind</mat-icon>
+                  <span class="title">معرفی فروشنده</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-seller [seller]="sellerInfo" *ngIf="status"></app-tab-seller>
+                </div>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="hidden-xs hidden-sm">chat</mat-icon>
+                  <span class="title">نظرات</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-comments [comments]="comments" [productId]="productId" [rateIn]="rate" *ngIf="loadingComments"></app-tab-comments>
+                </div>
+              </mat-tab>
+              <mat-tab label="">
+                <ng-template mat-tab-label>
+                  <mat-icon class="hidden-xs hidden-sm">question_answer</mat-icon>
+                  <span class="title">پرسش و پاسخ</span>
+                </ng-template>
+                <div class="tab-content">
+                  <app-tab-question-answer [productDetail]="product"></app-tab-question-answer>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <!-- END row -->
+
+    <mat-card class="mat-with-title hidden-xs hidden-sm">
+      <h3>دسترسی به بازار</h3>
+      <app-access-to-market [marketAccess]="marketAccess"></app-access-to-market>
+    </mat-card>
+    <!-- END access-to-market -->
+
+    <mat-card class="mat-with-title">
+      <h3>مذاکره با فروشنده</h3>
+      <app-negotiate-seller [productDetail]="product"></app-negotiate-seller>
+    </mat-card>
+    <!-- END mozakereh -->
+
+    <mat-card class="mat-with-title hidden-xs hidden-sm" *ngIf="loadingSimilarProducts && similarProductsLength !== 0">
+      <h3>محصولات مشابه</h3>
+      <app-similar-products [products]="similarProducts"></app-similar-products>
+    </mat-card>
+
+  </div>
+  <!-- END container -->
+</section>

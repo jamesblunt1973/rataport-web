@@ -1,0 +1,316 @@
+<div class="grid-data">
+  <table class="tbl-tab-table">
+    <colgroup>
+      <col width="30%">
+      <col width="70%">
+    </colgroup>
+    <tbody>
+      <!-- <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>نام محصول:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.name }}</span>
+        </td>
+      </tr> -->
+      <tr *ngIf="productDetails.brand.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>نام برند:</span>
+        </td>
+        <td *ngFor="let item of productDetails.brand">
+          <span>{{ productDetails.brand }}</span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.shappingMethod.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>شکل محصول:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.shappingMethod; let last = last;">
+            <span>{{ item }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>حداقل سفارش:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.minOrder|englishToPersian }}</span>
+          <span>{{ productDetails.minOrderUnit }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>قیمت هر واحد:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.price|englishToPersian }}</span>
+          <span>تومان</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>توانایی عرضه:</span>
+        </td>
+        <td>
+          <span>
+            {{ productDetails.supplyAbility|englishToPersian }} {{ productDetails.supplyAbilityUnit }}
+          </span>
+          <span> در </span>
+          <span>{{ productDetails.supplyAbilityPeriod }}</span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.deliveryTime !== null && productDetails.deliveryTime !== ''">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>مدت زمان تحویل:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.deliveryTime|englishToPersian }}</span>
+          <span>{{ productDetails.deliveryTimePeriod }} کاری</span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.color.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>رنگ محصول:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.color; let last = last;">
+            <span>{{ item }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.weight.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>وزن محصول:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.weight; let last = last;">
+            <span>{{ item.weight|englishToPersian }}</span>
+            <span>{{ item.weightUnit }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.size.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>سایز محصول:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.size; let last = last;">
+            <span>{{ item.size|englishToPersian }}</span>
+            <span>{{ item.sizeUnit }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.definiteSave.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>ذخیره قطعی :</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.definiteSave; let last = last;">
+            <span> {{ item.definiteSave|englishToPersian }} </span>
+            <span> {{ item.definiteSaveUnit }} </span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.possibleStorage.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>ذخیره احتمالی :</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.possibleStorage; let last = last;">
+            <span> {{ item.possibleStorage|englishToPersian }} </span>
+            <span> {{ item.possibleStorageUnit }} </span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="(productDetails.usefulLife !== null && productDetails.usefulLife !== '') || productDetails.usefulLifePeriod==='بدون محدودیت'">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>عمر مفید محصول:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.usefulLife|englishToPersian }}</span>
+          <span>{{ productDetails.usefulLifePeriod }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>بسته بندی :</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.innerPackaging; let last = last;">
+            <span>{{ item }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <!-- <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>بسته بندی خارجی:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.externalPackaging; let last = last;">
+            <span>{{ item }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr> -->
+      <tr *ngIf="productDetails.country !== null && productDetails.country !== ''">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>کشور سازنده:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.country }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>محل محصول:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.city; let last = last;">
+            <span>{{ item }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.certificates.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>گواهینامه ها:</span>
+        </td>
+        <td *ngFor="let item of productDetails.certificates">
+          <a href="{{image_url+item}}" class="primary-color" target="_blank"><span>مشاهده</span></a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>ارسال نمونه:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.sendSample }}</span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.warranty.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>گارانتی:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.warranty; let last = last;">
+            <span>{{ item.warrantyKind }}</span>
+            <span>به مدت</span>
+            <span>{{ item.warranty|englishToPersian }}</span>
+            <span>{{ item.warrantyPeriod }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+
+      <tr *ngIf="productDetails.afterSaleService.length !== 0">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>خدمات پس از فروش:</span>
+        </td>
+        <td>
+          <span *ngFor="let item of productDetails.afterSaleService; let last = last;">
+            <span>{{ item.afterSaleServiceKind }}</span>
+            <span>به مدت</span>
+            <span>{{ item.afterSaleService|englishToPersian }}</span>
+            <span>{{ item.afterSaleServicePeriod }}</span>
+            <span *ngIf="!last">، </span>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.healthCertificateCode !==null && productDetails.healthCertificateCode !== ''">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>کد مجوز بهداشت:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.healthCertificateCode }}</span>
+        </td>
+      </tr>
+      <tr *ngIf="productDetails.description !==null && productDetails.description !== ''">
+        <td>
+          <span>
+            <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>توضیحات:</span>
+        </td>
+        <td>
+          <span>{{ productDetails.description }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- END grid-data -->

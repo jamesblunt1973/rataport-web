@@ -1,0 +1,22 @@
+.add-buy-request {
+    padding-top: 33px;
+    padding-bottom: 30px;
+    mat-card {
+        padding: 20px;
+    }
+    .img-requset {
+        border: 1px solid #ccc;
+    }
+    .peyvast {
+        font-size: 13px;
+        color: #666;
+    }
+}
+
+.discount-datepicker {
+    mat-error {
+        font-size: 12px;
+        position: relative;
+        top: -8px;
+    }
+}

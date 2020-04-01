@@ -1,0 +1,143 @@
+<app-header [title]="'ارسال مدارک'"></app-header>
+<mat-card>
+  <div class="margin-bottom-10">
+    <mat-accordion>
+      <mat-expansion-panel (opened)="openStatus" [expanded]="step === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>آپلود مدارک (حداکثر حجم مجاز فایل 3 مگابایت می باشد)</span>
+            <p>
+              <span class="up-cat font-iran"></span>
+            </p>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form #sendDocument [formGroup]="sendDocumentForm" (ngSubmit)="sendDocumentFunc(sendDocumentForm.value)">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="full-width">
+                  <mat-select required placeholder="موضوع" [formControl]="typeControl" [(ngModel)]="type" name="type">
+                    <mat-option *ngFor="let item of typeOption" [value]="item.name">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="typeControl.hasError('required')">
+                    موضوع فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <div class="flex-display">
+                  <p>
+                    <span class="up-cat font-iran">آپلود فایل:</span>
+                  </p>
+                  <p class="no-margin">
+                    <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelect($event)" (onProgress)="onProgress($event)"
+                                  maxFileSize="3000000" (onUpload)="onBasicUploadAuto($event)" auto="true" chooseLabel="{{ uploadTextBtn }}"></p-fileUpload>
+                  </p>
+                  
+                </div>
+              </div>
+              <div class="col-md-10">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="توضیحات تکمیلی" [formControl]="descriptionControl" [(ngModel)]="description" matTextareaAutosize
+                    matAutosizeMinRows="5" matAutosizeMaxRows="3"></textarea>
+                  <mat-error *ngIf="descriptionControl.hasError('required')">
+                    این فیلد اجباری است
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="font-iran" mat-raised-button color="primary">
+                  <span *ngIf="!sendreg">ارسال اطلاعات</span>
+                  <span class="loading-btn-span" *ngIf="sendreg">
+                    <i class="fa fa-spinner fa-spin fa-fw "></i>
+                    <span class="sr-only ">Loading...</span>
+                    <span>لطفا صبر کنید ...</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <p-table #dt [columns]="cols" [value]="items" dataKey="id" [paginator]="true" [responsive]="true" [loading]="loadingTable"
+    [rows]="25" [rowsPerPageOptions]="[25,50,100]">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="جستجو" (input)="dt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 2.25em"></th>
+        <th>موضوع</th>
+        <th style="width: 12.25em">تاریخ ثبت</th>
+        <th style="width: 9.25em">فایل</th>
+        <th style="width: 6.25em">عملیات</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns>
+      <tr class="my-tr-table">
+        <td>
+          <a href="#" [pRowToggler]="rowData">
+            <i [ngClass]="expanded ? 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-left'" style="font-size: 1.25em"></i>
+          </a>
+        </td>
+        <td class="text-center">
+          <a href="#" [pRowToggler]="rowData" class="primary-color no-rext-decoration">
+            {{ rowData.subject }}
+          </a>
+        </td>
+        <td>
+          <div class="text-center">{{ rowData?.createdOn }}</div>
+        </td>
+        <td>
+          <div class="text-center">
+            <a href="{{image_url+rowData?.name }}" class="no-text-decoration primary-color" target="_blank">دانلود فایل</a>
+          </div>
+        </td>
+        <!-- <td>
+          <div class="text-center">{{ item?.title }}</div>
+        </td> -->
+        <td>
+          <div class="text-center operation">
+            <i class="fa fa-trash" aria-hidden="true" (click)="documentDelete(rowData?.id)"></i>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-rowData let-columns>
+      <tr>
+        <td [attr.colspan]="5">
+          <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+            <div class="ui-g-12 ui-md-9">
+              <div class="ui-g">
+                <div class="ui-g-12">
+                  <b>موضوع: </b> {{rowData.subject}}
+                </div>
+                <div class="ui-g-12">
+                  <b>تاریخ ثبت: </b> {{rowData.createdOn}}
+                </div>
+                <div class="ui-g-12">
+                  <b>فایل: </b>
+                  <a href="{{image_url+rowData?.name }}" class="no-text-decoration primary-color" target="_blank">دانلود فایل</a>
+                </div>
+                <div class="ui-g-12">
+                  <b>توضیحات: </b> {{rowData.title}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</mat-card>

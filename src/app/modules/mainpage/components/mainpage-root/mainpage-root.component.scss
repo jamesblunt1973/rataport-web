@@ -1,0 +1,25 @@
+@import "helper";
+.cat-slider {
+  padding-top: 2px;
+}
+
+.no-padding {
+  max-height: 400px;
+  img {
+    width: 100%;
+    border-radius: 3px;
+  }
+}
+
+.vizheh-baner {
+  max-height: 263px;
+  display: contents;
+  img {
+    width: 100%;
+    border-radius: 3px;
+  }
+}
+.scnd-banner {
+  display: contents;
+}
+

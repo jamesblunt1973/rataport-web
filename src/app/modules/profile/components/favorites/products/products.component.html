@@ -1,0 +1,52 @@
+<app-header [title]="'محصولات مورد علاقه'"></app-header>
+<mat-card>
+  <div class="container my-grid-wrap">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of products">
+        <div class="grid-product-box">
+          <div class="img-product">
+            <a routerLink="/products/detail/{{item.productID}}">
+              <div class="axs">
+                <img src="{{image_url+item.image}}" alt="">
+              </div>
+            </a>
+            <div class="">
+              <div class="delete" (click)="wishListRemoveProduct(item.productID)">x</div>
+            </div>
+            <!-- end discount -->
+          </div>
+          <!-- end img-product -->
+          <div class="title">
+            <a routerLink="/products/detail/{{item.productID}}">
+              <span>{{item.name}}</span>
+            </a>
+          </div>
+          <!-- end title -->
+          <!-- end social -->
+          <div class="options">
+            <p>
+              <i class="fa fa-square"></i>
+              <span>حداقل سفارش:</span>
+              <span>
+                <b>{{ item.minOrder|englishToPersian }}</b>
+                <b>{{ item.minOrderUnit }}</b>
+              </span>
+            </p>
+            <p>
+              <i class="fa fa-square"></i>
+              <span>قیمت برای هر واحد:</span>
+              <span>
+                <b>{{ item.price|englishToPersian }}</b>
+                <b> تومان</b>
+              </span>
+            </p>
+          </div>
+          <!-- end options -->
+          <div class="btn-grid-prod">
+            <button class="btn" (click)="productDetail(item.productID)">جزئیات محصول</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

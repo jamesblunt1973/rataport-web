@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-3" *ngFor="let item of supporters">
+    <mat-card class="member-co">
+      <img src="{{image_url+item.avatar}}" alt="">
+      <div>
+        <h3>{{item.name}}</h3>
+        <p> {{item.tel1}}</p>
+      </div>
+    </mat-card>
+  </div>
+</div>

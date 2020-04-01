@@ -1,0 +1,154 @@
+<div class="grid-data">
+  <table class="tbl-tab-table">
+    <colgroup>
+      <col width="30%">
+      <col width="70%">
+    </colgroup>
+    <tbody>
+      <tr *ngIf="contactUs.brand !== null && contactUs.brand !== ''">
+        <td>
+          <span>
+            <i class="fa fa-user-circle"></i>
+          </span>
+          <b>
+            <span>نام تجاری: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.brand}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.phoneNumber !== null && contactUs.phoneNumber !== ''">
+        <td>
+          <span>
+            <i class="fa fa-phone-square"></i>
+          </span>
+          <b>
+            <span>تلفن ثابت: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.phoneNumber|englishToPersian}} - {{contactUs.areaCode|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.phoneNumber2 !== null && contactUs.phoneNumber2 !== ''">
+        <td>
+          <span>
+            <i class="fa fa-phone-square"></i>
+          </span>
+          <b>
+            <span>تلفن ثابت: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.phoneNumber2|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.fax1 !== null && contactUs.fax1 !== ''">
+        <td>
+          <span>
+            <i class="fa fa-fax"></i>
+          </span>
+          <b>
+            <span>فکس: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.fax1|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.fax2 !== null && contactUs.fax2 !== ''">
+        <td>
+          <span>
+            <i class="fa fa-fax"></i>
+          </span>
+          <b>
+            <span>فکس: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.fax2|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.mobile !== null && contactUs.mobile !== ''">
+        <td>
+          <span>
+            <i class="fa fa-mobile"></i>
+          </span>
+          <b>
+            <span>موبایل: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.mobile|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.mobile2 !== null && contactUs.mobile2 !== ''">
+        <td>
+          <span>
+            <i class="fa fa-mobile"></i>
+          </span>
+          <b>
+            <span>موبایل: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.mobile2|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.email !== null && contactUs.email !== ''">
+        <td>
+          <span>
+            <i class="fa fa-envelope"></i>
+          </span>
+          <b>
+            <span>ایمیل: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.email}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.website !== null && contactUs.website !== ''">
+        <td>
+          <span>
+            <i class="fa fa-internet-explorer"></i>
+          </span>
+          <b>
+            <span>وب سایت: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.website}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.zipCode !== null && contactUs.zipCode !== ''">
+        <td>
+          <span>
+            <i class="fa fa-address-card-o"></i>
+          </span>
+          <b>
+            <span>کد پستی: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.zipCode|englishToPersian}}</span>
+        </td>
+      </tr>
+      <tr *ngIf="contactUs.address !== null && contactUs.address !== ''">
+        <td>
+          <span>
+            <i class="fa fa-map-marker"></i>
+          </span>
+          <b>
+            <span>آدرس: </span>
+          </b>
+        </td>
+        <td>
+          <span>{{contactUs.address}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- END grid-data -->

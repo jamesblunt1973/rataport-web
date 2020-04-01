@@ -1,0 +1,109 @@
+<div class="container my-grid-wrap">
+  <div class="row">
+    <div class="col-lg-4 col-md-6" *ngFor="let item of products">
+      <div class="grid-product-box">
+        <div class="img-product">
+          <a routerLink="/products/detail/{{item.id}}">
+            <div class="axs">
+              <img src="{{image_url+item.image}}" alt="">
+            </div>
+          </a>
+          <div class="discount font-iran" *ngIf="item.discount !== 0">
+            <div class="discount-number">٪{{ item.discount|englishToPersian }}</div>
+            <!-- <img src="/public/images/discount.svg" alt="discount" title="تخفیف"> -->
+            <span></span>
+          </div>
+          <!-- end discount -->
+       
+          <!-- end sign -->
+        </div>
+        <!-- end img-product -->
+        <div class="sign">
+          <img *ngIf="item.specialBadge === true" src="/public/images/sign/on_neshan_vizheh.svg" alt="نشان ویژه" title="نشان ویژه">
+          <img *ngIf="item.trustBadge === true" src="/public/images/sign/on_neshan_etemad.svg" alt="نشان اعتماد" title="نشان اعتماد">
+          <img *ngIf="item.guaranteeBadge === true" src="/public/images/sign/on_neshan_tazmin.svg" alt="نشان تضمین" title="نشان تضمین">
+        </div>
+        <div class="title">
+          <a routerLink="/products/detail/{{item.id}}">
+            <span>{{item.name}}</span>
+          </a>
+        </div>
+        <!-- end title -->
+        <!-- <div class="payamresan">
+    <ul>
+      <li *ngIf="item.gap !== null">
+        <a href="" target="_blank">
+          <img src="/public/images/social/Gap.svg" alt="">
+        </a>
+      </li>
+      <li *ngIf="item.iGap !== null">
+        <a href="" target="_blank">
+          <img src="/public/images/social/iGap.svg" alt="">
+        </a>
+      </li>
+      <li *ngIf="item.soroosh !== null">
+        <a href="" target="_blank">
+          <img src="/public/images/social/Soroush.svg" alt="">
+        </a>
+      </li>
+      <li *ngIf="item.bisphone !== null">
+        <a href="" target="_blank">
+          <img src="/public/images/social/bisfoon.svg" alt="">
+        </a>
+      </li>
+      <li *ngIf="item.telegram !== null">
+        <a href="" target="_blank">
+          <img src="/public/images/social/telegram.svg" alt="">
+        </a>
+      </li>
+    </ul>
+  </div> -->
+        <!-- end social -->
+        <div class="options options-big">
+          <p>
+            <i class="fa fa-square"></i>
+            <span>حداقل سفارش:</span>
+            <span>
+              <b>{{ item.minOrder|englishToPersian }}</b>
+              <b>{{ item.minOrderUnit }}</b>
+            </span>
+          </p>
+          <p *ngIf="item.discount === 0">
+            <i class="fa fa-square"></i>
+            <span>قیمت برای هر واحد:</span>
+            <span>
+              <b>{{ item.price|englishToPersian }}</b>
+              <b> تومان</b>
+            </span>
+          </p>
+          <div class="item-off" *ngIf="item.discount !== 0">
+            <i class="fa fa-square"></i>
+            <span>قیمت برای هر واحد:</span>
+            <br>
+            <p class="text-center">
+              <b class="block-discount">{{ item.price|englishToPersian }}</b>
+              <span class="discount-num">
+                <b>{{ item.priceAfterDiscount|englishToPersian }}</b>
+                <b> تومان</b>
+              </span>
+            </p>
+          </div>
+          <p>
+            <i class="fa fa-square"></i>
+            <span>صفحه فروشنده:</span>
+            <span>
+              <b class="primary-color pointer" (click)="seller(item.sellerID)">مشاهده</b>
+            </span>
+          </p>
+        </div>
+        <!-- end options -->
+        <div class="btn-grid-prod">
+          <button class="btn" (click)="productDetail(item.id)">جزئیات محصول</button>
+          <button class="btn" (click)="compareProducts(item.id)">
+            <i class="fa fa-balance-scale" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

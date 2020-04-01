@@ -1,0 +1,262 @@
+<app-header [title]="'اطلاعات کاربری'"></app-header>
+<mat-card>
+  <div class="container" *ngIf="!userStatus">
+    <app-loading></app-loading>
+  </div>
+  <div class="seller" *ngIf="userStatus">
+    <div class="seller__img">
+      <img src="{{image_url+user.logo }}" alt="" class="pointer" (click)="sellerPage(user.userid)">
+    </div>
+    <div class="seller__name pointer" (click)="sellerPage(user.userid)">
+      <!-- {{user.ceo}} -->
+      <span *ngIf="user.brand !== null && user.brand !== ''">{{user.brand}}</span>
+      <span *ngIf="user.brand == null || user.brand == ''">{{user.ceo}}</span>
+    </div>
+    <!-- <div class="seller__name pointer" (click)="sellerPage(user.userid)">
+            <a class="title">
+                <span>{{user.brand }}</span>
+            </a>
+        </div> -->
+    <div class="seller__address">
+      <span>
+        <i class="fa fa-user-o" aria-hidden="true"></i>
+      </span>
+      <span *ngIf="user.legal == 1">مدیرعامل: </span>
+      <span *ngIf="user.legal == 0">نام مدیریت: </span>
+      <span>{{ user.ceo }}</span>
+    </div>
+    <div class="row margin-top-10">
+      <!--<div class="col-md-4">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>نوع کسب و کار: </span>
+          <b>
+            <span>{{user.businessType}}</span>
+          </b>
+        </p>
+      </div>-->
+      <!-- <div class="col-md-4">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>نوع فعالیت: </span>
+          <b>
+            <span>{{user.activityType}}</span>
+          </b>
+        </p>
+      </div> -->
+      <div class="col-md-4" *ngIf="user.ownershipType !== null && user.ownershipType !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>نوع مالکیت: </span>
+          <b>
+            <span>{{user.ownershipType}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.nationalID !== null && user.nationalID !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>شناسه ملی:</span>
+          <b>
+            <span>{{user.nationalID}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.registerationNO !== null && user.registerationNO !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>شماره ثبت:</span>
+          <b>
+            <span>{{user.registerationNO}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.econimicCode !== null && user.econimicCode !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>کد اقتصادی:</span>
+          <b>
+            <span>{{user.econimicCode}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.establishedYear !== null && user.establishedYear !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>سال تاسیس: </span>
+          <b>
+            <span>{{user.establishedYear|englishToPersian}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.employeesNO !== null && user.employeesNO !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>تعداد کارمندان:</span>
+          <b>
+            <span>{{user.employeesNO|englishToPersian}}</span>
+            <span>نفر</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.brand !== null && user.brand !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>نام تجاری: </span>
+          <b>
+            <span>{{user.brand}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.brandInEnglish !== null && user.brandInEnglish !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>نام تجاری (انگلیسی): </span>
+          <b>
+            <span>{{user.brandInEnglish}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.productionCapacity !== null && user.productionCapacity !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>ظرفیت تولید:</span>
+          <b>
+            <span>{{user.productionCapacity|englishToPersian}} {{user.productionCapacityUnit}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-4" *ngIf="user.province !== null && user.province !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>استان:</span>
+          <b>
+            <span>{{user.province}}</span>
+          </b>
+        </p>
+      </div>
+      <div class="col-md-12" *ngIf="user.slogan !== null && user.slogan !==''">
+        <p class="item">
+          <span>
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+          </span>
+          <span>شعار:</span>
+          <b>
+            <span>{{user.slogan}}</span>
+          </b>
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<div *ngIf="userStatus">
+  <div *ngIf="user.businessParters !== null && user.businessParters !== ''">
+    <mat-card class="padding-10">
+      <p class="bold">
+        <span>
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        </span>
+        <span>شرکای تجاری</span>
+      </p>
+    </mat-card>
+    <mat-card>
+      <ul>
+        <li>{{ user.businessParters }}</li>
+      </ul>
+    </mat-card>
+  </div>
+  <mat-card class="padding-0">
+    <mat-tab-group class="my-tab-group">
+      <mat-tab *ngIf="user.aboutUs !== null">
+        <ng-template mat-tab-label>
+          <mat-icon>assignment_ind</mat-icon>
+          <span class="title">درباره ما</span>
+        </ng-template>
+        <div class="txt-tabs">
+          <p class="text-p">{{ user.aboutUs}}</p>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="user.outlook !== null">
+        <ng-template mat-tab-label>
+          <mat-icon>camera</mat-icon>
+          <span class="title">چشم انداز</span>
+        </ng-template>
+        <div class="txt-tabs">
+          <p class="text-p">{{ user.outlook}}</p>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="user.goals !== null">
+        <ng-template mat-tab-label>
+          <mat-icon>assignment_turned_in</mat-icon>
+          <span class="title">اهداف و ماموریت ها</span>
+        </ng-template>
+        <div class="txt-tabs">
+          <p class="text-p">{{ user.goals}}</p>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="user.strategy !== null">
+        <ng-template mat-tab-label>
+          <mat-icon>assignment_in</mat-icon>
+          <span class="title">استراتژی و خط مشی</span>
+        </ng-template>
+        <div class="txt-tabs">
+          <p class="text-p">{{ user.strategy}}</p>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+  <mat-card class="padding-10">
+    <p class="bold">
+      <span>
+        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+      </span>
+      <span class="margin-left-10">معرفی اعضا</span>
+      <button mat-raised-button color="primary" class="font-iran" [disabled]="!allowAdd || disableButton" (click)="openModal()">
+        <span *ngIf="!sendAdd">افزودن</span>
+      </button>
+      <span *ngIf="membership.id === 1">
+        <mat-icon class="info-alert-color" *ngIf="disableButton" (click)="permissionMessageModal('general','','')">report_problem</mat-icon>
+      </span>
+    </p>
+  </mat-card>
+  <mat-card>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of user.persons">
+        <mat-card class="member-co">
+          <div class="delete-btn" (click)="deleteSupporter(item.id)">
+            <span>x</span>
+          </div>
+          <img [src]="image_url+item.avatar" alt="">
+          <div>
+            <h3>{{item.name}}</h3>
+            <p> {{item.jobPosition}}</p>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card>
+</div>

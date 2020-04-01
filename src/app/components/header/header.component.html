@@ -1,0 +1,251 @@
+<nav class="top-nav hidden-xs hidden-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <a routerLink="/" class="site-name-link">
+          <img src="../../../public/images/font logo.png" width="100px" class="sit-name" />
+          <!--رتــــاپورت</img>-->
+        </a>
+        <div class="mobile-mail">
+          <div class="site-info">
+            <p>
+              <span>
+                <mat-icon>mail</mat-icon>
+              </span>
+              <span class="mail">{{email }}</span>
+              <!--<span>
+                <mat-icon>settings_phone</mat-icon>
+              </span>
+              <span class="phone">{{tel| englishToPersian }}</span>-->
+            </p>
+          </div>
+        </div>
+        <div class="login-info">
+          <div *ngIf="loggedIn; then thenBlock; else elseBlock"></div>
+
+          <ng-template #thenBlock>
+            <div class="option account" dir="rtl">
+              <div class="dropdown">
+                <button class="dropbtn font-iran" *ngIf="userStatus">
+                  <span>
+                    <mat-icon>account_box</mat-icon>
+                  </span>
+                  <span *ngIf="user.ceo">{{user.ceo}}</span>
+                  <span *ngIf="!user.ceo">{{user.email}}</span>
+                  <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-content">
+                  <a routerLink="/profile/dashboard">
+                    <i class="fa fa-user"></i>
+                    <span>پروفایل کاربری</span>
+                  </a>
+                  <a routerLink="/profile/manage-products">
+                    <i class="fa fa-product-hunt"></i>
+                    <span>محصولات من</span>
+                  </a>
+                  <a (click)="logout()">
+                    <i class="fa fa-sign-out"></i>
+                    <span>خروج</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+          </ng-template>
+          <ng-template #elseBlock>
+            <span class="option account">
+              <a (click)="openModal()">
+                <span>
+                  <mat-icon>account_box</mat-icon>
+                </span>
+                <span>ورود | ثبت نام</span>
+              </a>
+            </span>
+          </ng-template>
+          <span class="option">
+            <a (click)="secureOrder()">
+              <span>
+                <mat-icon>security</mat-icon>
+              </span>
+              <span>حفاظت از خرید</span>
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="site-info mobile-hide">
+          <p>
+            <span>
+              <mat-icon>mail</mat-icon>
+            </span>
+            <span class="mail">{{email }}</span>
+            <!--<span>
+              <mat-icon>settings_phone</mat-icon>
+            </span>
+            <span class="phone">{{tel| englishToPersian }}</span>-->
+            
+
+          </p>
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+</nav>
+<nav class="bottom-nav hidden-xs hidden-sm clearfix">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="right-sec">
+          <div class="logo">
+            <a routerLink="/">
+              <div class="triangle">
+                <img src="/public/images/logo.svg" alt="logo">
+              </div>
+            </a>
+          </div>
+          <div class="menu">
+            <ul>
+              <li *ngFor="let item of menuItems" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a routerLink="{{ item.link }}">{{ item.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="buttons">
+          <button class="btn-request" (click)="requsetBuy()">
+            <div class="icon">
+              <mat-icon>shopping_cart</mat-icon>
+            </div>
+            <div class="text">&nbsp; ثبت آگهی خرید &nbsp;</div>
+            <!-- <div class="text">درخواست خرید</div> -->
+          </button>
+          <button class="btn-search" (click)="display = true">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<nav class="mobile-menu hidden-lg hidden-md">
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <div class="buttons-mobile-head">
+          <i class="fa fa-bars" aria-hidden="true" (click)="display_right = true"></i>
+          <!-- <i class="fa fa-user" aria-hidden="true" (click)="openModal()"></i> -->
+          <i class="fa fa-search" aria-hidden="true" (click)="display = true"></i>
+        </div>
+      </div>
+      <div class="col-3 padding-0">
+        <a routerLink="/" class="">
+          <img src="../../../public/images/font logo.png" width="100px" class="" />
+        </a>
+      </div>
+      <div class="col-5 text-left">
+        <button class="btn-sabte-dar font-iran" (click)="requsetBuy()">درخواست خرید</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- <app-search></app-search> -->
+<p-sidebar [(visible)]="display" position="top">
+  <h2 class="text-center">به دنبال چه میگردید؟</h2>
+  <div class="search-sidebar">
+    <span>
+      <select [(ngModel)]="searchType" (change)="onChangeItem($event)">
+        <option value="product">محصول</option>
+        <option value="seller">فروشنده</option>
+        <option value="discount">تخفیف فروشنده</option>
+        <option value="offer">پیشنهاد فروشنده</option>
+        <option value="requsetBuy">درخواست خرید</option>
+      </select>
+    </span>
+    <span>
+
+      <p-autoComplete [(ngModel)]="item" [suggestions]="filteredSearchItem" (completeMethod)="filterSearchItem($event)"
+                      [size]="30" [minLength]="1" placeholder="اینجا تایپ کنید">
+      </p-autoComplete>
+
+    </span>
+    <span>
+      <button mat-raised-button color="primary" (click)="search()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </span>
+  </div>
+</p-sidebar>
+
+<p-sidebar [(visible)]="display_right" position="right" class="right-sidebar-mobile-menu">
+
+  <div class="sid-wrapper-mobile">
+
+    <div class="login-info">
+      <div *ngIf="loggedIn; then thenBlock; else elseBlock"></div>
+      <ng-template #thenBlock>
+        <div class="option account" dir="rtl">
+          <div class="dropdown">
+            <button class="dropbtn font-iran" *ngIf="userStatus">
+              <span>
+                <mat-icon>account_box</mat-icon>
+              </span>
+              <span *ngIf="user.ceo">{{user.ceo}}</span>
+              <span *ngIf="!user.ceo">حساب کاربری</span>
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-content">
+              <a routerLink="/profile/dashboard">
+                <i class="fa fa-user"></i>
+                <span>پروفایل کاربری</span>
+              </a>
+              <a routerLink="/profile/manage-products">
+                <i class="fa fa-product-hunt"></i>
+                <span>محصولات من</span>
+              </a>
+              <a (click)="logout()">
+                <i class="fa fa-sign-out"></i>
+                <span>خروج</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <span class="option account">
+          <a (click)="openModal2()">
+            <span>
+              <mat-icon>account_box</mat-icon>
+            </span>
+            <span class="font-iran">ورود | ثبت نام</span>
+          </a>
+        </span>
+      </ng-template>
+    </div>
+
+    <div class="menu">
+      <ul>
+        <li *ngFor="let item of menuItems" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="{{ item.link }}" class="font-iran">{{ item.name }}</a>
+        </li>
+      </ul>
+      <span class="option">
+        <a (click)="secureOrder2()">
+          <span>
+            <mat-icon>security</mat-icon>
+          </span>
+          <span style="font-family:IRANSans">حفاظت از خرید</span>
+        </a>
+      </span>
+    </div>
+
+  </div>
+</p-sidebar>

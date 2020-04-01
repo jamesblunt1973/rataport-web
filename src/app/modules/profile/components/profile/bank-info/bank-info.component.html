@@ -1,0 +1,85 @@
+<app-header [title]="'اطلاعات بانکی'"></app-header>
+<mat-card>
+    <form [formGroup]="bankInfoForm" (ngSubmit)="updateBankInfo(bankInfoForm.value)">
+        <div class="container">
+            <app-loading *ngIf="!status"></app-loading>
+            <div class="row" *ngIf="status">
+                <div class="col-md-5">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" required placeholder="نام بانک" [formControl]="bankNameCtrl" [(ngModel)]="bankName" name="bankName"
+                        />
+                        <mat-icon matSuffix>location_city</mat-icon>
+                        <button mat-button *ngIf="bankName" matSuffix mat-icon-button aria-label="Clear" (click)="bankName=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-error *ngIf="bankNameCtrl.hasError('required')">
+                            نام بانک فیلد اجباری است
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" required placeholder="نام صاحب حساب" [formControl]="NameOfAccountHolderCtrl" [(ngModel)]="NameOfAccountHolder"
+                            name="NameOfAccountHolder" />
+                        <mat-icon matSuffix>person</mat-icon>
+                        <button mat-button *ngIf="NameOfAccountHolder" matSuffix mat-icon-button aria-label="Clear" (click)="NameOfAccountHolder=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-error *ngIf="NameOfAccountHolderCtrl.hasError('required')">
+                            نام صاحب حساب فیلد اجباری است
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                    <mat-form-field class="full-width">
+                        <input matInput type="number" required placeholder="شماره حساب" [formControl]="accountNumberCtrl" [(ngModel)]="accountNumber"
+                            name="accountNumber" />
+                        <mat-icon matSuffix>credit_card</mat-icon>
+                        <button mat-button *ngIf="accountNumber" matSuffix mat-icon-button aria-label="Clear" (click)="accountNumber=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-error *ngIf="accountNumberCtrl.hasError('required')">
+                            شماره حساب حساب فیلد اجباری است
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                    <mat-form-field class="full-width">
+                        <input matInput type="number"  placeholder="شماره کارت" [formControl]="cardNumberCtrl" [(ngModel)]="cardNumber" name="cardNumber"
+                        />
+                        <mat-icon matSuffix>credit_card</mat-icon>
+                        <button mat-button *ngIf="cardNumber" matSuffix mat-icon-button aria-label="Clear" (click)="cardNumber=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <!--<mat-error *ngIf="cardNumberCtrl.hasError('required')">
+                            شماره کارت فیلد اجباری است
+                        </mat-error>-->
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" required placeholder="شماره شبا" [formControl]="shebaNumberCtrl" [(ngModel)]="shebaNumber"
+                            name="shebaNumber" />
+                        <mat-icon matSuffix>credit_card</mat-icon>
+                        <button mat-button *ngIf="shebaNumber" matSuffix mat-icon-button aria-label="Clear" (click)="shebaNumber=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-error *ngIf="shebaNumberCtrl.hasError('required')">
+                            شماره شبا فیلد اجباری است
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 margin-top-5">
+                    <button mat-raised-button color="primary" class="font-iran">
+                        <span *ngIf="!sendData">ثبت اطلاعات</span>
+                        <span class="loading-btn-span" *ngIf="sendData">
+                            <i class="fa fa-spinner fa-spin fa-fw "></i>
+                            <span class="sr-only ">Loading...</span>
+                            <span>لطفا صبر کنید ...</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-card>

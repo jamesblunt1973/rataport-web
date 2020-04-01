@@ -1,0 +1,107 @@
+<div class="box-wrap-side">
+  <mat-card class="box">
+    <div class="box__header">
+      <div class="box__header--text">
+        <span>فیلتر شده براساس</span>
+      </div>
+      <div class="box__header--icon">
+        <i class="fa fa-filter" aria-hidden="true"></i>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="box">
+    <div class="box__body" dir="rtl">
+      <button class="filterOpt" mat-raised-button *ngFor="let sign of signOptionFilter">
+        <span>{{ sign.title }}</span>
+        <mat-icon class="icon-filter" (click)="deleteSign(sign.id)">cancel</mat-icon>
+      </button>
+      <button class="filterOpt" mat-raised-button *ngFor="let item of productFilters.innerPackage">
+        <span>{{ item.name }}
+          <small>(‌داخلی)</small>
+        </span>
+        <mat-icon class="icon-filter" (click)="deleteInnerPackage(item.id)">cancel</mat-icon>
+      </button>
+      <button class="filterOpt" mat-raised-button *ngFor="let item of externalPackageOptionFilter">
+        <span>{{ item.name }}
+          <small>(خارجی)</small>
+        </span>
+        <mat-icon class="icon-filter" (click)="deleteExternalPackage(item.id)">cancel</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>
+
+<div class="box-wrap-side">
+  <mat-card class="box">
+    <div class="box__header">
+      <div class="box__header--text">
+        <span>دسته‌بندی‌ محصول</span>
+      </div>
+      <div class="box__header--icon">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="box">
+    <div class="box__body padding-20" dir="rtl">
+      <mat-form-field class="full-width">
+        <mat-select [formControl]="oneLevelCtrl" placeholder="سطح اول" #levelOneTag (selectionChange)="oneLevelSelected($event)">
+          <ngx-mat-select-search [formControl]="oneLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+          <mat-option *ngFor="let level of filteredOneLevel | async" [value]="level.id">
+            {{level.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" *ngIf="levelTwoStatus">
+        <mat-select [formControl]="twoLevelCtrl" placeholder="سطح دوم" #levelTwoTag (selectionChange)="twoLevelSelected($event)">
+          <ngx-mat-select-search [formControl]="twoLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+          <mat-option *ngFor="let level of filteredTwoLevel | async" [value]="level.id">
+            {{level.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" *ngIf="levelThreeStatus">
+        <mat-select [formControl]="threeLevelCtrl" placeholder="سطح سوم" #levelTwoTag (selectionChange)="threeLevelSelected($event)">
+          <ngx-mat-select-search [formControl]="threeLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+          <mat-option *ngFor="let level of filteredThreeLevel | async" [value]="level.id">
+            {{level.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" *ngIf="levelFourStatus">
+        <mat-select [formControl]="fourLevelCtrl" placeholder="سطح چهارم" #levelTwoTag (selectionChange)="fourLevelSelected($event)">
+          <ngx-mat-select-search [formControl]="fourLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+          <mat-option *ngFor="let level of filteredFourLevel | async" [value]="level.id">
+            {{level.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </mat-card>
+</div>
+
+<div class="box-wrap-side">
+  <mat-card class="box">
+    <div class="box__header">
+      <div class="box__header--text">
+        <span>موقعیت مکانی</span>
+      </div>
+      <div class="box__header--icon">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="box">
+    <div class="box__body padding-20" dir="rtl">
+      <mat-form-field class="full-width">
+        <mat-select placeholder="استان" [formControl]="regionCtrl" multiple>
+          <mat-option *ngFor="let item of region" [value]="item.id">{{ item.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
+</div>

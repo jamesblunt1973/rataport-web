@@ -1,0 +1,42 @@
+// Mobile Screen
+$mobile-S-screen: 320px;
+$mobile-M-screen: 375px;
+$mobile-L-screen: 425px;
+// Tablet Screen
+$tablet-screen: 768px;
+// Laptop Screen
+$laptop-screen: 1200px;
+$laptop-L-screen: 1440px;
+@mixin respond-to($media) {
+    @if $media==laptopL {
+        @media only screen and (max-width: $laptop-L-screen) {
+            @content;
+        }
+    }
+    @else if $media==laptop {
+        @media only screen and (max-width: $laptop-screen) {
+			@content;
+ 
+		}
+    }
+    @else if $media==tablet {
+        @media only screen and (max-width: $tablet-screen) {
+            @content;
+        }
+    }
+    @else if $media==mobileM {
+        @media only screen and (max-width: $mobile-M-screen) {
+            @content;
+        }
+    }
+    @else if $media==mobileL {
+        @media only screen and (max-width: $mobile-L-screen) {
+            @content;
+        }
+    }
+    @else if $media==mobileS {
+        @media only screen and (max-width: $mobile-S-screen) {
+            @content;
+        }
+    }
+}

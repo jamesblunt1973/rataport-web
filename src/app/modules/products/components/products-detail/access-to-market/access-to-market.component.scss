@@ -1,0 +1,67 @@
+@import 'responsive';
+.root-access {
+  display: flex;
+  justify-content: space-between;
+	@include respond-to(tablet) {
+          flex-direction: column;
+              
+
+	}
+
+  .grid-data {
+    margin-top: 10px;
+
+    .bold {
+      font-weight: bold;
+    }
+
+    td {
+      font-size: 15px;
+		@include respond-to(tablet){
+			
+		}
+    }
+  }
+	.info {
+		width: 50%;
+		@include respond-to(tablet) {
+            width: 100%;
+		}
+	}
+  .map {
+    width: 50%;
+	  @include respond-to(tablet) {
+           width: 100%;
+	
+	}
+
+    .iran-map {
+      position: relative;
+      left: 85px;
+    }
+
+    .province {
+      stroke: #000;
+      fill: #F3F3F3;
+      stroke-width: 0.1; // &:hover {
+      //     fill: rgb(221, 220, 220);
+      // }
+    }
+
+    .active {
+      // fill: rgb(221, 220, 220);
+      fill: #99cffa;
+    }
+  }
+	.grid-data {
+ 
+  tbody {
+
+  
+    td {
+		display: inline-flex;
+    }
+  }
+
+}
+}

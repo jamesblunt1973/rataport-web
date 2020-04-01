@@ -1,0 +1,20 @@
+@import '~owl.carousel/dist/assets/owl.carousel.css';
+.owl-nav {
+    div {
+        width: 50px;
+        font-size: 36px;
+        position: absolute;
+        text-align: center;
+        top: 40%;
+        opacity: 0.3;
+        &:first-child {
+            left: 0;
+        }
+        &:last-child {
+            right: 0;
+        }
+        &:hover{
+            opacity: 1;
+        }
+    }
+}

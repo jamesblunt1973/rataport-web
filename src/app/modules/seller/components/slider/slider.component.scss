@@ -1,0 +1,53 @@
+// @import 'helper';
+// .products-wrap {
+//     position: relative;
+//     height: 550px;
+//     z-index: 0;
+//     .content {
+//         position: absolute;
+//         top: 20%;
+//         left: 0;
+//         right: 0;
+//         text-align: center;
+//         display: block; // margin-left: 300px;
+//         // background: rgba(255, 255, 255, 0.19);
+//         // margin-right: 300px;
+//         // border-radius: 5px;
+//         padding-bottom: 20px;
+//         padding-top: 20px;
+//         h1 {
+//             font-weight: bold; // text-shadow: 1px 1px rgba(255, 255, 255, 0.79);
+//         }
+//         a {
+//             text-decoration: none;
+//             outline: none;
+//             color: #444444;
+//         }
+//         .btns-link {
+//             a {
+//                 color: #fff;
+//             }
+//         }
+//         @include respond-to(tablet) {
+//             display: none;
+//         }
+//         @include respond-to(mobileL) {
+//             display: none;
+//         }
+//     }
+//     @include respond-to(tablet) {
+//         height: 400px;
+//     }
+//     @include respond-to(mobileL) {
+//         height: 400px;
+//     }
+//     img {
+//         height: 550px;
+//         @include respond-to(tablet) {
+//             height: 400px;
+//         }
+//         @include respond-to(mobileL) {
+//             height: 400px;
+//         }
+//     }
+// }

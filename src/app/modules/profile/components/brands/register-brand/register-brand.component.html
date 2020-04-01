@@ -1,0 +1,132 @@
+<app-header [title]="'ثبت برند'"></app-header>
+<mat-card>
+  <div class="container" *ngIf="!loading">
+    <app-loading></app-loading>
+  </div>
+  <div *ngIf="loading">
+    <form action="" enctype="multipart/form-data" method="POST" [formGroup]="registerBrandForm" (ngSubmit)="addBrand(registerBrandForm.value)">
+      <div class="container">
+        <div class="row border-1px">
+          <div class="col-md-6">
+            <mat-form-field class="full-width">
+              <mat-select required [formControl]="oneLevelCtrl" placeholder="دسته بندی سطح اول" #levelOneTag (selectionChange)="oneLevelSelected($event)">
+                <ngx-mat-select-search [formControl]="oneLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                <mat-option *ngFor="let level of filteredOneLevel | async" [value]="level.id">
+                  {{level.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="oneLevelCtrl.hasError('required')">
+                دسته بندی سطح اول فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="full-width" *ngIf="levelTwoStatus">
+              <mat-select required [formControl]="twoLevelCtrl" placeholder="دسته بندی سطح دوم" #levelTwoTag (selectionChange)="twoLevelSelected($event)">
+                <ngx-mat-select-search [formControl]="twoLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                <mat-option *ngFor="let level of filteredTwoLevel | async" [value]="level.id">
+                  {{level.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="twoLevelCtrl.hasError('required')">
+                دسته بندی سطح دوم فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="full-width" *ngIf="levelThreeStatus">
+              <mat-select required [formControl]="threeLevelCtrl" placeholder="دسته بندی سطح سوم" #levelTwoTag (selectionChange)="threeLevelSelected($event)">
+                <ngx-mat-select-search [formControl]="threeLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                <mat-option *ngFor="let level of filteredThreeLevel | async" [value]="level.id">
+                  {{level.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="threeLevelCtrl.hasError('required')">
+                دسته بندی سطح سوم فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-md-6">
+            <mat-form-field class="full-width" *ngIf="levelFourStatus">
+              <mat-select required [formControl]="fourLevelCtrl" placeholder="دسته بندی سطح چهارم" #levelTwoTag (selectionChange)="fourLevelSelected($event)">
+                <ngx-mat-select-search [formControl]="fourLevelFilterCtrl" [placeholderLabel]="placeholderLabel" [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+                <mat-option *ngFor="let level of filteredFourLevel | async" [value]="level.id">
+                  {{level.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="fourLevelCtrl.hasError('required')">
+                دسته بندی سطح چهارم فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+        </div>
+        <div class="row border-1px">
+          <div class="col-md-6 col-sm-6">
+            <mat-form-field class="full-width">
+              <input matInput type="text" required placeholder="عنوان" [formControl]="titleCtrl" [(ngModel)]="title" name="title" />
+              <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="titleCtrl.hasError('required')">
+                عنوان فیلد اجباری است
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <mat-form-field class="full-width">
+              <input matInput type="url" placeholder="وب سایت (مثال: http://rataport.com)" [formControl]="websiteCtrl" [(ngModel)]="website" name="website"
+              />
+              <button mat-button *ngIf="website" matSuffix mat-icon-button aria-label="Clear" (click)="website=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <!-- <mat-error *ngIf="websiteCtrl.hasError('required')">
+                وب سایت فیلد اجباری است
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field class="full-width">
+              <textarea matInput matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="15" placeholder=" توضیحات" [formControl]="descriptionCtrl"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row border-1px">
+          <div class="col-md-6">
+            <div class="flex-display">
+              <p>
+                <span class="up-cat">آپلود مدارک: </span>
+              </p>
+              <p class="no-margin">
+                <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelectFile($event)" [disabled]="uploadActiveFile"
+                  (onProgress)="onProgressFile($event)" accept="image/*" maxFileSize="10000000" (onUpload)="onBasicUploadAutoFile($event)"
+                  auto="true" chooseLabel="{{ uploadTextBtnFile }}"></p-fileUpload>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flex-display">
+              <p>
+                <span class="up-cat">آپلود لوگو: </span>
+              </p>
+              <p class="no-margin">
+                <p-fileUpload #fubauto mode="basic" name="demo[]" url="{{ uploadurl }}" (onSelect)="onSelectLogo($event)" [disabled]="uploadActiveLogo"
+                  (onProgress)="onProgressLogo($event)" accept="image/*" maxFileSize="10000000" (onUpload)="onBasicUploadAutoLogo($event)"
+                  auto="true" chooseLabel="{{ uploadTextBtnLogo }}"></p-fileUpload>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <button mat-raised-button color="primary" class="font-iran">
+            <span *ngIf="!sendAdd">ثبت برند</span>
+            <span class="loading-btn-span" *ngIf="sendAdd">
+              <i class="fa fa-spinner fa-spin fa-fw "></i>
+              <span class="sr-only ">Loading...</span>
+              <span>لطفا صبر کنید ...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-card>

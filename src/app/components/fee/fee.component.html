@@ -1,0 +1,864 @@
+<!--========== PAGE CONTENT ==========-->
+<!-- Pricing List v4 -->
+<div class="bg-color-sky-light">
+  <div class="content-md container">
+    <div class="row">
+      <div class="col-md-2 md-margin-b-30"></div>
+      <div class="col-md-4 md-margin-b-30">
+        <!-- Pricing List v4 -->
+        <div class="pricing-list-v4 radius-10">
+          <div class="pricing-list-v4-header">
+            <h4 class="pricing-list-v4-title">عضویت عادی</h4>
+            <span class="pricing-list-v4-subtitle">رایگان</span>
+          </div>
+          <div class="pricing-list-v4-content">
+            <!-- <div class="margin-b-40">
+              <div [innerHTML]="general?.details| sanitizeHtml"></div>
+            </div> -->
+            <div class="center-block">
+              <button mat-raised-button color="primary" class="font-iran" (click)="generalRegister()" *ngIf="regStatus">ثبت نام</button>
+            </div>
+          </div>
+        </div>
+        <!-- End Pricing List v4 -->
+      </div>
+      <div class="col-md-4 md-margin-b-30">
+        <!-- Pricing List v4 -->
+        <div class="pricing-list-v4 radius-10">
+          <div class="pricing-list-v4-header">
+            <h4 class="pricing-list-v4-title">عضویت ویژه</h4>
+            <span class="pricing-list-v4-subtitle">
+              <span>یک ساله (۱۲ ماهه)</span>
+              <span>{{special?.price| englishToPersian}}</span>
+              <span>تومان</span>
+            </span>
+          </div>
+          <div class="pricing-list-v4-content">
+            <!-- <div class="margin-b-40">
+              <div [innerHTML]="special?.details| sanitizeHtml"></div>
+            </div> -->
+            <div class="center-block">
+              <button mat-raised-button color="primary" class="font-iran" (click)="specialRegister()">شروع کنید</button>
+            </div>
+          </div>
+        </div>
+        <!-- End Pricing List v4 -->
+      </div>
+      <div class="col-md-2 md-margin-b-30"></div>
+    </div>
+    <!--// end row -->
+    <div class="row margin-top-15">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>درباره فروشگاه</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>الویت نمایش در رتاپورت</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت و معرفی محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵۰</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>تایید هویت فروشندگان</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>آپلود کاتالوگ</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>معرفی اعضای مجموعه</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>۱۵</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت شرکای تجاری</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت درباره ما</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت اهداف و ماموریت ها</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت استراتژی و خط مشی</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت چشم انداز</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>درج نشان ها در صفحه جزییات محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>درج نشان ها در وب سایت شخصی اعضا</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت برند محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>تعداد تصاویر</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت تصویر برای کسب و کار</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۲</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت تصویر برای تبلیغات</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۲</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت تصویر برای محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۲</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>اطلاعات تماس</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت شبکه های اجتماعی</span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت پیام رسان ها</span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت پشتیبانان </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-close"></i>
+                  </td>
+                  <td class="text-center">
+                    <span>۱۰</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>دنبال کردن صفحه شخصی فروشنده </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>ثبت مدارک و فعالیت ها</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>گواهینامه ها </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>فعالیت ها</span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-close"></i>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>دستاوردها</span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-close"></i>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>مجوزها</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>تاییدیه ها</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>سیستم پیامکی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>اطلاع از درخواست های خرید </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>اطلاع از سفارشات آنلاین</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>سیستم ایمیل </span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>اطلاع از درخواست های خرید </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ارسال تخفیف به محصول برای خریداران</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>سیستم پیام داخلی رتاپورت </span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>اطلاع از درخواست های خرید </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="font-13">بعد از ۷ روز</span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ارسال تخفیف به محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ارسال پیشنهادات فروش</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ارسال پاسخ درخواست های خرید</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>پاسخ به پرسش ها درباره محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>مذاکره با خریداران</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>استعلام قیمت توسط خریداران</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>به من اطلاع بده</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت برای مشاهده درخواست های خرید</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>۱۵</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت برای مشاهده تخفیف برای محصول </span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۱۵</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ثبت برای مشاهده پیشنهاد فروش برای محصول</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۵</span>
+                  </td>
+                  <td class="text-center">
+                    <span>۱۵</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>خدمات پرداخت</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>سفارش آنلاین </span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>حفاظت از خرید</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-check"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+        <div class="margin-bottom-10">
+          <mat-card class="grid-data padding-0">
+            <table class="tbl-tab-table">
+              <colgroup>
+                <col width="60%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr class="my-tr border-bottom-1">
+                  <td class="font-13">
+                    <span>ارتباط با رتاپورت</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای عادی</span>
+                  </td>
+                  <td class="text-center font-13">
+                    <span>اعضای ویژه</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>مشاوره رایگان</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span>۲</span>
+                  </td>
+                </tr>
+                <tr class="my-tr">
+                  <td class="font-13">
+                    <span>ملاقات های تجاری رو در رو</span>
+                  </td>
+                  <td class="text-center">
+                    <span>
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</div>
+<!-- End Pricing List v4 -->
+<!--========== END PAGE CONTENT ==========-->
